@@ -9,9 +9,10 @@
     width: 100%;
     height: 100px;
     background: #333;
+    display: flex;
 
     .item {
-        color: blue;
+        color: gray;
     }
 }
 
