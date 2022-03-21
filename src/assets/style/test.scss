@@ -10,11 +10,37 @@
     height: 100px;
     background: #333;
     display: flex;
+    appearance: none;
 
     .item {
         color: gray;
     }
 }
+
+
+.test {
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+    border-radius: 3px;
+    /* Size  */
+    font-family: Malgun Gothic, "Malgun Gothic", "맑은 고딕", "Roboto", "Apple SD Gothic NEO", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+    letter-spacing: -0.05em;
+    height: 24px;
+    /* Type */
+    /* autoprefixer: ignore next */
+    transition: 0.3s cubic-bezier(0.4, 0.96, 1, 1) 0.1s;
+    /* autoprefixer: ignore next */
+    transition-property: background-color, color, opacity, border;
+    position: relative;
+    border: 1px solid rgba(195, 198, 205, 0.6);
+    background-color: #fff;
+    background-color: #fff;
+  }
+  
 
 p {
     transform: translateX(-50%);

@@ -4,7 +4,10 @@ var dartSass = require("dart-sass")
 var gulpSass = require("gulp-sass")
 var sourcemaps = require('gulp-sourcemaps'); // 소스 파일 경로 
 var autoprefixer = require("gulp-autoprefixer");
-var fileinclude = require("gulp-file-include")
+var fileinclude = require("gulp-file-include");
+var strip = require("gulp-strip-comments");
+
+var replace = require("gulp-replace");
 
 var concat = require('gulp-concat');
 var del = require('del');
@@ -33,8 +36,11 @@ var PATH = {
              STYLE: './dist/assets/style', 
              SCRIPT : './dist/assets/script',
              LIB : './dist/assets/lib',
-            } 
-        }; 
+        } 
+    },
+    DEV_PATH = {
+        
+    }
 
 
     gulp.task('clean', () => {
@@ -51,7 +57,7 @@ var PATH = {
                 var options = { 
                 outputStyle: "expanded" , 
                 indentType: "space" ,
-                indentWidth: 4  ,
+                indentWidth: 2  ,//space 갯수
                 precision: 8 , 
                 sourceComments: true
                 }; 
@@ -60,6 +66,9 @@ var PATH = {
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
+                .pipe(strip.text(
+                    /* autoprefixer: ignore next */
+                ))
                 .pipe( sourcemaps.write()) 
                 .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE + '/css'))
