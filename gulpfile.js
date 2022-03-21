@@ -68,6 +68,16 @@ var PATH = {
         }); 
     });
 
+    //이미지
+    gulp.task('image', ()=> {
+        return new Promise(resolve => {
+            gulp.src([PATH.ASSETS.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
+            .pipe(gulp.dest(DEST_PATH.ASSETS.IMAGES))
+
+            resolve();
+        })
+    } )
+
 
     // html
     // 단지 파일을 복사하는 용도
@@ -156,6 +166,7 @@ var allSeries = gulp.series([
     'fileinclude',
     'html', 
     'sass',
+    'image',
     'script', 
     'library',
     'browserSync', 
