@@ -6,8 +6,8 @@ var sourcemaps = require('gulp-sourcemaps'); // 소스 파일 경로
 var autoprefixer = require("gulp-autoprefixer");
 var fileinclude = require("gulp-file-include");
 var strip = require("gulp-strip-comments");
-
-var replace = require("gulp-replace");
+var prettier = require('gulp-prettier');
+// var replace = require("gulp-replace");
 
 var concat = require('gulp-concat');
 var del = require('del');
@@ -69,6 +69,9 @@ var PATH = {
                 .pipe(strip.text(
                     /* autoprefixer: ignore next */
                 ))
+                .pipe(prettier({
+                    tabWidth: 2,
+                }))
                 .pipe( sourcemaps.write()) 
                 .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE + '/css'))
