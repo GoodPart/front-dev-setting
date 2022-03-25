@@ -6,9 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <link rel="stylesheet" href="/assets/style/css/test.css" type="text/css"> -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
     <script type="text/javascript" src="/assets/script/common.js"></script>
 </head>
 <style type="text/css">
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
     .content {
         position: relative;
         overflow: scroll;
@@ -38,6 +91,41 @@
     .target.active {
         /* position: fixed; */
     }
+
+    .content2 {
+        position: relative;
+        margin-top: 100px;
+    }
+
+    /* toast ui style */
+    #grid {
+        height: 300px;
+        position: relative;
+        overflow-y: scroll;
+    }
+    .tui-grid-header-area {
+        position: fixed;
+        top: 91px;
+        z-index: 200;
+    }
+    .tui-grid-body-area {
+        /* padding-top: 40px; */
+    }
+
+    .tui-grid-cell-header {
+        padding: 0;
+    }
+
+    .tui-grid-lside-area {}
+
+    .tui-grid-lside-area .tui-grid-header-area {
+        width: 40px;
+    }
+
+    .tui-grid-cell.active {
+        vertical-align: top !important;
+        background-color: coral;
+    }
     </style>
 <body>
     <header>
@@ -49,7 +137,10 @@
     <h2>
         h2입니다.123
     </h2>
-    <div class="content">
+    <div class="content2">
+        <div id="grid"></div>
+    </div>
+    <div class="content" style="display: none;">
         <table class="tg">
             <thead>
               <tr>
@@ -559,24 +650,77 @@
         const headerValue = 37;
 
 
-        function followLabel(el, scrollValue, headValue, direction) {
+        /*
+        // toast ui target class
+        target = .tui-grid-cell-content
+        */
+
+       
+
+
+        window.addEventListener("load", ()=> {
+            var content2 = document.querySelector(".content2");
+
+        
+            var root = document.querySelector("#grid"); // root
+
+            // riside table Area cunstructor
+            var rsideTableArea = root.querySelector(".tui-grid-rside-area");
+            var rsideTableBodyArea = rsideTableArea.querySelector(".tui-grid-body-area");
+            var rsideTable = rsideTableBodyArea.querySelector(".tui-grid-table"); // rside table
+            var rsideTableBody = rsideTable.querySelector("tbody"); // rside tbody
+            var rsideTbodyTr = rsideTableBody.querySelectorAll("tr");
+
+            // text 높이 -> cell 높이 / 2를 한 값.
+            var textHeight = 20;
+
+
+
+            var targetArray = [];
+
+            function textInit(target) {
+                target.style.transform = `translateY(${textHeight/2}px)`
+            }
+
+            // 타겟의 위치 구하기.
+            for(var i = 0; i<rsideTbodyTr.length; i++) {
+                const rsideTbodyTrChildCount = rsideTbodyTr[i].childElementCount;
+                const target = rsideTbodyTr[i];
+
+                for(var j = 0; j<rsideTbodyTrChildCount; j++) {
+                    const result = target.childNodes[j];
+
+                    if(result.rowSpan > 1) {
+                        // rowspan 값이 1이 아닌 것 (merge된 row) 
+                        result.classList.add("active"); // vertical-align : top
+                        result.childNodes[0].classList.add("ready"); // readt 클래스 부여
+                        textInit(result.childNodes[0]) // text 상태 초기화
+                        targetArray.push(result.childNodes[0]);
+                    }
+
+                }
+              
+            }; 
+
+            function followLabel(el, scrollValue, headValue, direction) {
             var target = el;
             var scrollValue = scrollValue;
-            var headValue = headValue;
+            var headValue = 20;
 
             function init(scrollValue, target) {
-                if(target.classList.contains("ready") && (target.parentElement.offsetHeight + target.parentElement.offsetTop - (headerValue*2)  < scrollValue) ) {
-                    target.style.transform = `translateY(${target.parentElement.offsetHeight-headerValue}px)`
-                }else if(target.classList.contains("ready") && (target.parentElement.offsetHeight + target.parentElement.offsetTop - (headerValue*2)  > scrollValue)) {
-                    target.style.transform = `translateY(0px)`
+                if(target.classList.contains("ready") && (target.parentElement.offsetHeight + target.parentElement.offsetTop - (headValue*2)  < scrollValue) ) {
+                    target.style.transform = `translateY(${target.parentElement.offsetHeight-headValue-(textHeight/2)}px)`
+                }else if(target.classList.contains("ready") && (target.parentElement.offsetHeight + target.parentElement.offsetTop - (headValue*2)  > scrollValue)) {
+                    target.style.transform = `translateY(${textHeight/2}px)`
                 }
             }
+
             
             // 감시 영역 조건문
-            if(scrollValue >= target.parentElement.offsetTop-headerValue && scrollValue <= target.parentElement.offsetHeight + target.parentElement.offsetTop - (headerValue*2) ) {
+            if(scrollValue >= target.parentElement.offsetTop-headValue+textHeight && scrollValue <= target.parentElement.offsetHeight + target.parentElement.offsetTop - (headValue*2) ) {
                 target.classList.remove("ready");
                 target.classList.add("active");
-                target.style.transform = `translateY(${scrollValue-target.parentElement.offsetTop+headerValue}px)`
+                target.style.transform = `translateY(${scrollValue-target.parentElement.offsetTop+headValue-(textHeight/2)}px)`
             }else {
                 target.classList.remove("active");
                 target.classList.add("ready");
@@ -585,32 +729,380 @@
             }
         };
 
-        content.addEventListener("scroll", (e) => {
-            const scrollValue = e.target.scrollTop;
-            let currentScroll = content.scrollTop || document.body.scrollTop;
-            
+        function scrollDirection(currentScroll) {
             if (currentScroll > 0 && lastScroll <= currentScroll){
                 lastScroll = currentScroll;
                 // console.log('down')
-                for(var i = 0; i<_targetAll.length; i++) {
-                    followLabel(_targetAll[i], scrollValue, headerValue, 'down');
-                }
+                return true;
+
+
             }else{
                 lastScroll = currentScroll;
+                return false;
                 // console.log('up')
-                for(var i = 0; i<_targetAll.length; i++) {
-                    followLabel(_targetAll[i], scrollValue, headerValue, 'up');
+                
+            }
+        }
+
+        root.addEventListener("scroll", (e) => {
+            const scrollValue = e.target.scrollTop;
+            let currentScroll = content.scrollTop || document.body.scrollTop;
+
+            console.log(scrollDirection(currentScroll))
+            if(scrollDirection(currentScroll)) {
+                for(var i = 0; i<targetArray.length; i++) {
+                    followLabel(targetArray[i], scrollValue, headerValue)
+                }
+            }else {
+                for(var i = 0; i<targetArray.length; i++) {
+                    followLabel(targetArray[i], scrollValue, headerValue)
                 }
             }
         });
 
 
+
+            // Event 발생시
+            var sortEvent = document.querySelector(".tui-grid-btn-sorting");
+
+            sortEvent.addEventListener("click", () => {
+                
+            })
+        })
+
+
+
         
 
 
-
+        //토스트ui test data
+        // let data = [];
+        //     for(var i = 0; i<100; i++) {
+        //         var tempData = {
+        //             name : `name-data--${i}`,
+        //             artist : `artist-data--${i}`,
+        //             type : `type-data--${i}`,
+        //             release : `release-data--${i}`,
+        //             genre : `genre-data--${i}`,
+        //         }
+        //         newData = data.push(tempData);
+        //     }
+        
+        //     console.log(newData)
 
         
+        // 임시 데이터
+        const gridData = [
+            {
+                name: 'Beautiful Lies',
+                artist: 'Birdy',
+                release: '2016.03.26',
+                type: 'Deluxe',
+                genre: 'Pop'
+            },
+            {
+                name: 'X',
+                artist: 'Ed Sheeran',
+                release: '2014.06.24',
+                type: 'Deluxe',
+                genre: 'Pop',
+                _attributes: {
+                disabled: true // A current row is disabled
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+            {
+                name: '19',
+                artist: 'Adele',
+                release: '2008.01.27',
+                type: 'EP',
+                genre: 'Pop,R&B',
+                _attributes: {
+                rowSpan: {
+                    // Merge rows
+                    artist: 3
+                }
+                }
+            },
+            {
+                name: '21',
+                artist: 'Adele',
+                release: '2011.01.21',
+                type: 'Deluxe',
+                genre: 'Pop,R&B'
+            },
+            {
+                name: '25',
+                artist: 'Adele',
+                release: '2015.11.20',
+                type: 'EP',
+                genre: 'Pop',
+                _attributes: {
+                className: {
+                    // Add class name on each columns
+                    column: {
+                    type: ['blue'],
+                    genre: ['blue']
+                    }
+                }
+                }
+            },{
+                name: 'Beautiful Lies',
+                artist: 'Birdy',
+                release: '2016.03.26',
+                type: 'Deluxe',
+                genre: 'Pop'
+            },
+            {
+                name: 'X',
+                artist: 'Ed Sheeran',
+                release: '2014.06.24',
+                type: 'Deluxe',
+                genre: 'Pop',
+                _attributes: {
+                disabled: true // A current row is disabled
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+            {
+                name: '19',
+                artist: 'Adele',
+                release: '2008.01.27',
+                type: 'EP',
+                genre: 'Pop,R&B',
+                _attributes: {
+                rowSpan: {
+                    // Merge rows
+                    artist: 4
+                }
+                }
+            },
+            {
+                name: '21',
+                artist: 'Adele',
+                release: '2011.01.21',
+                type: 'Deluxe',
+                genre: 'Pop,R&B'
+            },
+            {
+                name: '25',
+                artist: 'Adele',
+                release: '2015.11.20',
+                type: 'EP',
+                genre: 'Pop',
+                _attributes: {
+                className: {
+                    // Add class name on each columns
+                    column: {
+                    type: ['blue'],
+                    genre: ['blue']
+                    }
+                }
+                }
+            },
+            {
+                name: '25',
+                artist: 'Adele',
+                release: '2015.11.20',
+                type: 'EP',
+                genre: 'Pop',
+                _attributes: {
+                className: {
+                    // Add class name on each columns
+                    column: {
+                    type: ['blue'],
+                    genre: ['blue']
+                    }
+                }
+                }
+            },
+            {
+                name: 'X',
+                artist: 'Ed Sheeran',
+                release: '2014.06.24',
+                type: 'Deluxe',
+                genre: 'Pop',
+                _attributes: {
+                disabled: true // A current row is disabled
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+            {
+                name: 'Moves Like Jagger',
+                release: '2011.08.08',
+                artist: 'Maroon5',
+                type: 'Single',
+                genre: 'Pop,Rock',
+                _attributes: {
+                checkDisabled: true // A checkbox is disabled only
+                }
+            },
+            {
+                name: 'A Head Full Of Dreams',
+                artist: 'Coldplay',
+                release: '2015.12.04',
+                type: 'Deluxe',
+                genre: 'Rock',
+                _attributes: {
+                checked: true, // A checkbox is already checked while rendering
+                className: {
+                    // Add class name on a row
+                    row: ['red']
+                }
+                }
+            },
+        ];
+
+        // 그리드 init
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: gridData,
+            scrollX: false,
+            scrollY: false,
+            // bodyHeight: 300,
+            rowHeaders: ['rowNum'],
+            columns: [
+                {
+                header: 'Name',
+                name: 'name',
+                },
+                {
+                header: 'Artist',
+                name: 'artist'
+                },
+                {
+                header: 'Type',
+                name: 'type'
+                },
+                {
+                header: 'Release',
+                name: 'release'
+                },
+                {
+                header: 'Genre',
+                name: 'genre'
+                }
+            ]
+            });
+        
+
     </script>
 </body>
 </html>
