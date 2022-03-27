@@ -7,6 +7,7 @@
     <title>Document</title>
     <!-- <link rel="stylesheet" href="/assets/style/css/test.css" type="text/css"> -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
     <script type="text/javascript" src="/assets/script/common.js"></script>
 </head>
@@ -656,9 +657,11 @@ table {
         */
 
        
+        var targetArray = [];
 
 
         window.addEventListener("load", ()=> {
+            console.log("load")
             var content2 = document.querySelector(".content2");
 
         
@@ -675,32 +678,128 @@ table {
             var textHeight = 20;
 
 
-
-            var targetArray = [];
-
             function textInit(target) {
                 target.style.transform = `translateY(${textHeight/2}px)`
             }
 
+            // 테이블 동적 병합
+            $.fn.mergeClassRowspan = function (colIdx) {
+                return this.each(function () {
+                    var that;
+                    $('tr', this).each(function (row) {
+                        $('td:eq(' + colIdx + ')', this).filter(':visible').each(function (col) {
+
+                            if ($(this).attr('class') == $(that).attr('class')) {
+                                rowspan = $(that).attr("rowspan") || 1;
+                                rowspan = Number(rowspan) + 1;
+
+                                $(that).attr("rowspan", rowspan);
+
+                                // do your action for the colspan cell here            
+                                $(this).hide();
+
+                                //$(this).remove(); 
+                                // do your action for the old cell here
+
+                            } else {
+                                that = this;
+                            }
+
+                            // set the that if not already set
+                            that = (that == null) ? this : that;
+                        });
+                    });
+                });
+            };
+
+
+
             // 타겟의 위치 구하기.
+            // tr
+            
             for(var i = 0; i<rsideTbodyTr.length; i++) {
                 const rsideTbodyTrChildCount = rsideTbodyTr[i].childElementCount;
                 const target = rsideTbodyTr[i];
 
-                for(var j = 0; j<rsideTbodyTrChildCount; j++) {
+                // td의 데이터를 찾아 클래스명 삽입
+                for(var j = 0; j<rsideTbodyTrChildCount-1; j++) {
                     const result = target.childNodes[j];
 
-                    if(result.rowSpan > 1) {
-                        // rowspan 값이 1이 아닌 것 (merge된 row) 
-                        result.classList.add("active"); // vertical-align : top
-                        result.childNodes[0].classList.add("ready"); // readt 클래스 부여
-                        textInit(result.childNodes[0]) // text 상태 초기화
-                        targetArray.push(result.childNodes[0]);
+                    //tr의 자식들[1] - 두번째 영역의 모든 text 찾기
+                    const getTd = target.children[1];
+                    const trText = getTd.querySelector("div").innerText;
+
+                    // 데이터가 있음을 확인
+                    if(trText) {
+                        if(trText === "artist1") {
+                            getTd.classList.add("artist1")
+                        }
+                        if(trText === "artist2") {
+                            getTd.classList.add("artist2")
+                        }
+                        if(trText === "artist3") {
+                            getTd.classList.add("artist3")
+                        }
+                    }else {
+                        
                     }
 
                 }
+
+                // 상태 체크하여 데이터 조작하기
               
+                // 모든 클래스 삽입 이 끝났으면
+                if(i === rsideTbodyTr.length-1) {
+
+                    // 이 녀석이 처음에만 실행되야함.
+                    // $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
+
+                    $(".tui-grid-btn-sorting").click((e)=> {
+                        // e.target.classList.contains("tui-grid-btn-sorting-up" || "tui-grid-btn-sorting-down")
+                        
+                        grid.resetOriginData(gridData);
+
+                        
+                        if(e.target.classList.contains("tui-grid-btn-sorting-up")){
+                            grid.sort('artist',true)
+                            // setTimeout(()=> {
+                            //     $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
+                            // },500)
+                            
+                        }else if(e.target.classList.contains("tui-grid-btn-sorting-down")) {
+                            grid.sort('artist', false)
+                            // setTimeout(()=> {
+                            //     $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
+                            // },500)
+                        }
+                        $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
+
+
+                        for(var k = 0; k<rsideTbodyTr.length; k++) {
+
+                            // console.log(rsideTbodyTr[k].children[1])
+                            if(rsideTbodyTr[k].children[1].rowSpan > 1) {
+                                rsideTbodyTr[k].children[1].classList.add("active"); // vertical-align : top
+                                rsideTbodyTr[k].children[1].querySelector("div").classList.add("ready"); // readt 클래스 부여
+                                textInit(rsideTbodyTr[k].children[1].querySelector("div")) // text 상태 초기화
+                                targetArray.push(rsideTbodyTr[k].children[1].querySelector("div"));
+                            }
+
+                            }
+                    })
+
+                        // 그리드 sort하는법
+                        // grid.sort('artist', true)
+
+                    
+
+
+                } 
             }; 
+
+
+
+
 
             function followLabel(el, scrollValue, headValue, direction) {
             var target = el;
@@ -729,46 +828,43 @@ table {
             }
         };
 
-        function scrollDirection(currentScroll) {
-            if (currentScroll > 0 && lastScroll <= currentScroll){
-                lastScroll = currentScroll;
-                // console.log('down')
-                return true;
+            function scrollDirection(currentScroll) {
+                if (currentScroll > 0 && lastScroll <= currentScroll){
+                    lastScroll = currentScroll;
+                    // console.log('down')
+                    return true;
 
 
-            }else{
-                lastScroll = currentScroll;
-                return false;
-                // console.log('up')
+                }else{
+                    lastScroll = currentScroll;
+                    return false;
+                    // console.log('up')
+                    
+                }
+            }
+
+            root.addEventListener("scroll", (e) => {
+                const scrollValue = e.target.scrollTop;
+                let currentScroll = content.scrollTop || document.body.scrollTop;
+
+                // console.log(scrollDirection(currentScroll))
+                if(scrollDirection(currentScroll)) {
+                    for(var i = 0; i<targetArray.length; i++) {
+                        followLabel(targetArray[i], scrollValue, headerValue)
+                    }
+                }else {
+                    for(var i = 0; i<targetArray.length; i++) {
+                        followLabel(targetArray[i], scrollValue, headerValue)
+                    }
+                }
+            });
+
                 
-            }
-        }
-
-        root.addEventListener("scroll", (e) => {
-            const scrollValue = e.target.scrollTop;
-            let currentScroll = content.scrollTop || document.body.scrollTop;
-
-            console.log(scrollDirection(currentScroll))
-            if(scrollDirection(currentScroll)) {
-                for(var i = 0; i<targetArray.length; i++) {
-                    followLabel(targetArray[i], scrollValue, headerValue)
-                }
-            }else {
-                for(var i = 0; i<targetArray.length; i++) {
-                    followLabel(targetArray[i], scrollValue, headerValue)
-                }
-            }
         });
 
+            
 
-
-            // Event 발생시
-            var sortEvent = document.querySelector(".tui-grid-btn-sorting");
-
-            sortEvent.addEventListener("click", () => {
-                
-            })
-        })
+        
 
 
 
@@ -794,282 +890,107 @@ table {
         // 임시 데이터
         const gridData = [
             {
-                name: 'Beautiful Lies',
-                artist: 'Birdy',
-                release: '2016.03.26',
-                type: 'Deluxe',
-                genre: 'Pop'
+                name : "a",
+                artist : "artist1"
             },
             {
-                name: 'X',
-                artist: 'Ed Sheeran',
-                release: '2014.06.24',
-                type: 'Deluxe',
-                genre: 'Pop',
-                _attributes: {
-                disabled: true // A current row is disabled
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "c",
+                artist : "artist3"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "d",
+                artist : "artist1"
             },
             {
-                name: '19',
-                artist: 'Adele',
-                release: '2008.01.27',
-                type: 'EP',
-                genre: 'Pop,R&B',
-                _attributes: {
-                rowSpan: {
-                    // Merge rows
-                    artist: 3
-                }
-                }
+                name : "e",
+                artist : "artist1"
             },
             {
-                name: '21',
-                artist: 'Adele',
-                release: '2011.01.21',
-                type: 'Deluxe',
-                genre: 'Pop,R&B'
+                name : "d",
+                artist : "artist1"
             },
             {
-                name: '25',
-                artist: 'Adele',
-                release: '2015.11.20',
-                type: 'EP',
-                genre: 'Pop',
-                _attributes: {
-                className: {
-                    // Add class name on each columns
-                    column: {
-                    type: ['blue'],
-                    genre: ['blue']
-                    }
-                }
-                }
-            },{
-                name: 'Beautiful Lies',
-                artist: 'Birdy',
-                release: '2016.03.26',
-                type: 'Deluxe',
-                genre: 'Pop'
+                name : "e",
+                artist : "artist1"
             },
             {
-                name: 'X',
-                artist: 'Ed Sheeran',
-                release: '2014.06.24',
-                type: 'Deluxe',
-                genre: 'Pop',
-                _attributes: {
-                disabled: true // A current row is disabled
-                }
+                name : "a",
+                artist : "artist1"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "c",
+                artist : "artist3"
             },
             {
-                name: '19',
-                artist: 'Adele',
-                release: '2008.01.27',
-                type: 'EP',
-                genre: 'Pop,R&B',
-                _attributes: {
-                rowSpan: {
-                    // Merge rows
-                    artist: 4
-                }
-                }
+                name : "a",
+                artist : "artist1"
             },
             {
-                name: '21',
-                artist: 'Adele',
-                release: '2011.01.21',
-                type: 'Deluxe',
-                genre: 'Pop,R&B'
+                name : "a",
+                artist : "artist1"
             },
             {
-                name: '25',
-                artist: 'Adele',
-                release: '2015.11.20',
-                type: 'EP',
-                genre: 'Pop',
-                _attributes: {
-                className: {
-                    // Add class name on each columns
-                    column: {
-                    type: ['blue'],
-                    genre: ['blue']
-                    }
-                }
-                }
+                name : "c",
+                artist : "artist3"
             },
             {
-                name: '25',
-                artist: 'Adele',
-                release: '2015.11.20',
-                type: 'EP',
-                genre: 'Pop',
-                _attributes: {
-                className: {
-                    // Add class name on each columns
-                    column: {
-                    type: ['blue'],
-                    genre: ['blue']
-                    }
-                }
-                }
+                name : "a",
+                artist : "artist1"
             },
             {
-                name: 'X',
-                artist: 'Ed Sheeran',
-                release: '2014.06.24',
-                type: 'Deluxe',
-                genre: 'Pop',
-                _attributes: {
-                disabled: true // A current row is disabled
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "b",
+                artist : "artist2"
             },
             {
-                name: 'Moves Like Jagger',
-                release: '2011.08.08',
-                artist: 'Maroon5',
-                type: 'Single',
-                genre: 'Pop,Rock',
-                _attributes: {
-                checkDisabled: true // A checkbox is disabled only
-                }
+                name : "c",
+                artist : "artist3"
             },
             {
-                name: 'A Head Full Of Dreams',
-                artist: 'Coldplay',
-                release: '2015.12.04',
-                type: 'Deluxe',
-                genre: 'Rock',
-                _attributes: {
-                checked: true, // A checkbox is already checked while rendering
-                className: {
-                    // Add class name on a row
-                    row: ['red']
-                }
-                }
+                name : "a",
+                artist : "artist1"
             },
-        ];
+            {
+                name : "b",
+                artist : "artist2"
+            },
+            {
+                name : "c",
+                artist : "artist3"
+            },
 
+        ];
         // 그리드 init
         const grid = new tui.Grid({
             el: document.getElementById('grid'),
@@ -1080,26 +1001,28 @@ table {
             rowHeaders: ['rowNum'],
             columns: [
                 {
-                header: 'Name',
-                name: 'name',
+                    header: 'Name',
+                    name: 'name',
                 },
                 {
-                header: 'Artist',
-                name: 'artist'
+                    header: 'Artist',
+                    name: 'artist',
+                    sortingType: 'desc',
+                    sortable: true
                 },
-                {
-                header: 'Type',
-                name: 'type'
-                },
-                {
-                header: 'Release',
-                name: 'release'
-                },
-                {
-                header: 'Genre',
-                name: 'genre'
-                }
+                
             ]
+            });
+            console.log("grid")
+
+            // 해당 그리드가 sort 되면.
+            grid.on('sort', function(ev) {
+                
+             
+            //  console.log("afterSort", targetArray)
+             
+             
+                 
             });
         
 
