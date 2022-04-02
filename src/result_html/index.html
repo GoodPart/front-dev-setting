@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <link rel="stylesheet" href="/assets/style/css/test.css" type="text/css"> -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
+    <link rel="stylesheet" href="/assets/lib/tui/tui-grid.css" />
+    
     <script type="text/javascript" src="/assets/script/common.js"></script>
 </head>
 <style type="text/css">
@@ -108,6 +108,8 @@ table {
         position: fixed;
         top: 91px;
         z-index: 200;
+        background-color: #747A81 !important;
+
     }
     .tui-grid-body-area {
         /* padding-top: 40px; */
@@ -639,6 +641,8 @@ table {
 
 
 
+    <script src="/assets/lib/tui/tui-grid.js"></script>
+    <script type="text/javascript" src="/assets/lib/tui/data.js"></script>
     <script>
         var content = document.querySelector(".content");
 
@@ -656,15 +660,13 @@ table {
         target = .tui-grid-cell-content
         */
 
-       
         var targetArray = [];
+        
 
 
         window.addEventListener("load", ()=> {
             console.log("load")
             var content2 = document.querySelector(".content2");
-
-        
             var root = document.querySelector("#grid"); // root
 
             // riside table Area cunstructor
@@ -696,9 +698,9 @@ table {
                                 $(that).attr("rowspan", rowspan);
 
                                 // do your action for the colspan cell here            
-                                $(this).hide();
+                                // $(this).hide();
 
-                                //$(this).remove(); 
+                                // $(this).remove(); 
                                 // do your action for the old cell here
 
                             } else {
@@ -712,8 +714,6 @@ table {
                 });
             };
 
-
-
             // 타겟의 위치 구하기.
             // tr
             
@@ -721,24 +721,26 @@ table {
                 const rsideTbodyTrChildCount = rsideTbodyTr[i].childElementCount;
                 const target = rsideTbodyTr[i];
 
+                const tempArray = [];
+
                 // td의 데이터를 찾아 클래스명 삽입
                 for(var j = 0; j<rsideTbodyTrChildCount-1; j++) {
                     const result = target.childNodes[j];
 
                     //tr의 자식들[1] - 두번째 영역의 모든 text 찾기
-                    const getTd = target.children[1];
+                    const getTd = target.children[2];
                     const trText = getTd.querySelector("div").innerText;
 
                     // 데이터가 있음을 확인
                     if(trText) {
-                        if(trText === "artist1") {
-                            getTd.classList.add("artist1")
+                        if(trText === "Deluxe") {
+                            getTd.classList.add("deluxe")
                         }
-                        if(trText === "artist2") {
-                            getTd.classList.add("artist2")
+                        if(trText === "EP") {
+                            getTd.classList.add("EP")
                         }
-                        if(trText === "artist3") {
-                            getTd.classList.add("artist3")
+                        if(trText === "Single") {
+                            getTd.classList.add("Single")
                         }
                     }else {
                         
@@ -748,57 +750,34 @@ table {
 
                 // 상태 체크하여 데이터 조작하기
               
-                // 모든 클래스 삽입 이 끝났으면
                 if(i === rsideTbodyTr.length-1) {
 
-                    // 이 녀석이 처음에만 실행되야함.
                     // $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
+                    // add classes
+                    for(var k = 0; k<rsideTbodyTr.length; k++) {
+                        const testTarget = rsideTbodyTr[k];
 
-                    $(".tui-grid-btn-sorting").click((e)=> {
-                        // e.target.classList.contains("tui-grid-btn-sorting-up" || "tui-grid-btn-sorting-down")
-                        
-                        grid.resetOriginData(gridData);
+                        if(testTarget.childNodes[2] && testTarget.childNodes[2].rowSpan >1) {
+                            console.log("있음?", testTarget.childNodes[2])
+                            testTarget.childNodes[2].classList.add("active"); // vertical-align : top
+                            testTarget.childNodes[2].querySelector("div").classList.add("ready"); // readt 클래스 부여
+                            textInit(testTarget.childNodes[2].querySelector("div")) // text 상태 초기화
+                            // targetArray.push(testTarget.childNodes[2].querySelector("div"));
 
-                        
-                        if(e.target.classList.contains("tui-grid-btn-sorting-up")){
-                            grid.sort('artist',true)
-                            // setTimeout(()=> {
-                            //     $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
-                            // },500)
-                            
-                        }else if(e.target.classList.contains("tui-grid-btn-sorting-down")) {
-                            grid.sort('artist', false)
-                            // setTimeout(()=> {
-                            //     $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
-                            // },500)
+                            tempArray.push(testTarget.childNodes[2].querySelector("div"));
+                        }else {
+                            console.log("없음")
                         }
-                        $('#grid .tui-grid-rside-area .tui-grid-body-area tbody').mergeClassRowspan(1);
 
-
-                        for(var k = 0; k<rsideTbodyTr.length; k++) {
-
-                            // console.log(rsideTbodyTr[k].children[1])
-                            if(rsideTbodyTr[k].children[1].rowSpan > 1) {
-                                rsideTbodyTr[k].children[1].classList.add("active"); // vertical-align : top
-                                rsideTbodyTr[k].children[1].querySelector("div").classList.add("ready"); // readt 클래스 부여
-                                textInit(rsideTbodyTr[k].children[1].querySelector("div")) // text 상태 초기화
-                                targetArray.push(rsideTbodyTr[k].children[1].querySelector("div"));
-                            }
-
-                            }
-                    })
-
-                        // 그리드 sort하는법
-                        // grid.sort('artist', true)
-
+                        if(k === rsideTbodyTr.length-1) {
+                            targetArray = tempArray
+                        }
+                    }
                     
-
-
+                      // 그리드 sort하는법
+                        // grid.sort('artist', true)
                 } 
             }; 
-
-
-
 
 
             function followLabel(el, scrollValue, headValue, direction) {
@@ -815,6 +794,7 @@ table {
             }
 
             
+            console.log(target.parentElement.offsetTop)
             // 감시 영역 조건문
             if(scrollValue >= target.parentElement.offsetTop-headValue+textHeight && scrollValue <= target.parentElement.offsetHeight + target.parentElement.offsetTop - (headValue*2) ) {
                 target.classList.remove("ready");
@@ -888,143 +868,361 @@ table {
 
         
         // 임시 데이터
-        const gridData = [
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "c",
-                artist : "artist3"
-            },
-            {
-                name : "d",
-                artist : "artist1"
-            },
-            {
-                name : "e",
-                artist : "artist1"
-            },
-            {
-                name : "d",
-                artist : "artist1"
-            },
-            {
-                name : "e",
-                artist : "artist1"
-            },
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "c",
-                artist : "artist3"
-            },
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "c",
-                artist : "artist3"
-            },
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "c",
-                artist : "artist3"
-            },
-            {
-                name : "a",
-                artist : "artist1"
-            },
-            {
-                name : "b",
-                artist : "artist2"
-            },
-            {
-                name : "c",
-                artist : "artist3"
-            },
-
-        ];
-        // 그리드 init
+        // var gridData = [
+        //     {
+        //         id: 549731,
+        //         name: 'Beautiful Lies',
+        //         artist: 'Birdy',
+        //         release: '2016.03.26',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Pop',
+        //         genreCode: '1',
+        //         grade: '2',
+        //         price: 10000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 436461,
+        //         name: 'X',
+        //         artist: 'Ed Sheeran',
+        //         release: '2014.06.24',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Pop',
+        //         genreCode: '1',
+        //         grade: '3',
+        //         price: 20000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 295651,
+        //         name: 'Moves Like Jagger',
+        //         release: '2011.08.08',
+        //         artist: 'Maroon5',
+        //         type: 'Single',
+        //         typeCode: '3',
+        //         genre: 'Pop,Rock',
+        //         genreCode: '1,2',
+        //         grade: '2',
+        //         price: 7000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 541713,
+        //         name: 'A Head Full Of Dreams',
+        //         artist: 'Coldplay',
+        //         release: '2015.12.04',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Rock',
+        //         genreCode: '2',
+        //         grade: '3',
+        //         price: 25000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 265289,
+        //         name: '21',
+        //         artist: 'Adele',
+        //         release: '2011.01.21',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Pop,R&B',
+        //         genreCode: '1,3',
+        //         grade: '3',
+        //         price: 15000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 555871,
+        //         name: 'Warm On A Cold Night',
+        //         artist: 'HONNE',
+        //         release: '2016.07.22',
+        //         type: 'EP',
+        //         typeCode: '1',
+        //         genre: 'R&B,Electronic',
+        //         genreCode: '3,4',
+        //         grade: '2',
+        //         price: 11000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 550571,
+        //         name: 'Take Me To The Alley',
+        //         artist: 'Gregory Porter',
+        //         release: '2016.09.02',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Jazz',
+        //         genreCode: '5',
+        //         grade: '3',
+        //         price: 30000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 544128,
+        //         name: 'Make Out',
+        //         artist: 'LANY',
+        //         release: '2015.12.11',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Electronic',
+        //         genreCode: '4',
+        //         grade: '2',
+        //         price: 12000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 366374,
+        //         name: 'Get Lucky',
+        //         artist: 'Daft Punk',
+        //         release: '2013.04.23',
+        //         type: 'Single',
+        //         typeCode: '3',
+        //         genre: 'Pop,Funk',
+        //         genreCode: '1,5',
+        //         grade: '3',
+        //         price: 9000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 8012747,
+        //         name: 'Valtari',
+        //         artist: 'Sigur Rós',
+        //         release: '2012.05.31',
+        //         type: 'EP',
+        //         typeCode: '3',
+        //         genre: 'Rock',
+        //         genreCode: '2',
+        //         grade: '3',
+        //         price: 10000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 502792,
+        //         name: 'Bush',
+        //         artist: 'Snoop Dogg',
+        //         release: '2015.05.12',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Hiphop',
+        //         genreCode: '5',
+        //         grade: '3',
+        //         price: 18000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 294574,
+        //         name: '2',
+        //         artist: 'Beyoncé',
+        //         release: '2011.07.26',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'Pop',
+        //         genreCode: '1',
+        //         grade: '3',
+        //         price: 12000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 317659,
+        //         name: "I Won't Give Up",
+        //         artist: 'Jason Mraz',
+        //         release: '2012.01.03',
+        //         type: 'Single',
+        //         typeCode: '3',
+        //         genre: 'Pop',
+        //         genreCode: '1',
+        //         grade: '2',
+        //         price: 7000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 583551,
+        //         name: 'Following My Intuition',
+        //         artist: 'Craig David',
+        //         release: '2016.10.01',
+        //         type: 'Deluxe',
+        //         typeCode: '1',
+        //         genre: 'R&B,Electronic',
+        //         genreCode: '3,4',
+        //         grade: '3',
+        //         price: 15000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 490500,
+        //         name: 'Blue Skies',
+        //         release: '2015.03.18',
+        //         artist: 'Lenka',
+        //         type: 'Single',
+        //         typeCode: '3',
+        //         genre: 'Pop,Rock',
+        //         genreCode: '1,2',
+        //         grade: '3',
+        //         price: 6000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 587871,
+        //         name: 'This Is Acting',
+        //         artist: 'Sia',
+        //         release: '2016.10.22',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Pop',
+        //         genreCode: '1',
+        //         grade: '3',
+        //         price: 20000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 504288,
+        //         name: 'Blurryface',
+        //         artist: 'Twenty One Pilots',
+        //         release: '2015.05.19',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Rock',
+        //         genreCode: '2',
+        //         grade: '1',
+        //         price: 13000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 450720,
+        //         name: "I'm Not The Only One",
+        //         artist: 'Sam Smith',
+        //         release: '2014.09.15',
+        //         type: 'Single',
+        //         typeCode: '3',
+        //         genre: 'Pop,R&B',
+        //         genreCode: '1,3',
+        //         grade: '2',
+        //         price: 8000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 498896,
+        //         name: 'The Magic Whip',
+        //         artist: 'Blur',
+        //         release: '2015.04.27',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Rock',
+        //         genreCode: '2',
+        //         grade: '3',
+        //         price: 15000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     {
+        //         id: 491379,
+        //         name: 'Chaos And The Calm',
+        //         artist: 'James Bay',
+        //         release: '2015.03.23',
+        //         type: 'EP',
+        //         typeCode: '2',
+        //         genre: 'Pop,Rock',
+        //         genreCode: '1,2',
+        //         grade: '3',
+        //         price: 12000,
+        //         downloadCount: 1000,
+        //         listenCount: 5000,
+        //     },
+        //     ];
+        
+            // 그리드 init
         const grid = new tui.Grid({
             el: document.getElementById('grid'),
-            data: gridData,
-            scrollX: false,
-            scrollY: false,
-            // bodyHeight: 300,
-            rowHeaders: ['rowNum'],
-            columns: [
-                {
-                    header: 'Name',
-                    name: 'name',
-                },
-                {
-                    header: 'Artist',
-                    name: 'artist',
-                    sortingType: 'desc',
-                    sortable: true
-                },
-                
-            ]
-            });
-            console.log("grid")
+      data: gridData,
+      scrollX: false,
+      scrollY: false,
+      columns: [
+        {
+          header: 'Name',
+          name: 'name',
+          sortable: true,
+          filter: 'text',
+          rowSpan: true,
+          onBeforeChange(ev) {
+            console.log('Before change:' + ev);
+        },
+        editor: 'text',
+        },
+        {
+          header: 'Artist',
+          name: 'artist',
+          sortable: true,
+          filter: 'text',
+          rowSpan: true
+        },
+        {
+          header: 'Type',
+          name: 'type',
+          sortable: true,
+          filter: 'select',
+          rowSpan: true
+        },
+        {
+          header: 'Release',
+          name: 'release',
+          sortable: true,
+          rowSpan: true
+        },
+        {
+          header: 'Genre',
+          name: 'genre',
+          sortable: true,
+          rowSpan: true
+        }
+      ],
+    //   draggable: true
+    onGridMounted : function(ev) {
+        console.log("mounted")
+    },
+    onGridUpdated : function() {
+        console.log("update")
+    }
+    });
 
-            // 해당 그리드가 sort 되면.
-            grid.on('sort', function(ev) {
-                
-             
-            //  console.log("afterSort", targetArray)
-             
-             
-                 
-            });
+    grid.on("beforeSort", function(ev) {
+        console.log("before sort", ev)
+
+    })
+    grid.on("afterSort", function(ev) {
+        console.log("after sort ", ev)
         
+        
+    })
+    grid.on("beforeUnsort", function(ev) {
+        console.log("before Un sort")
+    })
+    grid.on("afterUnsort", function(ev) {
+        console.log("after Un sort ", targetArray)
+        
+    })
+        
+   
 
     </script>
 </body>
