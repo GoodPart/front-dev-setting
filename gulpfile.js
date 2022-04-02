@@ -11,6 +11,7 @@ var prettier = require('gulp-prettier');
 
 var concat = require('gulp-concat');
 var del = require('del');
+const replace = require('gulp-replace');
 
 const sass = gulpSass(dartSass);
 
@@ -20,22 +21,22 @@ const sass = gulpSass(dartSass);
 var PATH = {
     ROOT : './src',
     // HTML : './src/html',
-     ASSETS: { 
-         FONTS: './src/assets/fonts' , 
-         IMAGES: './src/assets/images' , 
-         STYLE: './src/assets/style' ,
-         SCRIPT : './src/assets/script',
-         LIB : './src/assets/lib',
+     RESOURCES: { 
+         FONTS: './src/resources/fonts' , 
+         IMAGES: './src/resources/images' , 
+         STYLE: './src/resources/style' ,
+         SCRIPT : './src/resources/script',
+         LIB : './src/resources/lib',
         } 
     }, 
     DEST_PATH = {
         HTML: './dist',
-         ASSETS: { 
-             FONTS: './dist/assets/fonts' , 
-             IMAGES: './dist/assets/images' , 
-             STYLE: './dist/assets/style', 
-             SCRIPT : './dist/assets/script',
-             LIB : './dist/assets/lib',
+         RESOURCES: { 
+             FONTS: './dist/resources/fonts' , 
+             IMAGES: './dist/resources/images' , 
+             STYLE: './dist/resources', 
+             SCRIPT : './dist/resources/script',
+             LIB : './dist/resources/lib',
         } 
     },
     DEV_PATH = {
@@ -62,7 +63,7 @@ var PATH = {
                 sourceComments: true
                 }; 
 
-                gulp.src(PATH.ASSETS.STYLE + '/**/*.scss' ) 
+                gulp.src(PATH.RESOURCES.STYLE + '/sass/*.scss' ) 
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
@@ -73,8 +74,8 @@ var PATH = {
                     tabWidth: 2,
                 }))
                 .pipe( sourcemaps.write()) 
-                .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
-                .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE + '/css'))
+                .pipe(gulp.dest( PATH.RESOURCES.STYLE+ '/css'))
+                .pipe(gulp.dest( DEST_PATH.RESOURCES.STYLE + '/css'))
                 .pipe(browserSync.reload({ stream: true }));
             resolve(); 
         }); 
@@ -83,8 +84,8 @@ var PATH = {
     //이미지
     gulp.task('image', ()=> {
         return new Promise(resolve => {
-            gulp.src([PATH.ASSETS.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
-            .pipe(gulp.dest(DEST_PATH.ASSETS.IMAGES))
+            gulp.src([PATH.RESOURCES.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
+            .pipe(gulp.dest(DEST_PATH.RESOURCES.IMAGES))
 
             resolve();
         })
@@ -106,9 +107,9 @@ var PATH = {
     //script
     gulp.task('script', () => {
         return new Promise(resolve => {
-            gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
-                .pipe(concat('common.js'))
-                .pipe(gulp.dest(DEST_PATH.ASSETS.SCRIPT))
+            gulp.src(PATH.RESOURCES.SCRIPT + '/*.js')
+                // .pipe(concat('common.js'))
+                .pipe(gulp.dest(DEST_PATH.RESOURCES.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 
          resolve();
@@ -118,8 +119,8 @@ var PATH = {
     // library
     gulp.task('library', ()=> {
         return new Promise( resolve => {
-            gulp.src(PATH.ASSETS.LIB + '/*.js')
-                .pipe(gulp.dest(DEST_PATH.ASSETS.LIB))
+            gulp.src(PATH.RESOURCES.LIB + '/**/*')
+                .pipe(gulp.dest(DEST_PATH.RESOURCES.LIB))
             
                 resolve();
         })
@@ -127,16 +128,44 @@ var PATH = {
     
     // fileinclude
     gulp.task('fileinclude', () => {
+        // const re = /^\<(link|script)/;
+        // const _style = /^href\=\"\//;
+        // let test = '<link rel="stylesheet" href="/resources/style/css/test_es.css">'; 
+
+        // if(test.match(re)) {
+        //     if(test.match(_style)) {
+
+        //     }
+        //     console.log("있음")
+        // }else {
+        //     console.log("없음")
+        // };
         return new Promise(resolve => {
             gulp.src([
                 '!'+'./src/html/**/*.html',
-                './src/html/index.html',
+                './src/html/*.html',
             ])
             .pipe(fileinclude({
                 prefix : '@@',
                 basepath : '@root'
             }))
             .pipe(gulp.dest(PATH.ROOT+'/result_html'))
+            .pipe(replace(
+                '<link rel="stylesheet" href="/', 
+                '<link rel="stylesheet" href="../'
+            ))
+            .pipe(replace(
+                '/style/css', 
+                '/css'
+            ))
+            .pipe(replace(
+                '<script type="text/javascript" src="/', 
+                '<script type="text/javascript" src="../'
+            ))
+            .pipe(replace(
+                '<script src="/', 
+                '<script src="../'
+            ))
             .pipe(gulp.dest(DEST_PATH.HTML+'/html'))
 
 
@@ -147,9 +176,9 @@ var PATH = {
 
     gulp.task('watch', () => {
         return new Promise( resolve => {
-            gulp.watch(PATH.ASSETS.STYLE + "/*.scss", gulp.series(['sass']));
+            gulp.watch([PATH.RESOURCES.STYLE + "/sass/*.scss", PATH.RESOURCES.STYLE + "/sass/**/*.scss"], gulp.series(['sass']));
             gulp.watch(PATH.ROOT + "/html/*.html", gulp.series(['html', 'fileinclude']));
-            gulp.watch(PATH.ASSETS.SCRIPT + "/**/*.js", gulp.series(['script']));
+            gulp.watch(PATH.RESOURCES.SCRIPT + "/**/*.js", gulp.series(['script']));
 
         resolve();
         });
