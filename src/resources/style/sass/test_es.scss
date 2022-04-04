@@ -4,6 +4,24 @@
 @import './layout/layout2.scss';
 
 
+.tui-datepicker {
+    display: flex;
+    flex-direction: column;
+}
+
+.tui-datepicker-footer {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
+.tui-timepicker-select[data-picker="year"] {
+    width: 60px;
+}
+
+
 
 
 .test_es {

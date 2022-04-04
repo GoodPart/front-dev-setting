@@ -1,14 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 @@include('./src/html/head/head2.html')
+
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<link href="https://uicdn.toast.com/tui.time-picker/v2.0.3/tui-time-picker.css" rel="stylesheet"/>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/v2.0.3/tui-time-picker.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <body>
     <h2>index2.html</h2>
 
     <div class="layout2_css">
         test_es
     </div>
+
+    <!-- <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+        <input type="text" id="datepicker-input" aria-label="Date-Time">
+        <span class="tui-ico-date"></span>
+    </div>
+    <div id="wrapper" style="margin-top: -1px;"></div> -->
+
+    <div id="mked" class="tui-datepicker-footer">
+        <div class="tui-timepicker-container">
+            <div class="tui-timepicker"> 
+                <div class="tui-timepicker-body"> 
+                    <div class="tui-timepicker-row tui-datepicker-row">
+                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-year" >
+                            <select
+                                class="tui-timepicker-select" data-picker="year">
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                            </select>
+                        </div>
+                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-month">
+                            <select
+                                class="tui-timepicker-select" data-picker="month">
+                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option> 
+                            </select>
+                        </div> 
+                        <span>-</span>
+                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-minute" >
+                            <select
+                                class="tui-timepicker-select" data-picker="day">
+                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option> 
+                            </select>
+                        </div>
+                  
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div id="mked2" class="tui-datepicker-footer">
+                        <div class="tui-timepicker-container">
+                            <div class="tui-timepicker"> 
+                                <div class="tui-timepicker-body"> 
+                                    <div class="tui-timepicker-row tui-datepicker-row2">
+                                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-year" >
+                                            <select
+                                                class="tui-timepicker-select" data-picker="year">
+                                                <option value="2010">2010</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2015">2015</option>
+                                            </select>
+                                        </div>
+                                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-month">
+                                            <select
+                                                class="tui-timepicker-select" data-picker="month">
+                                                 <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option> 
+                                            </select>
+                                        </div> 
+                                        <span>-</span>
+                                        <div class="tui-timepicker-column tui-timepicker-selectbox tui-timepicker-minute" >
+                                            <select
+                                                class="tui-timepicker-select" data-picker="day">
+                                                 <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option> 
+                                            </select>
+                                        </div>
+                                  
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>
+
+
+
+    <div>
+        <tbody>
+            <tr>
+              <td>
+                  
+                <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                  <input type="text" id="datepicker-input" aria-label="Date-Time" />
+                  <span class="tui-ico-date"></span>
+                </div>
+                <div id="wrapper" style="margin-top: -1px;"></div>
+
+              </td>
+              
+            </tr>
+            <tr>
+                <td>
+                    
+                  <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                    <input type="text" id="datepicker-input2" aria-label="Date-Time" />
+                    <span class="tui-ico-date"></span>
+                  </div>
+                  <div id="wrapper2" style="margin-top: -1px;"></div>
+  
+                </td>
+                
+              </tr>
+          </tbody>
+    </div>
     @@include('./src/html/footer/footer.html', {
         type : 'mobile'
     })
+
+    <script>
+
+        var datepicker = new tui.DatePicker('#wrapper', {
+            date: new Date(),
+            input: {
+            element: '#datepicker-input',
+            format: 'yyyy-MM-dd'
+            },
+        });
+
+        var datepicker2 = new tui.DatePicker('#wrapper2', {
+            date: new Date(),
+            input: {
+            element: '#datepicker-input2',
+            format: 'yyyy-MM-dd'
+            },
+        });
+
+        datepicker.on('draw', (e)=> {
+            console.log("e", e)
+        })
+
+        datepicker.on('open', ()=> {
+        })
+
+        datepicker.on('close', ()=> {
+        });
+
+
+     // create Date
+        // const _month = '';
+        // const _date = '';
+
+        // const _root = document.querySelector(".tui-timepicker-row"); //상위.
+
+        // const all = _root.querySelectorAll(".tui-timepicker-selectbox");
+        // const _div = document.createElement("div");
+
+
+        // // 필요한 엘리먼트 + 클래스 만드는 곳
+        // const _select = document.createElement("select");
+        // _select.dataset.picker = 'month'
+
+        // _select.classList.add("tui-timepicker-select", "tui-datepicker-select_m");
+        // for(let i = 1; i<13; i++) {
+        //     const _option = document.createElement("option");
+        //     _option.setAttribute('value',i);
+        //     _option.textContent = i
+        //     _select.append(_option)
+        // }
+        
+        // const target = document.querySelector(".tui-timepicker-month");
+
+        // target.append(_select)
+
+        const date = {
+            year : '',
+            month : '',
+            date : '',
+        }
+        const date2 = {
+            year : '',
+            month : '',
+            date : '',
+        }
+
+        const __root2 = document.querySelector(".tui-datepicker-row");
+        const __root3 = document.querySelector(".tui-datepicker-row2");
+        const mkDatePicker = __root2.querySelectorAll(".tui-timepicker-selectbox");
+        const mkDatePicker2 = __root3.querySelectorAll(".tui-timepicker-selectbox");
+
+        for(let j = 0; j<mkDatePicker.length; j++) {
+            mkDatePicker[j].addEventListener("change", (e)=> {
+                const cd = e.target.value;
+             
+                if(e.target.dataset.picker === 'year') {
+                    date.year = cd
+                }else if(e.target.dataset.picker === 'month') {
+                    date.month = cd;
+                }else {
+                    date.date = cd;
+                }
+                
+
+                if(date.year && date.month && date.date) {
+                    console.log(date)
+                    const result = new Date(`${date.year}-${date.month}-${date.date}`);
+                    datepicker.setDate(result)
+                }
+            })
+            mkDatePicker2[j].addEventListener("change", (e)=> {
+                const cd = e.target.value;
+             
+                if(e.target.dataset.picker === 'year') {
+                    date2.year = cd
+                }else if(e.target.dataset.picker === 'month') {
+                    date2.month = cd;
+                }else {
+                    date2.date = cd;
+                }
+                
+
+                if(date2.year && date2.month && date2.date) {
+                    console.log(date2)
+                    const result = new Date(`${date2.year}-${date2.month}-${date2.date}`);
+                    datepicker2.setDate(result)
+                }
+            })
+        }
+
+        window.addEventListener("load", ()=> {
+
+            document.querySelector("#wrapper .tui-datepicker").prepend(document.querySelector("#mked"));
+            document.querySelector("#mked").classList.add("active")
+
+            document.querySelector("#wrapper2 .tui-datepicker").prepend(document.querySelector("#mked2"));
+            document.querySelector("#mked2").classList.add("active")
+        })
+
+
+
+
+
+
+
+        // class화
+
+        class dayPicker {
+            constructor(select) {
+                this.select = select
+            }
+
+            getBody() {
+                console.log(this.select.querySelectorAll('.tui-timepicker-selectbox'))
+                // const result = target.querySelectorAll(".tui-timepicker-selectbox")
+                // return target
+            }
+            
+            
+        }
+
+        let target1 = new dayPicker(__root2);
+        let target2 = new dayPicker(__root3);
+
+        console.log(target1.getBody())
+        
+        
+
+
+
+    </script>
 </body>
 </html>

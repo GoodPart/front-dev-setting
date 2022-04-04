@@ -128,18 +128,6 @@ var PATH = {
     
     // fileinclude
     gulp.task('fileinclude', () => {
-        // const re = /^\<(link|script)/;
-        // const _style = /^href\=\"\//;
-        // let test = '<link rel="stylesheet" href="/resources/style/css/test_es.css">'; 
-
-        // if(test.match(re)) {
-        //     if(test.match(_style)) {
-
-        //     }
-        //     console.log("있음")
-        // }else {
-        //     console.log("없음")
-        // };
         return new Promise(resolve => {
             gulp.src([
                 '!'+'./src/html/**/*.html',
