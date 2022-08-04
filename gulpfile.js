@@ -40,6 +40,7 @@ var PATH = {
     gulp.task('clean', () => {
         return new Promise(resolve => {
             del.sync(DEST_PATH.HTML);
+            del.sync(PATH.ROOT + "/result_html");
 
             resolve()
         });
@@ -83,7 +84,12 @@ var PATH = {
     // 단지 파일을 복사하는 용도
     gulp.task('html', () => {
         return new Promise(resolve => {
-            gulp.src(PATH.ROOT + '/html/*.html')
+            // gulp.src(PATH.ROOT + '/html/*.html')
+            gulp.src([
+                './src/html/*',
+                '!'+'./src/html/footer',
+                '!'+'./src/html/header',
+            ])
                 // .pipe(gulp.dest('./src/result_html'))
                 .pipe(browserSync.reload({ stream: true }));
 
@@ -117,9 +123,12 @@ var PATH = {
     gulp.task('fileinclude', () => {
         return new Promise(resolve => {
             gulp.src([
-                '!'+'./src/html/**/*.html',
-                './src/html/index.html',
-            ])
+                './src/html/*',
+                // './src/html/components/',
+                // './src/html/components/**',
+                '!'+'./src/html/footer',
+                '!'+'./src/html/header',
+            ]) 
             .pipe(fileinclude({
                 prefix : '@@',
                 basepath : '@root'
@@ -136,7 +145,7 @@ var PATH = {
     gulp.task('watch', () => {
         return new Promise( resolve => {
             gulp.watch(PATH.ASSETS.STYLE + "/*.scss", gulp.series(['sass']));
-            gulp.watch(PATH.ROOT + "/html/*.html", gulp.series(['html', 'fileinclude']));
+            gulp.watch(PATH.ROOT + "/html/**/*", gulp.series(['html', 'fileinclude']));
             gulp.watch(PATH.ASSETS.SCRIPT + "/**/*.js", gulp.series(['script']));
 
         resolve();
@@ -151,7 +160,7 @@ var PATH = {
 
             bs.init({
                 server : {
-                    baseDir : PATH.ROOT,
+                    baseDir : PATH.ROOT + "/result_html",
                     directory : true,
                 },
                 cors : true,
