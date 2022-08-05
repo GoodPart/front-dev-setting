@@ -1,0 +1,89 @@
+.gp_picker {
+    position: relative;
+    width: 90px;
+    margin: 20px;
+
+    .gp_picker-input {
+        width: 90px;
+        height: 32px;
+        background: #FFFFFF;
+    }
+    .gp_picker-input input {
+        width: 100%;
+        height: 100%;
+        padding-left: 13px;
+        border-radius: 3px;
+        border: 1px solid rgba(195, 198, 205, 0.6);
+
+    }
+
+    // dropdown menu
+    .gp_picker-dropdown {
+        position: absolute;
+        top: 36px;
+        left: 0;
+        overflow: hidden;
+        width: 184px;
+        /* height: 280px; */
+        height: 0;
+        background: #FFFFFF;
+        box-sizing: border-box;
+        border-width: 0px 1px 0px 1px;
+        border-style: solid;
+        border-color: transparent;
+        border-radius: 3px;
+        transition: height .2s cubic-bezier(0.16, 1, 0.3, 1);
+
+        &.active {
+            height: 280px;
+            border: 1px solid rgba(195, 198, 205, 0.6);
+        }
+    }
+    .gp_picker-dropdown .flex-wrap {
+        display: flex;
+        overflow: hidden;
+        height: 100%;
+    }
+    .gp_picker-dropdown .section {
+        overflow-y: scroll;
+        width: 60px;
+    }
+    .gp_picker-dropdown .section + .section {
+        border-left: 1px solid rgba(195, 198, 205, 0.6);
+    }
+    .gp_picker-dropdown .section::-webkit-scrollbar {
+        width: 4px;
+        background: #F2F4F6;
+    }
+    .gp_picker-dropdown .section::-webkit-scrollbar-thumb {
+        border : none;
+        background: #B9BEC5;
+    }
+    .gp_picker-dropdown .section ul {
+        padding-bottom: 80px;
+    }
+    .gp_picker-dropdown .section ul li {
+        height: 24px;
+        text-align: center;
+
+        &:hover {
+            background-color: rgba(000,000,000,0.05);
+        }
+
+        &.active span {
+            color: #fff;
+            background-color: #5A5D61;
+        }
+    }
+    .gp_picker-dropdown .section ul li span {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+        font-family: 'Roboto';
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 24px;
+        color: #3C3E41;
+    }
+}

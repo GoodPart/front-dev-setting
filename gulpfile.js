@@ -15,32 +15,44 @@ const sass = gulpSass(dartSass);
 
 
 var PATH = {
+    DEV: './',
     ROOT : './src',
     // HTML : './src/html',
-     ASSETS: { 
-         FONTS: './src/assets/fonts' , 
-         IMAGES: './src/assets/images' , 
-         STYLE: './src/assets/style' ,
-         SCRIPT : './src/assets/script',
-         LIB : './src/assets/lib',
-        } 
-    }, 
-    DEST_PATH = {
-        HTML: './dist',
-         ASSETS: { 
-             FONTS: './dist/assets/fonts' , 
-             IMAGES: './dist/assets/images' , 
-             STYLE: './dist/assets/style', 
-             SCRIPT : './dist/assets/script',
-             LIB : './dist/assets/lib',
-            } 
-        }; 
+    ASSETS: { 
+        FONTS: './src/assets/fonts' , 
+        IMAGES: './src/assets/images' , 
+        STYLE: './src/assets/style' ,
+        SCRIPT : './src/assets/script',
+        LIB : './src/assets/lib',
+    },
+}
+
+var DEST_PATH = {
+    ROOT: './dist',
+    ASSETS: { 
+        FONTS: './dist/assets/fonts' , 
+        IMAGES: './dist/assets/images' , 
+        STYLE: './dist/assets/style', 
+        SCRIPT : './dist/assets/script',
+        LIB :'./dist/assets/lib',
+    }
+}
+    // DEST_PATH = {
+    //     HTML: './dist',
+    //      ASSETS: { 
+    //          FONTS: './dist/assets/fonts' , 
+    //          IMAGES: './dist/assets/images' , 
+    //          STYLE: './dist/assets/style', 
+    //          SCRIPT : './dist/assets/script',
+    //          LIB : './dist/assets/lib',
+    //         } 
+    //     }; 
 
 
     gulp.task('clean', () => {
         return new Promise(resolve => {
-            del.sync(DEST_PATH.HTML);
-            del.sync(PATH.ROOT + "/result_html");
+            del.sync(DEST_PATH.ROOT);
+            // del.sync(PATH.DEV + './dev') ;
 
             resolve()
         });
@@ -54,16 +66,16 @@ var PATH = {
                 indentType: "space" ,
                 indentWidth: 4  ,
                 precision: 8 , 
-                sourceComments: true
+                sourceComments: false
                 }; 
 
                 gulp.src(PATH.ASSETS.STYLE + '/**/*.scss' ) 
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
-                .pipe( sourcemaps.write()) 
-                .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
-                .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE + '/css'))
+                // .pipe( sourcemaps.write()) 
+                // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
+                .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE))
                 .pipe(browserSync.reload({ stream: true }));
             resolve(); 
         }); 
@@ -87,6 +99,7 @@ var PATH = {
             // gulp.src(PATH.ROOT + '/html/*.html')
             gulp.src([
                 './src/html/*',
+                './src/html/**',
                 '!'+'./src/html/footer',
                 '!'+'./src/html/header',
             ])
@@ -101,7 +114,7 @@ var PATH = {
     gulp.task('script', () => {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
-                .pipe(concat('common.js'))
+                // .pipe(concat('common.js'))
                 .pipe(gulp.dest(DEST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 
@@ -124,8 +137,7 @@ var PATH = {
         return new Promise(resolve => {
             gulp.src([
                 './src/html/*',
-                // './src/html/components/',
-                // './src/html/components/**',
+                './src/html/**',
                 '!'+'./src/html/footer',
                 '!'+'./src/html/header',
             ]) 
@@ -133,8 +145,8 @@ var PATH = {
                 prefix : '@@',
                 basepath : '@root'
             }))
-            .pipe(gulp.dest(PATH.ROOT+'/result_html'))
-            .pipe(gulp.dest(DEST_PATH.HTML+'/html'))
+            // .pipe(gulp.dest(PATH.DEV+'/dev'))
+            .pipe(gulp.dest(DEST_PATH.ROOT))
 
 
             resolve();
@@ -144,7 +156,7 @@ var PATH = {
 
     gulp.task('watch', () => {
         return new Promise( resolve => {
-            gulp.watch(PATH.ASSETS.STYLE + "/*.scss", gulp.series(['sass']));
+            gulp.watch(PATH.ASSETS.STYLE + "/**/*.scss", gulp.series(['sass']));
             gulp.watch(PATH.ROOT + "/html/**/*", gulp.series(['html', 'fileinclude']));
             gulp.watch(PATH.ASSETS.SCRIPT + "/**/*.js", gulp.series(['script']));
 
@@ -160,7 +172,7 @@ var PATH = {
 
             bs.init({
                 server : {
-                    baseDir : PATH.ROOT + "/result_html",
+                    baseDir : DEST_PATH.ROOT,
                     directory : true,
                 },
                 cors : true,
