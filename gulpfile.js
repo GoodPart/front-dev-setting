@@ -5,6 +5,7 @@ var gulpSass = require("gulp-sass")
 var sourcemaps = require('gulp-sourcemaps'); // 소스 파일 경로 
 var autoprefixer = require("gulp-autoprefixer");
 var fileinclude = require("gulp-file-include")
+var spritesmith = require('gulp.spritesmith');
 
 var concat = require('gulp-concat');
 var del = require('del');
@@ -24,6 +25,8 @@ var PATH = {
         STYLE: './src/assets/style' ,
         SCRIPT : './src/assets/script',
         LIB : './src/assets/lib',
+        SPRITE : './src/assets/sprite_images',
+        HANDLEBAR : './src/assets/handlebar/handlebar.sass.handlebars'
     },
 }
 
@@ -35,6 +38,7 @@ var DEST_PATH = {
         STYLE: './dist/assets/style', 
         SCRIPT : './dist/assets/script',
         LIB :'./dist/assets/lib',
+        SPRITE : './dist/assets/sprite_images'
     }
 }
     // DEST_PATH = {
@@ -86,6 +90,26 @@ var DEST_PATH = {
         return new Promise(resolve => {
             gulp.src([PATH.ASSETS.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
             .pipe(gulp.dest(DEST_PATH.ASSETS.IMAGES))
+
+            resolve();
+        })
+    } )
+    // 스플라이트 이미지
+    gulp.task('sprite', ()=> {
+        return new Promise(resolve => {
+
+            var spriteData = gulp.src(PATH.ASSETS.SPRITE + '/*.png')
+            .pipe(spritesmith({
+                retinaSrcFilter: PATH.ASSETS.SPRITE +'/*@2x.png',
+                imgName : 'sp_all.png',
+                padding : 4,
+                retinaImgName : 'sp_all2x.png',
+                cssName : 'sp_all.css',
+                cssTemplate : PATH.ASSETS.HANDLEBAR
+            }))
+
+            spriteData.img.pipe(gulp.dest(DEST_PATH.ASSETS.SPRITE))
+            spriteData.css.pipe(gulp.dest(DEST_PATH.ASSETS.STYLE))
 
             resolve();
         })
@@ -159,6 +183,9 @@ var DEST_PATH = {
             gulp.watch(PATH.ASSETS.STYLE + "/**/*.scss", gulp.series(['sass']));
             gulp.watch(PATH.ROOT + "/html/**/*", gulp.series(['html', 'fileinclude']));
             gulp.watch(PATH.ASSETS.SCRIPT + "/**/*.js", gulp.series(['script']));
+            gulp.watch(PATH.ASSETS.IMAGES + "/*", gulp.series(['image']));
+            gulp.watch(PATH.ASSETS.SPRITE + "/*", gulp.series(['sprite']));
+
 
         resolve();
         });
@@ -188,6 +215,7 @@ var allSeries = gulp.series([
     'html', 
     'sass',
     'image',
+    'sprite',
     'script', 
     'library',
     'browserSync', 

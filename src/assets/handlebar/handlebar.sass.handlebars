@@ -1,0 +1,41 @@
+{{#spritesheet}}
+.ico {
+  display: block;
+  flex-shrink: 0;
+  background-image: url('../sprite_images/{{image}}');
+  background-repeat: no-repeat;
+  background-size: {{px.width}} {{px.height}};
+}
+{{/spritesheet}}
+
+{{#sprites}}
+.ico-{{name}} {
+  width: {{px.width}};
+  height: {{px.height}};
+  background-position: {{px.offset_x}} {{px.offset_y}};
+}
+{{/sprites}}
+
+
+
+// retina_spritesheet 
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+        {{#retina_spritesheet}}
+            .ico {
+                display: block;
+                flex-shrink: 0;
+                background-image: url('../sprite_images/{{image}}');
+                background-repeat: no-repeat;
+                background-size: {{px.width}} {{px.height}};
+            }
+        {{/retina_spritesheet}}
+
+        {{#sprites}}
+            .ico-{{name}}  {
+                width: calc({{px.width}} * 2);
+                height: calc({{px.height}} * 2) ;
+                background-position: calc({{px.offset_x}} * 2) calc({{px.offset_y}} * 2);
+            }
+        {{/sprites}}
+}
