@@ -41,7 +41,7 @@ class GpTimpicker {
                 return (
                     `
                     <div class="gp_picker-input">
-                        <input type="text" placeholder="${crtPlaceHolder}" id="gp_timpicker ${props.name}" maxlength="8">
+                        <input type="text" data-mode='${mode}' placeholder="${crtPlaceHolder}" id="gp_timpicker ${props.name}" maxlength="8">
                     </div>
                     `
                 )
@@ -52,7 +52,7 @@ class GpTimpicker {
                 return (
                     `
                     <div class="gp_picker-input">
-                        <input type="text" placeholder="${crtPlaceHolder}" id="gp_timpicker ${props.name}" maxlength="5">
+                        <input type="text" data-mode='${mode}' placeholder="${crtPlaceHolder}" id="gp_timpicker ${props.name}" maxlength="5">
                     </div>
                     `
                 )
@@ -287,16 +287,58 @@ window.addEventListener("load", (e)=> {
             gpPickerInput.addEventListener("keyup", (e)=> {
                 const inputKeyValue = e.target.value;
 
-                if(e.keyCode !== 229) {
+                // if(e.keyCode !== 229) {
+                //     e.target.value = parseTimeSet(e, inputKeyValue, _mode)
+                //     menuCheck(e, e.target.value)
+
+                // }else {
+                //     alert("한글은 표기할 수 없습니다.")
+                //     e.target.value = null;
+                // };
+
+                // const checkEngStr=(e)=> {
+                    
+                //     const data = e.target.value;
+                //     const check = data.replace(/[^0-9]/g, '');
+                //     // console.log('check',data )
+                //     if(check) {
+                //         console.log("숫자다")
+                //         return true
+                //     }else {
+                //         console.log('숫자가 @@@아니다@@@')
+                //         return false
+                //     }
+                // }
+                // console.log(e.keyCode)  
+
+                function enterPress(e) {
+                    // console.log('입력값 - 상수 + 상수',Number((e.target.value.length - _mode)) + Number(_mode),'입력값 길이',e.target.value.length, e.keyCode == 13)
+                    // if(Number((e.target.value.length - _mode)) + Number(_mode), e.target.value.length, e.keyCode == 13) {
+                    if((Number(e.target.value.length) ==8 || Number(e.target.value.length) == 5) && e.keyCode == 13) {
+                        gpPicker.querySelector(".gp_picker-dropdown").classList.remove("active")
+                    }else {
+                        // console.log("또잉")
+                    }
+                }
+
+                if(
+                    (e.keyCode<48 || e.keyCode>57) && (e.keyCode <36 || e.keyCode>40) && (e.keyCode < 16 || e.keyCode >18) && e.keyCode != 186 && e.keyCode != 91 && e.keyCode != 13 && (e.keyCode < 8 || e.keyCode >9)
+                ) {
+                    // alert("숫자가 아니야.")
+                    e.target.value = null;
+                }else {
                     e.target.value = parseTimeSet(e, inputKeyValue, _mode)
                     menuCheck(e, e.target.value)
-
-                }else {
-                    alert("한글은 표기할 수 없습니다.")
-                    e.target.value = null;
+                    enterPress(e)
                 };
+                
+                
 
             });
+            gpPickerInput.addEventListener("focus",(e)=> {
+                gpPicker.querySelector(".gp_picker-dropdown").classList.add("active");
+
+            })
 
             window.addEventListener("click", (e)=> {
                 const checkPickerArea = e.target.closest(`.${parent.className}`);
