@@ -148,7 +148,7 @@ var DEST_PATH = {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
-                // .pipe(uglify())
+                .pipe(uglify())
                 .pipe(gulp.dest(DEST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 

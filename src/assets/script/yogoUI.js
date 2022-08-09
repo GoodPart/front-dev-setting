@@ -125,7 +125,7 @@ class YogoUI {
                     const listItem = e.path[1];
                     // const dataSet = `00:00:00`
 
-                    if(this.options.timeSet.length == 5) {
+                    if(this.options.timeSet.length ==8) {
                         if(section.classList.contains("section-0")) {
                         // console.log("시")
                         
@@ -175,7 +175,7 @@ class YogoUI {
                         }
                     
                     }
-                    if(this.options.timeSet.length == 8) {
+                    if(this.options.timeSet.length == 5) {
                         if(section.classList.contains("section-0")) {
                         // console.log("시")
                         
