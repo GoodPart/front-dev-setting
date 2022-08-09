@@ -33,24 +33,24 @@ var PATH = {
 }
 
 var DEST_PATH = {
-    ROOT: './dist',
+    ROOT: './dev',
     ASSETS: { 
-        FONTS: './dist/assets/fonts' , 
-        IMAGES: './dist/assets/images' , 
-        STYLE: './dist/assets/style', 
-        SCRIPT : './dist/assets/script',
-        LIB :'./dist/assets/lib',
-        SPRITE : './dist/assets/sprite_images'
+        FONTS: './dev/assets/fonts' , 
+        IMAGES: './dev/assets/images' , 
+        STYLE: './dev/assets/style', 
+        SCRIPT : './dev/assets/script',
+        LIB :'./dev/assets/lib',
+        SPRITE : './dev/assets/sprite_images'
     }
 }
     // DEST_PATH = {
-    //     HTML: './dist',
+    //     HTML: './dev',
     //      ASSETS: { 
-    //          FONTS: './dist/assets/fonts' , 
-    //          IMAGES: './dist/assets/images' , 
-    //          STYLE: './dist/assets/style', 
-    //          SCRIPT : './dist/assets/script',
-    //          LIB : './dist/assets/lib',
+    //          FONTS: './dev/assets/fonts' , 
+    //          IMAGES: './dev/assets/images' , 
+    //          STYLE: './dev/assets/style', 
+    //          SCRIPT : './dev/assets/script',
+    //          LIB : './dev/assets/lib',
     //         } 
     //     }; 
 
