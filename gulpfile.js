@@ -61,7 +61,7 @@ var DIST_PATH = {
     gulp.task('clean', () => {
         return new Promise(resolve => {
             del.sync(DEV_PATH.ROOT);
-            // del.sync(PATH.DEV + './dev') ;
+            del.sync(PATH.DEV + './dev') ;
 
             resolve()
         });
@@ -138,24 +138,65 @@ var DIST_PATH = {
         return new Promise(resolve => {
             // gulp.src(PATH.ROOT + '/html/*.html')
             gulp.src([
-                './src/html/*',
-                './src/html/**',
-                '!'+'./src/html/footer',
-                '!'+'./src/html/header',
+                './src/html/components/**/*',
+                // './src/**',
+                // './src/html/**',
+                // '!./src/html/footer',
+                // './src/html/header',
             ])
-                // .pipe(gulp.dest('./src/result_html'))
-                .pipe(browserSync.reload({ stream: true }));
+            .pipe(fileinclude({
+                prefix : '@@',
+                basepath : '@file'
+            }))
+            .pipe(replace(
+                '<link rel="stylesheet" href="/', 
+                '<link rel="stylesheet" href="../../../'
+            ))
+            .pipe(replace(
+                '<script src="/', 
+                '<script src="../../../'
+            ))
+            .pipe(gulp.dest(DEV_PATH.ROOT+'/html/components/'))
+            .pipe(browserSync.reload({ stream: true }));
 
             resolve();
         });
     })
 
+    // fileinclude
+    // gulp.task('fileinclude', () => {
+    //     return new Promise(resolve => {
+    //         gulp.src([
+    //             // './src/html/index.html',
+    //             './src/html/components/timepicker/*.html',
+    //             './src/html/components/selector/*.html'
+    //             // './src/html/components',
+    //             // '!'+'./src/html/footer',
+    //             // '!'+'./src/html/header',
+    //         ]) 
+    //         .pipe(fileinclude({
+    //             prefix : '@@',
+    //             basepath : '@root'
+    //         }))
+    //         // .pipe(gulp.dest(DEV_PATH.ROOT))
+    //         // .pipe(replace(
+    //         //     '<link rel="stylesheet" href="/', 
+    //         //     '<link rel="stylesheet" href="./'
+    //         // ))
+    //         .pipe(gulp.dest('./dev/html/'))
+    //         // .pipe(gulp.dest(PATH.DEV+'/dev'))
+
+
+    //         resolve();
+    //     })
+    // })
     //script
     gulp.task('script', () => {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
                 // .pipe(uglify())
+                
                 .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
                 .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
@@ -175,37 +216,13 @@ var DIST_PATH = {
         })
     })
     
-    // fileinclude
-    gulp.task('fileinclude', () => {
-        return new Promise(resolve => {
-            gulp.src([
-                './src/html/*',
-                './src/html/**',
-                '!'+'./src/html/footer',
-                '!'+'./src/html/header',
-            ]) 
-            .pipe(fileinclude({
-                prefix : '@@',
-                basepath : '@root'
-            }))
-            .pipe(gulp.dest(DEV_PATH.ROOT))
-            .pipe(replace(
-                '<link rel="stylesheet" href="/', 
-                '<link rel="stylesheet" href="./'
-            ))
-            .pipe(gulp.dest(DIST_PATH.ROOT))
-            // .pipe(gulp.dest(PATH.DEV+'/dev'))
-
-
-            resolve();
-        })
-    })
+    
 
 
     gulp.task('watch', () => {
         return new Promise( resolve => {
             gulp.watch(PATH.ASSETS.STYLE + "/**/*.scss", gulp.series(['sass']));
-            gulp.watch(PATH.ROOT + "/html/**/*", gulp.series(['html', 'fileinclude']));
+            gulp.watch(PATH.ROOT + "/html/**/*", gulp.series(['html']));
             gulp.watch(PATH.ASSETS.SCRIPT + "/**/*.js", gulp.series(['script']));
             gulp.watch(PATH.ASSETS.IMAGES + "/*", gulp.series(['image']));
             gulp.watch(PATH.ASSETS.SPRITE + "/*", gulp.series(['sprite']));
@@ -234,7 +251,7 @@ var DIST_PATH = {
 
 var allSeries = gulp.series([
     'clean',
-    'fileinclude',
+    // 'fileinclude',
     'html', 
     'sass',
     'image',
