@@ -7,7 +7,7 @@ var autoprefixer = require("gulp-autoprefixer");
 var fileinclude = require("gulp-file-include")
 var spritesmith = require('gulp.spritesmith');
 var uglify = require('gulp-uglify');
-var cssmin = require('gulp-cssmin');
+// var cssmin = require('gulp-cssmin');
 var replace = require('gulp-replace')
 
 var concat = require('gulp-concat');
@@ -33,7 +33,7 @@ var PATH = {
     },
 }
 
-var DEST_PATH = {
+var DEV_PATH = {
     ROOT: './dev',
     ASSETS: { 
         FONTS: './dev/assets/fonts' , 
@@ -44,21 +44,23 @@ var DEST_PATH = {
         SPRITE : './dev/assets/sprite_images'
     }
 }
-    // DEST_PATH = {
-    //     HTML: './dev',
-    //      ASSETS: { 
-    //          FONTS: './dev/assets/fonts' , 
-    //          IMAGES: './dev/assets/images' , 
-    //          STYLE: './dev/assets/style', 
-    //          SCRIPT : './dev/assets/script',
-    //          LIB : './dev/assets/lib',
-    //         } 
-    //     }; 
+var DIST_PATH = {
+    ROOT: './dist',
+    ASSETS: { 
+        FONTS: './dist/assets/fonts' , 
+        IMAGES: './dist/assets/images' , 
+        STYLE: './dist/assets/style', 
+        SCRIPT : './dist/assets/script',
+        LIB :'./dist/assets/lib',
+        SPRITE : './dist/assets/sprite_images'
+    }
+}
+  
 
 
     gulp.task('clean', () => {
         return new Promise(resolve => {
-            del.sync(DEST_PATH.ROOT);
+            del.sync(DEV_PATH.ROOT);
             // del.sync(PATH.DEV + './dev') ;
 
             resolve()
@@ -66,7 +68,7 @@ var DEST_PATH = {
     });
 
     // css
-    gulp.task( 'sass', () => {
+    gulp.task('sass', () => {
             return new Promise( resolve => { 
                 var options = { 
                 outputStyle: "expanded" , 
@@ -80,10 +82,11 @@ var DEST_PATH = {
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
-                .pipe(cssmin())
+                // .pipe(cssmin())
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
-                .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE))
+                .pipe(gulp.dest( DEV_PATH.ASSETS.STYLE))
+                .pipe(gulp.dest( DIST_PATH.ASSETS.STYLE))
                 .pipe(browserSync.reload({ stream: true }));
             resolve(); 
         }); 
@@ -93,7 +96,8 @@ var DEST_PATH = {
     gulp.task('image', ()=> {
         return new Promise(resolve => {
             gulp.src([PATH.ASSETS.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
-            .pipe(gulp.dest(DEST_PATH.ASSETS.IMAGES))
+            .pipe(gulp.dest(DEV_PATH.ASSETS.IMAGES))
+            .pipe(gulp.dest(DIST_PATH.ASSETS.IMAGES))
 
             resolve();
         })
@@ -112,9 +116,11 @@ var DEST_PATH = {
                 cssTemplate : PATH.ASSETS.HANDLEBAR
             }))
 
-            spriteData.img.pipe(gulp.dest(DEST_PATH.ASSETS.SPRITE))
-            spriteData.css.pipe(gulp.dest(DEST_PATH.ASSETS.STYLE))
+            spriteData.img.pipe(gulp.dest(DEV_PATH.ASSETS.SPRITE))
+            spriteData.css.pipe(gulp.dest(DEV_PATH.ASSETS.STYLE))
 
+            // spriteData.img.pipe(gulp.dest(DIST_PATH.ASSETS.SPRITE))
+            // spriteData.css.pipe(gulp.dest(DIST_PATH.ASSETS.STYLE))
             resolve();
         })
     } )
@@ -149,8 +155,9 @@ var DEST_PATH = {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
-                .pipe(uglify())
-                .pipe(gulp.dest(DEST_PATH.ASSETS.SCRIPT))
+                // .pipe(uglify())
+                .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
+                .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 
          resolve();
@@ -161,7 +168,8 @@ var DEST_PATH = {
     gulp.task('library', ()=> {
         return new Promise( resolve => {
             gulp.src(PATH.ASSETS.LIB + '/*.js')
-                .pipe(gulp.dest(DEST_PATH.ASSETS.LIB))
+                .pipe(gulp.dest(DEV_PATH.ASSETS.LIB))
+                .pipe(gulp.dest(DIST_PATH.ASSETS.LIB))
             
                 resolve();
         })
@@ -180,9 +188,13 @@ var DEST_PATH = {
                 prefix : '@@',
                 basepath : '@root'
             }))
-            
+            .pipe(gulp.dest(DEV_PATH.ROOT))
+            .pipe(replace(
+                '<link rel="stylesheet" href="/', 
+                '<link rel="stylesheet" href="./'
+            ))
+            .pipe(gulp.dest(DIST_PATH.ROOT))
             // .pipe(gulp.dest(PATH.DEV+'/dev'))
-            .pipe(gulp.dest(DEST_PATH.ROOT))
 
 
             resolve();
@@ -211,12 +223,11 @@ var DEST_PATH = {
 
             bs.init({
                 server : {
-                    baseDir : DEST_PATH.ROOT,
+                    baseDir : DEV_PATH.ROOT,
                     directory : true,
                 },
                 cors : true,
             })
-
             resolve()
         })
     });
