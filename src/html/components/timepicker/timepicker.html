@@ -14,14 +14,35 @@
     </div>
     
     <div>
-        <input type="text" id="gpPicker" class="gp_picker-1" data-mode="3">
+        <!-- id 제거 -->
+        <input type="text" class="timepicker1 add_class_name">
+    </div>
+
+    <div style="margin-top: 400px">
+        <!-- id 제거 -->
+        <input type="text" class="timepicker2 add_class_name">
     </div>
 
     
+    <!-- gpPicker.js 용 -->
     <div style="margin-top: 400px">
-        <input type="text" id="gpPicker" class="gp_picker-2" data-mode="2">
+        <!-- <input type="text" id="gpPicker" class="gp_picker-2" data-mode="2"> -->
     </div>
 
-    <script src="/assets/script/gpPicker.js"></script>
+    <script src="/assets/script/yogoUI.js"></script>
+    <script>
+        var test1 = new YogoUI(".timepicker1", {
+            type : "timepicker", // 사용할 타입 선언
+            timeSet : "00:00:00", // 00:00:00 , 00:00
+        })
+        test1.init();
+
+        var test2 = new YogoUI(".timepicker2", {
+            type : "timepicker", // 사용할 타입 선언
+            timeSet : "00:00", // 00:00:00 , 00:00
+        })
+        test2.init();
+
+    </script>
 </body>
 </html>

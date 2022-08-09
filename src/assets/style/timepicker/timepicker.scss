@@ -1,31 +1,32 @@
-// gp_picker CSS
-.gp_picker {
+// yogo_picker CSS
+.yogo_picker {
     position: relative;
     width: 90px;
     margin: 20px;
 
-    .gp_picker-input {
+    .yogo_picker-input {
         width: 90px;
         height: 32px;
         background: #FFFFFF;
+        border: 1px solid rgba(195, 198, 205, 0.6);
+        border-radius: 3px;
     }
-    .gp_picker-input input {
+    .yogo_picker-input input {
         width: 100%;
         height: 100%;
         padding-left: 13px;
-        border-radius: 3px;
-        border: 1px solid rgba(195, 198, 205, 0.6);
-
+        border-color: transparent;
     }
 
+
     // dropdown menu
-    .gp_picker-dropdown {
+    .yogo_picker-dropdown {
         position: absolute;
         top: 36px;
         left: 0;
         overflow: hidden;
-        width: 184px;
-        /* height: 280px; */
+        // width: 184px;
+        min-width: 122px;
         height: 0;
         background: #FFFFFF;
         box-sizing: border-box;
@@ -40,30 +41,30 @@
             border: 1px solid rgba(195, 198, 205, 0.6);
         }
     }
-    .gp_picker-dropdown .flex-wrap {
+    .yogo_picker-dropdown .flex-wrap {
         display: flex;
         overflow: hidden;
         height: 100%;
     }
-    .gp_picker-dropdown .section {
+    .yogo_picker-dropdown .section {
         overflow-y: scroll;
         width: 60px;
     }
-    .gp_picker-dropdown .section + .section {
+    .yogo_picker-dropdown .section + .section {
         border-left: 1px solid rgba(195, 198, 205, 0.6);
     }
-    .gp_picker-dropdown .section::-webkit-scrollbar {
+    .yogo_picker-dropdown .section::-webkit-scrollbar {
         width: 4px;
         background: #F2F4F6;
     }
-    .gp_picker-dropdown .section::-webkit-scrollbar-thumb {
+    .yogo_picker-dropdown .section::-webkit-scrollbar-thumb {
         border : none;
         background: #B9BEC5;
     }
-    .gp_picker-dropdown .section ul {
+    .yogo_picker-dropdown .section ul {
         padding-bottom: 80px;
     }
-    .gp_picker-dropdown .section ul li {
+    .yogo_picker-dropdown .section ul li {
         height: 24px;
         text-align: center;
 
@@ -76,7 +77,7 @@
             background-color: #5A5D61;
         }
     }
-    .gp_picker-dropdown .section ul li span {
+    .yogo_picker-dropdown .section ul li span {
         cursor: pointer;
         display: block;
         width: 100%;
@@ -88,4 +89,4 @@
         color: #3C3E41;
     }
 };
-// gp_picker CSS END
+// yogo_picker CSS END

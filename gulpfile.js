@@ -6,6 +6,8 @@ var sourcemaps = require('gulp-sourcemaps'); // 소스 파일 경로
 var autoprefixer = require("gulp-autoprefixer");
 var fileinclude = require("gulp-file-include")
 var spritesmith = require('gulp.spritesmith');
+var uglify = require('gulp-uglify');
+var cssmin = require('gulp-cssmin');
 
 var concat = require('gulp-concat');
 var del = require('del');
@@ -77,6 +79,7 @@ var DEST_PATH = {
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
+                .pipe(cssmin())
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEST_PATH.ASSETS.STYLE))
@@ -115,6 +118,12 @@ var DEST_PATH = {
         })
     } )
 
+    // gulp.task('compress', ()=> {
+    //     return new Promise(resolve => {
+    //         gulp.src(PATH.)
+    //     })
+    // })
+
 
     // html
     // 단지 파일을 복사하는 용도
@@ -139,6 +148,7 @@ var DEST_PATH = {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
+                // .pipe(uglify())
                 .pipe(gulp.dest(DEST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 
