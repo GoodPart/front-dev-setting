@@ -8,6 +8,7 @@ var fileinclude = require("gulp-file-include")
 var spritesmith = require('gulp.spritesmith');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
+var replace = require('gulp-replace')
 
 var concat = require('gulp-concat');
 var del = require('del');
@@ -179,6 +180,7 @@ var DEST_PATH = {
                 prefix : '@@',
                 basepath : '@root'
             }))
+            
             // .pipe(gulp.dest(PATH.DEV+'/dev'))
             .pipe(gulp.dest(DEST_PATH.ROOT))
 
