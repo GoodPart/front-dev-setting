@@ -7,7 +7,7 @@ var autoprefixer = require("gulp-autoprefixer");
 var fileinclude = require("gulp-file-include")
 var spritesmith = require('gulp.spritesmith');
 var uglify = require('gulp-uglify');
-// var cssmin = require('gulp-cssmin');
+var cssmin = require('gulp-cssmin');
 var replace = require('gulp-replace')
 
 var concat = require('gulp-concat');
@@ -82,7 +82,7 @@ var DIST_PATH = {
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
-                // .pipe(cssmin())
+                .pipe(cssmin())
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEV_PATH.ASSETS.STYLE))
@@ -195,7 +195,7 @@ var DIST_PATH = {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
-                // .pipe(uglify())
+                .pipe(uglify())
                 
                 .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
                 .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
@@ -262,5 +262,17 @@ var allSeries = gulp.series([
     'watch'
 ])
 
+var buildSeries = gulp.series([
+    'clean',
+    'html', 
+    'sass',
+    'image',
+    'sprite',
+    'script', 
+    'library',
+])
 
-gulp.task( 'default', allSeries);
+
+gulp.task('default', allSeries);
+
+gulp.task('build', buildSeries)

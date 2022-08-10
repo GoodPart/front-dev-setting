@@ -2,7 +2,6 @@
 .yogo_picker {
     position: relative;
     width: 90px;
-    margin: 20px;
 
     .yogo_picker-input {
         width: 90px;
@@ -21,6 +20,7 @@
 
     // dropdown menu
     .yogo_picker-dropdown {
+        z-index: 10;
         position: absolute;
         top: 36px;
         left: 0;
