@@ -288,15 +288,10 @@ class YogoUI {
             PickerInput.addEventListener("keyup", (e)=> {
                 const inputKeyValue = e.target.value;
                 function enterPress(e) {
-                    // console.log(e.keyCode, typeof e.keyCode)
 
-                    // console.log('입력값 - 상수 + 상수',Number((e.target.value.length - _mode)) + Number(_mode),'입력값 길이',e.target.value.length, e.keyCode == 13)
                     if((Number(e.target.value.length) ==8 || Number(e.target.value.length) == 5) && (e.keyCode == 13 || e.keyCode == 9)) {
-
-
                         Picker.querySelector(".yogo_picker-dropdown").classList.remove("active")
                         PickerInput.blur()
-
                     }else {
                     }
                 }
@@ -310,8 +305,6 @@ class YogoUI {
                     menuCheck(e, e.target.value)
                     enterPress(e)
                 };
-                
-                
 
             });
 
@@ -329,7 +322,7 @@ class YogoUI {
                 if(checkPickerArea) {
                     e.preventDefault();
                 }else {
-                    console.log(checkPickerArea)
+                    // console.log(checkPickerArea)
 
                 }
             })
