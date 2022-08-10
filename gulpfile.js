@@ -251,7 +251,6 @@ var DIST_PATH = {
 
 var allSeries = gulp.series([
     'clean',
-    // 'fileinclude',
     'html', 
     'sass',
     'image',

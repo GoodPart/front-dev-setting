@@ -102,15 +102,12 @@ class YogoUI {
             const parent = picker.parentElement;
 
             parent.className = picker.className
-            // const _mode = picker.dataset.mode;
 
-            // parent.dataset.mode = `mode_${_mode}`
             picker.remove(); // input 제거
 
             const crtPicker = new timepicker();
             crtPicker.init({
                 name : this.trigger,
-                // mode : picker.dataset.mode,
                 dataset : this.options.timeSet,
             })
             // HTML 생성됨.
@@ -291,18 +288,22 @@ class YogoUI {
             PickerInput.addEventListener("keyup", (e)=> {
                 const inputKeyValue = e.target.value;
                 function enterPress(e) {
+                    // console.log(e.keyCode, typeof e.keyCode)
+
                     // console.log('입력값 - 상수 + 상수',Number((e.target.value.length - _mode)) + Number(_mode),'입력값 길이',e.target.value.length, e.keyCode == 13)
-                    if((Number(e.target.value.length) ==8 || Number(e.target.value.length) == 5) && e.keyCode == 13) {
+                    if((Number(e.target.value.length) ==8 || Number(e.target.value.length) == 5) && (e.keyCode == 13 || e.keyCode == 9)) {
+
+
                         Picker.querySelector(".yogo_picker-dropdown").classList.remove("active")
+                        PickerInput.blur()
+
                     }else {
-                        // console.log("또잉")
                     }
                 }
 
                 if(
-                    (e.keyCode<48 || e.keyCode>57) && (e.keyCode <36 || e.keyCode>40) && (e.keyCode < 16 || e.keyCode >18) && e.keyCode != 186 && e.keyCode != 91 && e.keyCode != 13 && (e.keyCode < 8 || e.keyCode >9)
+                    (e.keyCode<48 || e.keyCode>57) && (e.keyCode <36 || e.keyCode>40) && (e.keyCode < 16 || e.keyCode >18) && e.keyCode != 186 && e.keyCode != 91 && e.keyCode != 13 && e.keyCode < 8 
                 ) {
-                    // alert("숫자가 아니야.")
                     e.target.value = null;
                 }else {
                     e.target.value = parseTimeSet(e, inputKeyValue)
@@ -313,20 +314,36 @@ class YogoUI {
                 
 
             });
+
+       
             PickerInput.addEventListener("focus",(e)=> {
                 Picker.querySelector(".yogo_picker-dropdown").classList.add("active");
-
+            })
+            PickerInput.addEventListener("blur",(e)=> {
+                Picker.querySelector(".yogo_picker-dropdown").classList.remove("active");
             })
 
-            window.addEventListener("click", (e)=> {
+            Picker.querySelector(".yogo_picker-dropdown").addEventListener("mousedown",(e)=> {
                 const checkPickerArea = e.target.closest(`${this.trigger}`);
-
-                if(checkPickerArea == null) {
-                    Picker.querySelector(".yogo_picker-dropdown").classList.remove("active")
+              
+                if(checkPickerArea) {
+                    e.preventDefault();
                 }else {
-                    Picker.querySelector(".yogo_picker-dropdown").classList.add("active");
+                    console.log(checkPickerArea)
+
                 }
             })
+            
+
+            // window.addEventListener("click", (e)=> {
+            //     const checkPickerArea = e.target.closest(`${this.trigger}`);
+
+            //     if(checkPickerArea == null) {
+            //         Picker.querySelector(".yogo_picker-dropdown").classList.remove("active")
+            //     }else {
+            //         Picker.querySelector(".yogo_picker-dropdown").classList.add("active");
+            //     }
+            // })
 
         }else {
             // console.log('false',this.options.type)
