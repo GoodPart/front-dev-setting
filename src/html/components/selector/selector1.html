@@ -9,7 +9,7 @@
         "title" : "timepicker"
     })
 </head>
-<body>
+<body style="margin: 30px;">
     <div class="yogo_selector yogo_selector_01"></div>
 
     @@include('../../footer/scriptArea.html', {
@@ -137,28 +137,11 @@
            
         ];
 
-        // const test2 = new gp_Selector;
-        // test2.init({
-        //     name : ".gp_selector_02",
-        //     search : true,
-        //     depthLength : 2,
-        //     allCheckControler : false,
-        //     data : dummyData_2_depth,
-        //     mode : [
-        //         "sticky",
-        //          "category_count",
-        //          "category_smooth",
-
-        //         ]
-
-
-        // });
-
-        var test3 = new YogoUI(".yogo_selector", {
+        var test3 = new YogoUI(".yogo_selector_01", {
             type : "multiselector",
             search : true,
             depthLength : 2,
-            allCheckControler : false,
+            allCheckControler : true,
             data : dummyData_2_depth,
             mode : [
                 "sticky",
@@ -168,6 +151,7 @@
         });
 
         test3.init()
+        
     </script>
 </body>
 </html>

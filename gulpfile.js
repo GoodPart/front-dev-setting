@@ -195,7 +195,7 @@ var DIST_PATH = {
         return new Promise(resolve => {
             gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
                 // .pipe(concat('common.js'))
-                .pipe(uglify())
+                // .pipe(uglify())
                 
                 .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
                 .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
