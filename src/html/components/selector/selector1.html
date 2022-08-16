@@ -5,8 +5,169 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    @@include('../../header/head.html', {
+        "title" : "timepicker"
+    })
 </head>
 <body>
-    selector1 
+    <div class="yogo_selector yogo_selector_01"></div>
+
+    @@include('../../footer/scriptArea.html', {
+
+    })
+    <script>
+        const dummyData_2_depth = [
+            {
+                depth_0 : [
+                    {
+                        value : "카테고리0"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리0-1",
+                        // addHtml : "<ico></ico>"
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-5",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-6",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-7",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-8",
+                    },
+                    
+                ],
+            },
+            {
+                depth_0 : [
+                    {
+                        checked : false,
+                        value : "카테고리1"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리1-1",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-5",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-6",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-7",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-8",
+                    },
+                    
+                ],
+            },
+            {
+                depth_0 : [
+                    {
+                        checked : false,
+                        value : "카테고리3"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리3-1",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-5",
+                    },
+                    
+                ],
+            },
+           
+        ];
+
+        // const test2 = new gp_Selector;
+        // test2.init({
+        //     name : ".gp_selector_02",
+        //     search : true,
+        //     depthLength : 2,
+        //     allCheckControler : false,
+        //     data : dummyData_2_depth,
+        //     mode : [
+        //         "sticky",
+        //          "category_count",
+        //          "category_smooth",
+
+        //         ]
+
+
+        // });
+
+        var test3 = new YogoUI(".yogo_selector", {
+            type : "multiselector",
+            search : true,
+            depthLength : 2,
+            allCheckControler : false,
+            data : dummyData_2_depth,
+            mode : [
+                "sticky",
+                "category_count",
+                "category_smooth",
+            ]
+        });
+
+        test3.init()
+    </script>
 </body>
 </html>
