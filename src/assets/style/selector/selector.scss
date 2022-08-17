@@ -9,7 +9,7 @@
 
 .yogo_value_area {
     position: relative;
-    padding: 10px;
+    padding: 3px 10px;
     min-height: 32px;
     height: 32px;
     max-height: 120px;
@@ -18,46 +18,90 @@
     border-radius: 4px;
 }
 
+
 .yogo_selector .yogo_value_area .yogo_selector_anchor {
     cursor: pointer;
+    z-index: 0;
     position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    background: red;
+    // top: 50%;
+    // right: 10px;
+    top: 0;
+    left: 0;
+    // transform: translateY(-50%);
+    // width: 16px;
+    // height: 16px;
+    width: 100%;
+    height: 100%;
+    // background: red;
+
+   
+    i {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1);;
+    }
+}
+
+.yogo_selector .yogo_value_area .yogo_value_wrap {
+    width: max-content;
 }
 .yogo_selector .yogo_value_area .yogo_selector_anchor.active {
-    background: blue;
+    // background: blue;
+    i {
+        transform: translateY(-50%) rotate(180deg);
+    }
 }
 
 .yogo_value_area .yogo_category-wrap {
+    position: relative;
+    z-index: 1;
     /* width: 0; */
     /* opacity: 0; */
     font-size: 12px;
 }
 
 .yogo_value_area .yogo_show-item-value {
+    position: relative;
+    display: none;
+    padding: 0 4px 0 8px;
+    border-radius: 3px;
+    color: #3C3E41;
+    background-color: #F7F8FB;
+    // background-color: coral;
+    height: 24px;
+
+    &.active {
+        display: inline;
+    }
+
+    i {
+        display: inline-block;
+    }
+}
+.yogo_value_area .yogo_show-item-value .index_color {
     display: inline-block;
-    padding: 4px;
-    border-radius: 12px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    color: #fff;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
 }
 .yogo_value_area .yogo_show-item-value + .yogo_show-item-value {
     margin-left: 4px;
     
 }
 .yogo_value_area .yogo_show-item-value span {
+    color: #3C3E41;
+
 }
 .yogo_value_area .yogo_show-item-value em {
     font-size: 12px;
     text-align: center;
     padding: 0 4px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    color: #fff;
+    font-weight: 700;
+    font-style: normal;
 }
+
 
 .yogo_options {
     overflow: hidden;
@@ -100,16 +144,20 @@
     width: 100%;
     height: 100%;
     border-bottom: 1px solid #dee2e6;
+    background-color: #F7F8FB;
     
 }
 .yogo_selector .yogo_title input + label {
-    display: block;
-    padding: 8px 12px;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    height: 24px;
 }
 .yogo_selector .yogo_title input + label span{
+    margin-left: 4px;
+    font-size: 11px;
     font-weight: 700;
-    color: #212529;
+    color: #3C3E41;
 }
 
 .yogo_selector .yogo_title input[type='checkbox'],
@@ -126,15 +174,15 @@
 } 
 .yogo_selector .yogo_checkbox_list input + label span {
     font-weight: normal;
-    font-size: 14px;
-    color: #212529;
+    font-size: 12px;
+    color: #3C3E41;
 }
 .yogo_selector .yogo_checkbox_list input[type='checkbox']:checked + label {
-    background: #0d6efd;
+    background: #F2FAFF;
 }
 .yogo_selector .yogo_checkbox_list input[type='checkbox']:checked + label span {
-    color: #fff;
-    font-weight: 700;
+    // color: #fff;
+    // font-weight: 700;
 }
 .yogo_checkbox_list {
     position: relative;
@@ -157,44 +205,58 @@
     position: relative;
     display: flex;
     width: 100%;
-    border-bottom: 1px solid #f1f2f2;
-    background-color: rgb(248,249,250);
+    border-bottom: 1px solid #E5E6EB;
+    background-color: #fff;
     /* padding-left: 24px; */
 }
 .yogo_checkbox_list li div input + label {
-    padding: 8px 24px;
+    // padding: 8px 24px;
+    padding-left: 16px;
     width: 100%;
-    height: 100%;
+    height: 33px;
+    line-height: 32px;
+
 }
 
-.yogo_selector .yogo_title .category_symbol {
+.yogo_selector .yogo_title  {
+}
+
+.yogo_selector .yogo_title .index_color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+.yogo_selector .yogo_title  .category_count {
     display: flex;
     align-items: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 12px;
-    width: 32px;
+    width: 20px;
     height: 100%;
     border-radius: 12px;
     text-align: center;
-    
     font-size: 10px; /*임시*/
 }
-
-.yogo_selector .yogo_title .category_symbol .index_color {
-    width: 8px;
-    height: 8px;
-    border-radius: 8px;
-}
-.yogo_selector .yogo_title .category_symbol .index_color + .category_count {
-    margin-left: 4px;
-    width: 10px;
-    font-size: 16px;
-    line-height: 0;
+.yogo_selector .yogo_title .category_count div {
+    position: relative;
+    font-size: 11px;
+    line-height: 32px;
     color: #212529;
 }
-.yogo_selector .yogo_title .category_symbol .index_color + .category_count.bounce {
+.yogo_selector .yogo_title .category_count div:last-child {
+    &:before {
+        display: inline-block;
+        content: '/';
+    }
+}
+.yogo_selector .yogo_title .category_count .checked-item {
+    font-weight: bold;
+
+}
+.yogo_selector .yogo_title .category_count .checked-item.bounce {
    animation-name: bounce;
    animation-duration: .1s;
    animation-direction: alternate;
@@ -206,8 +268,8 @@
     z-index: 100;
     position: sticky;
     top: 0;
-    background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    // background-color: #fff;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
 .yogo_selector .yogo_options.category_smooth .yogo_option ul.yogo_checkbox_list li {
@@ -220,28 +282,33 @@
 .yogo_selector .yogo_option--allcheck {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 8px 10px 0;
+    background-color: #374B73;
 }
 .yogo_selector .yogo_option--allcheck button {
-    border: 1px solid #dee2e6;
+    border: none;
+    width: 90px;
+    background-color:transparent;
+    color: #fff;
     font-size: 12px;
-    padding: 0 8px;
-    width: 80px;
-    border-radius: 4px;
+    line-height: 24px;
+    font-weight: bold;
 }
 .yogo_selector .yogo_option--allcheck button + button {
-    margin-left: 4px;
+    margin-left: 8px;
 }
 .yogo_selector .yogo_addon .yogo_search {
-    // padding: 0 24px 0 8px;
+    position: relative;
     background: rgb(248,249,250);
-    border-top: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
 
+    i {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+    }
 }
 .yogo_selector .yogo_addon .yogo_search input[type='text']{
-    border-radius: 4px;
-    padding: 8px;
+    padding: 8px 0 8px 28px;
     width: 100%;
     border: 1px solid #ced4da;
 }
