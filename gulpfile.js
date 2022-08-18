@@ -86,7 +86,7 @@ var DIST_PATH = {
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEV_PATH.ASSETS.STYLE))
-                .pipe(gulp.dest( DIST_PATH.ASSETS.STYLE))
+                // .pipe(gulp.dest( DIST_PATH.ASSETS.STYLE))
                 .pipe(browserSync.reload({ stream: true }));
             resolve(); 
         }); 
@@ -97,7 +97,7 @@ var DIST_PATH = {
         return new Promise(resolve => {
             gulp.src([PATH.ASSETS.IMAGES + '/*.jpg', PATH.ROOT.IMAGES + '/*.png', PATH.ROOT.IMAGES + '/*.gif'])
             .pipe(gulp.dest(DEV_PATH.ASSETS.IMAGES))
-            .pipe(gulp.dest(DIST_PATH.ASSETS.IMAGES))
+            // .pipe(gulp.dest(DIST_PATH.ASSETS.IMAGES))
 
             resolve();
         })
@@ -198,7 +198,20 @@ var DIST_PATH = {
                 // .pipe(uglify())
                 
                 .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
-                .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
+                // .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
+                .pipe(browserSync.reload({stream: true}))
+
+         resolve();
+        })
+    })
+    gulp.task('scriptMin', () => {
+        return new Promise(resolve => {
+            gulp.src(PATH.ASSETS.SCRIPT + '/*.js')
+                // .pipe(concat('common.js'))
+                .pipe(uglify())
+                
+                .pipe(gulp.dest(DEV_PATH.ASSETS.SCRIPT))
+                // .pipe(gulp.dest(DIST_PATH.ASSETS.SCRIPT))
                 .pipe(browserSync.reload({stream: true}))
 
          resolve();
@@ -210,7 +223,7 @@ var DIST_PATH = {
         return new Promise( resolve => {
             gulp.src(PATH.ASSETS.LIB + '/*.js')
                 .pipe(gulp.dest(DEV_PATH.ASSETS.LIB))
-                .pipe(gulp.dest(DIST_PATH.ASSETS.LIB))
+                // .pipe(gulp.dest(DIST_PATH.ASSETS.LIB))
             
                 resolve();
         })
@@ -266,8 +279,7 @@ var buildSeries = gulp.series([
     'html', 
     'sass',
     'image',
-    'sprite',
-    'script', 
+    'scriptMin',
     'library',
 ])
 
