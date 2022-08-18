@@ -83,22 +83,23 @@ class Selector {
         
         // 검색
         createSearchControl(name, depthLength, liHeight) {
-            const target = document.querySelector(name);
+            // const target = document.querySelector(name);
 
-            const searchModule = target.querySelector(".yogo_search input");
-            const __optionsItemHeight = target.querySelector(".yogo_option ul li");
+            const searchModule = name.querySelector(".yogo_search input");
+            // console.log(searchModule)
+            // const __optionsItemHeight = target.querySelector(".yogo_option ul li");
 
             // console.log(liHeight)
 
             searchModule.addEventListener("keyup", (e)=> {
                 if(depthLength > 1) {
-                    const optionsItem = target.querySelectorAll(".yogo_option ul li");
-                    const optionItemValue = target.querySelectorAll(".yogo_option ul li div input + label span");
+                    const optionsItem = name.querySelectorAll(".yogo_option ul li");
+                    const optionItemValue = name.querySelectorAll(".yogo_option ul li div input + label span");
                     filterList(e.target.value, optionItemValue, optionsItem)
 
                 }else {
-                    const optionsItem = target.querySelectorAll(".yogo_option div");
-                    const optionItemValue = target.querySelectorAll(".yogo_option div input + label span");  
+                    const optionsItem = name.querySelectorAll(".yogo_option");
+                    const optionItemValue = name.querySelectorAll(".yogo_option div input + label span");  
                     filterList(e.target.value, optionItemValue, optionsItem)
 
                 }
@@ -108,11 +109,6 @@ class Selector {
             function filterList (keyvalue, optionValue,optionsItem) {
                 const _optionList = optionValue;
                 const _optionItem = optionsItem
-
-
-
-                
-
 
                 for(let i = 0; i<_optionList.length; i++) {
                     if(_optionList[i].innerHTML.indexOf(keyvalue)>-1) {
@@ -135,12 +131,12 @@ class Selector {
             return `rgb( ${new Array(3).fill().map(v => Math.random() * 255).join(", ")} )`;
         }
 
-        toggleChange(name){
+        toggleChange(name, globHouse){
             const _target = document.querySelector(name);
 
             // const valueArea = _target.querySelector(".yogo_value_area")
             const anchor = _target.querySelector(".yogo_selector_anchor");
-            const listArea = _target.querySelector(".yogo_options");
+            const listArea = globHouse;
 
             const ACTIVE = "active";
 
@@ -294,7 +290,7 @@ class Selector {
         }
 
         // value 영역 선택된 체크리스트 제거 버튼 클릭시
-        deleteItem(name, clicked, __list) {
+        deleteItem(name, globHouse) {
             const _target = document.querySelector(name);
 
             const deletes = _target.querySelectorAll(".ico-btn_delete");
@@ -305,7 +301,7 @@ class Selector {
                 ele.addEventListener("click", (e)=> {
                     const dataId = e.target.parentNode.dataset.id;
                     
-                    const checkedItem = _target.querySelector(`.yogo_option .${dataId}`);
+                    const checkedItem = globHouse.querySelector(`.yogo_option .${dataId}`);
                     checkedItem.click()
                 })
 
@@ -320,13 +316,18 @@ class Selector {
 
 
             // name의 셀렉터 정의. 
-            const _name = name.split('.')[1];
+            const _name = name.substr(1);
             const target = document.querySelector(name);
             const dataLength = data.length;
 
-            const getOptions = target.querySelector(".yogo_options");
-            const getOptionsItem = getOptions.querySelectorAll(".yogo_option");
+            const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${_name}"]`);
 
+            const getOptions = target.querySelector(".yogo_options");
+            // const getOptionsItem = getOptions.querySelectorAll(".yogo_option");
+
+            const newGetOptions = globHouse;
+            // console.log(globHouse)
+            const newGetOptionsItem = newGetOptions.querySelectorAll(".yogo_option");
             
             function allCheck(params1, params2, params3) {
                 const getAllCheckTarget = params1; // 모두 선택하기 input.
@@ -337,14 +338,14 @@ class Selector {
                 getAllCheckTarget.checked = selectAll
 
                 if(selectAll) {
-                    console.log(getAllCheckTarget)
+                    // console.log(getAllCheckTarget)
                     // getAllCheckTarget.click()
                 }
 
             }
 
 
-            Object.values(getOptionsItem).map((ele, index)=> {
+            Object.values(newGetOptionsItem).map((ele, index)=> {
                 const option = ele;
                 const checkBoxList = ele.querySelector(".yogo_checkbox_list")
 
@@ -374,7 +375,6 @@ class Selector {
                         const crtEleSpan = document.createElement("span");
                         crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
                         crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
-                        // crtEleSpan.style.backgroundColor = getCategoryColor;
                         ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
                         ele.checked ? getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length :getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length;
                        
@@ -391,7 +391,7 @@ class Selector {
 
                     // 카테고리 모두 체크하기 클릭시 하위 리스트 체크 기능.
                     getAllCheckTarget.addEventListener("change", (e)=> {
-                        this.togglePlaceholder(this.name)
+                        // this.togglePlaceholder(this.name)
 
                         
                         Object.values(checkBoxListItemInputs).map((ele, index)=> {
@@ -441,7 +441,7 @@ class Selector {
 
                     // 모든 checkbox 영역 변경시 체크하기.
                     Object.values(checkBoxListItemInputs).map((ele, index)=> {
-                            this.togglePlaceholder(this.name)
+                            // this.togglePlaceholder(this.name)
 
                         ele.addEventListener("change", (e)=> {
                             allCheck(getAllCheckTarget, checkBoxList);
@@ -449,7 +449,6 @@ class Selector {
                             const showListChange = target.querySelector(`.yogo_show-item-value.${ele.id}`);
                             const checkBoxListItemInputsChecked = checkBoxList.querySelectorAll("li div input[type='checkbox']:checked");
 
-                            console.log("변경 댐")
 
 
                             if(ele.checked) {
@@ -488,6 +487,45 @@ class Selector {
                 }
                 else {
                     const checkBoxListItem = ele.querySelector("div input")
+                    // console.log(data[index])
+
+                    
+
+                    // const checkBoxListItemInputs = checkBoxList.querySelectorAll("li div input[type='checkbox']");
+                    // const checkBoxListItemInputsChecked = checkBoxList.querySelectorAll("li div input[type='checkbox']:checked");
+
+                    // const getAllCheckTarget = ele.querySelector(".yogo_title input"); // depth 1 초과 일때 필요. 
+
+                    // const getCategorySymbol = ele.querySelector(".yogo_title ");
+                    // const getCategoryCount = ele.querySelector(".yogo_title .category_count");
+                    // const getCategoryColor = ele.querySelector(".yogo_title .index_color").style.backgroundColor;
+
+
+                    const crtShowListWrap = document.createElement("span");
+                    crtShowListWrap.className = `yogo_category-wrap yogo_category-wrap--${index}`;
+
+                    const listarea = target.querySelector(".yogo_value_area .yogo_value_wrap");
+
+                    Object.values(data).map((ele, index2)=> {
+                        // console.log(data)
+                        const crtEleSpan = document.createElement("span");
+                        crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
+                        crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
+                        ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
+                        ele.checked ? getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length :getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length;
+                       
+                        crtEleSpan.innerHTML = `
+                        <span><em>${depth_0_title}</em></span><span>${ele.value}</span> <i class="ico ico-btn_delete"></i>
+                        `
+                        crtShowListWrap.append(crtEleSpan)
+                        console.log(crtShowListWrap)
+                    })
+
+                    listarea.append(crtShowListWrap)
+
+
+
+
                     checkBoxListItem.addEventListener("change", (e)=> {
 
                         // 값 표출 영역
@@ -497,7 +535,7 @@ class Selector {
                             id : checkedItemId,
                             value : checkValue
                         }
-                        // console.log('checked depth1 =>',checkedItemState)
+                        console.log('checked depth1 =>',checkedItemState)
                         if(e.target.checked) {
                             this.showCheckedItem(target, checkedItemState, _showlist, depthLength,'PUSH')
                         }else {
@@ -520,9 +558,13 @@ class Selector {
 
         // 모든 카테고리 모두체크 기능 활성화
         checkAllByCenterControl(name,depthLength) {
+            const _name = name.substr(1);
+
+            const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${_name}"]`);
+
             const target = document.querySelector(name);
             // 모든 카테고리 및 하위 체크박스 체크 관리.
-            const controler = target.querySelector(".yogo_option--allcheck");
+            const controler = globHouse.querySelector(".yogo_option--allcheck");
 
             
             const controlerAllCheck = controler.querySelector("button[name='yogo_allCheck']");
@@ -563,9 +605,9 @@ class Selector {
                     if(depthLength >1) {
                         const target = document.querySelector(name);
 
-                        const getOptions = target.querySelector(".yogo_options");
-                        const getOptionsItem = getOptions.querySelectorAll(".yogo_option .yogo_title input");
-                        const lis = target.querySelectorAll(".yogo_option ul li div input")
+                        const getOptions = globHouse.querySelector(".yogo_options");
+                        // const getOptionsItem = getOptions.querySelectorAll(".yogo_option .yogo_title input");
+                        const lis = globHouse.querySelectorAll(".yogo_option ul li div input")
 
 
                         toggleAllCheck(target, lis, e.target)
@@ -618,8 +660,7 @@ class Selector {
         createUseEle(name, depthLength, data, allCheckControler, search, mode, randomColor) {
             const target = document.querySelector(name);
 
-            const _name = name.split('.')[1];
-
+            const _name = name.split('#')[1];
 
             const crtSelectorWrap = document.createElement("div");
             crtSelectorWrap.className = "yogo_selector_wrap";
@@ -643,7 +684,11 @@ class Selector {
 
             // 옵션 영역
             const crtOptionList = document.createElement("div");
-            crtOptionList.className = "yogo_options active";
+            crtOptionList.className = "yogo_options"; // active 제거
+
+            crtOptionList.dataset.id = _name;
+
+            const globHouse = document.querySelector(".yogo_global_house");
 
             const crtOptionContent = document.createElement("div");
             crtOptionContent.className = "yogo_option_wrap"
@@ -726,7 +771,8 @@ class Selector {
                 }; // for 완료
 
                 // crtSelectorWrap
-                crtSelectorWrap.appendChild(crtOptionList);
+                // crtSelectorWrap.appendChild(crtOptionList);
+                globHouse.append(crtOptionList)
             };
 
 
@@ -747,19 +793,23 @@ class Selector {
                     crtOptionItem.appendChild(crtDepth_1_Title)
 
 
-                    
+                    crtOptionContent.appendChild(crtOptionItem)
                     
                     // yogo_options 만들기 완료
-                    crtOptionList.appendChild(crtOptionItem)
+                    crtOptionList.appendChild(crtOptionContent)
                 }; // for 완료
+
+                globHouse.append(crtOptionList)
             }
             
 
             // crtSelectorWrap
-            crtSelectorWrap.appendChild(crtOptionList);
+            // crtSelectorWrap.appendChild(crtOptionList);
 
             
             crtSelectorWrap.prepend(crtSelectorValue)
+
+            // console.log(target)
             const result = target.appendChild(crtSelectorWrap);
 
             
@@ -810,10 +860,14 @@ class Selector {
 
                 // 모든 조건문 만족시 진행
                 if(true) {
+                    
                     // element 생성
                     this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.getRandomColor);
 
-                    this.toggleChange(this.name)
+
+                    const _name = name.substr(1);
+                    const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${_name}"]`);
+                    this.toggleChange(this.name, globHouse)
 
                     // 각 카테고리 별 모든 체크 
                     this.checkAllByCategory(this.name, this.depthLength, this.data);
@@ -827,12 +881,23 @@ class Selector {
                     }
                     
                     if(this.search) {
-                        const _target = document.querySelector(name);
-                        const liHeight = _target.querySelector(".yogo_options .yogo_option ul li").offsetHeight;
+                        // const _target = document.querySelector(name);
+                        // const _name = name.substr(1);
+                        // const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${_name}"]`);
 
-                        this.createSearchControl(this.name,this.depthLength, liHeight)
+                        if(this.depthLength > 1) {
+                            const liHeight = globHouse.querySelector(".yogo_options .yogo_option ul li").offsetHeight;
 
-                        this.deleteItem(this.name)
+                            this.createSearchControl(globHouse,this.depthLength, liHeight)
+                            this.deleteItem(this.name, globHouse)
+                        }else {
+                            const liHeight = globHouse.querySelector(".yogo_options .yogo_option div").offsetHeight;
+
+                            this.createSearchControl(globHouse,this.depthLength, liHeight)
+                            this.deleteItem(this.name, globHouse)
+                            
+                        }
+                        
                     }
 
                     // this.scanCheckAction(this.name)
@@ -879,10 +944,10 @@ class YogoUI {
             const globArea = document.querySelector(".yogo_global_house")
 
             if(body.querySelector(".yogo_global_house")) {
-                console.log("있음")
+                // console.log("있음")
                 return false
             }else {
-                console.log("없음")
+                // console.log("없음")
                 return true
             }
         };
@@ -890,7 +955,7 @@ class YogoUI {
         if(crtGlobCheck()) {
             document.querySelector("body").append(crtGolbalArea)
         }else {
-            console.log("done")
+            // console.log("done")
         };
         
         if(this.options.type =='timepicker') {
@@ -1143,7 +1208,6 @@ class YogoUI {
         if(this.options.type == 'multiselector') {
             const selector = document.querySelector(`${this.trigger}`);
 
-            // console.log(selector, this.options)
 
             const crtHTML = new Selector();
             crtHTML.init({
@@ -1155,6 +1219,19 @@ class YogoUI {
                 mode : this.options.mode
 
             });
+            const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
+
+
+            const selectorValue = {
+                pageX : selector.offsetLeft,
+                pageY : selector.offsetTop + selector.offsetHeight + 4, //8 = 사이 넓이 값
+                width : selector.offsetWidth,
+            }
+
+
+            globHouse.style.top = `${selectorValue.pageY}px`;
+            globHouse.style.left = `${selectorValue.pageX}px`;
+            globHouse.style.width = `${selectorValue.width}px`;
 
 
         }

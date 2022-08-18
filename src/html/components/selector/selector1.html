@@ -10,7 +10,9 @@
     })
 </head>
 <body style="margin: 30px;">
-    <div class="yogo_selector yogo_selector_01"></div>
+    <div id="yogo_selector_01" class="yogo_selector yogo_selector_01"></div>
+
+    <div style="margin-top: 100px;" id="yogo_selector_02" class="yogo_selector yogo_selector_01"></div>
 
     @@include('../../footer/scriptArea.html', {
 
@@ -137,7 +139,24 @@
            
         ];
 
-        var test3 = new YogoUI(".yogo_selector_01", {
+        const dummyData_1_depth = [
+            "a1",
+            "a2",
+            "a3",
+            "a4",
+            "aaaaa3",
+            "aaa33333",
+            "333",
+            "a1",
+            "a2",
+            "a3",
+            "a4",
+            "aaaaa3",
+            "aaa33333",
+            "333"
+        ]
+
+        var test3 = new YogoUI("#yogo_selector_01", {
             type : "multiselector",
             search : true,
             depthLength : 2,
@@ -152,6 +171,20 @@
 
         test3.init()
         
+
+        var test4 = new YogoUI("#yogo_selector_02", {
+            type : "multiselector",
+            search : true,
+            depthLength : 1,
+            allCheckControler : true,
+            data : dummyData_1_depth,
+            mode : [
+                // "sticky",
+                "category_count",
+                "category_smooth",
+            ]
+        });
+        test4.init()
     </script>
 </body>
 </html>
