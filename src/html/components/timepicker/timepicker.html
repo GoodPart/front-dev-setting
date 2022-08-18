@@ -20,12 +20,12 @@
     
     <div>
         <!-- id 제거 -->
-        <input type="text" class="timepicker1 add_class_name">
+        <input type="text" id="testpicker" class="timepicker1 add_class_name">
     </div>
 
     <div style="margin-top: 400px">
         <!-- id 제거 -->
-        <input type="text" class="timepicker2 add_class_name">
+        <input type="text" id="testpicker2" class="timepicker2 add_class_name">
     </div>
 
     
@@ -38,13 +38,13 @@
 
     })
     <script>
-        var test1 = new YogoUI(".timepicker1", {
+        var test1 = new YogoUI("#testpicker", {
             type : "timepicker", // 사용할 타입 선언
             timeSet : "00:00:00", // 00:00:00 , 00:00
         })
         test1.init();
 
-        var test2 = new YogoUI(".timepicker2", {
+        var test2 = new YogoUI("#testpicker2", {
             type : "timepicker", // 사용할 타입 선언
             timeSet : "00:00", // 00:00:00 , 00:00
         })

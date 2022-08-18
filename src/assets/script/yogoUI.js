@@ -1,10 +1,12 @@
-class timepicker {
+class Timepicker {
     crtEle(props) {
         const root = document.querySelector(`${props.name}`);
         const _mode = props.dataset;
         const hourValue = 24;
         const minValue = 60;
         const secValue = 60;
+        const globHouse = document.querySelector(".yogo_global_house");
+
 
         const timeSetValue = [hourValue, minValue, secValue]
 
@@ -29,6 +31,7 @@ class timepicker {
 
         const crtDropDownMenu = document.createElement("div");
         crtDropDownMenu.className = 'yogo_picker-dropdown';
+        crtDropDownMenu.dataset.id = props.name.substr(1);
         const crtFlexWrap = document.createElement("div")
         crtFlexWrap.className = 'flex-wrap';
 
@@ -54,23 +57,27 @@ class timepicker {
             crtDropDownMenu.append(crtFlexWrap)
             crtRoot.innerHTML = crtInputArea(_mode);
 
-            crtRoot.append(crtDropDownMenu)
-            
 
+
+            // crtRoot.append(crtDropDownMenu)
             root.append(crtRoot)
+
         }
+        globHouse.append(crtDropDownMenu)
+
 
 
 
     }
 
     init(props) {
+        
         this.crtEle(props)
     }
 };
 
 
-class yogo_Selector {
+class Selector {
     //   cunstructor
 
         
@@ -864,15 +871,38 @@ class YogoUI {
     }
 
     init() {
+        const crtGolbalArea = document.createElement("div");
+        crtGolbalArea.className = 'yogo_global_house';
+
+        function crtGlobCheck(){
+            const body = document.querySelector("body");
+            const globArea = document.querySelector(".yogo_global_house")
+
+            if(body.querySelector(".yogo_global_house")) {
+                console.log("있음")
+                return false
+            }else {
+                console.log("없음")
+                return true
+            }
+        };
+
+        if(crtGlobCheck()) {
+            document.querySelector("body").append(crtGolbalArea)
+        }else {
+            console.log("done")
+        };
+        
         if(this.options.type =='timepicker') {
             const picker = document.querySelector(`${this.trigger}`);
             const parent = picker.parentElement;
 
             parent.className = picker.className
+            parent.id = picker.id
 
             picker.remove(); // input 제거
 
-            const crtPicker = new timepicker();
+            const crtPicker = new Timepicker();
             crtPicker.init({
                 name : this.trigger,
                 dataset : this.options.timeSet,
@@ -882,9 +912,21 @@ class YogoUI {
             const PickerInput = Picker.querySelector("input[type='text']");
             const numberItem = Picker.querySelectorAll(".section ul li")
 
-            Object.values(numberItem).map((ele, index)=> {
+            const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${Picker.id}"]`);
+            const globLi = globHouse.querySelectorAll(".section ul li");
+
+            const pickerValue = {
+                pageX : Picker.offsetLeft,
+                pageY : Picker.offsetTop + Picker.offsetHeight + 8, //8 = 사이 넓이 값
+            }
+            globHouse.style.top = `${pickerValue.pageY}px`;
+            globHouse.style.left = `${pickerValue.pageX}px`; 
+
+
+
+            Object.values(globLi).map((ele, index)=> {
                 ele.addEventListener("click", (e)=> {
-                    // console.log(ele.parentNode,e.target)
+                    console.log(ele.parentNode,e.target)
                     const section = ele.parentNode.parentNode;
                     const listItem = e.path[1];
                     // const dataSet = `00:00:00`
@@ -983,12 +1025,15 @@ class YogoUI {
                 const aliveValueSec = PickerInput.value.substr(6,2);
                 const _sections = Picker.querySelectorAll(".section")
 
+                const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${Picker.id}"]`);
+                const _newSections = globHouse.querySelectorAll(".section")
+
                 const aliveValueArea = [aliveValueHor, aliveValueMin, aliveValueSec]
             
 
-                Object.values(_sections).map((ul, index)=> {
+                Object.values(_newSections).map((ul, index)=> {
                     
-                    Object.values(_sections[index].children[0].children).map((li, index2)=> {
+                    Object.values(_newSections[index].children[0].children).map((li, index2)=> {
                         const checkValue = String(aliveValueArea[index]) === String(li.innerText) ? index2 : null;
 
                         if(checkValue == null) {
@@ -996,7 +1041,7 @@ class YogoUI {
                         }else {
                             const liLocationValue = li.offsetTop;
 
-                            _sections[index].scroll({
+                            _newSections[index].scroll({
                                 top : liLocationValue-100, 
                                 behavior : "smooth"
                             });
@@ -1057,7 +1102,7 @@ class YogoUI {
                 function enterPress(e) {
 
                     if((Number(e.target.value.length) ==8 || Number(e.target.value.length) == 5) && (e.keyCode == 13 || e.keyCode == 9)) {
-                        Picker.querySelector(".yogo_picker-dropdown").classList.remove("active")
+                        globHouse.classList.remove("active")
                         PickerInput.blur()
                     }else {
                     }
@@ -1077,14 +1122,15 @@ class YogoUI {
 
        
             PickerInput.addEventListener("focus",(e)=> {
-                Picker.querySelector(".yogo_picker-dropdown").classList.add("active");
+                globHouse.classList.add("active");
             })
             PickerInput.addEventListener("blur",(e)=> {
-                Picker.querySelector(".yogo_picker-dropdown").classList.remove("active");
+                globHouse.classList.remove("active");
             })
 
-            Picker.querySelector(".yogo_picker-dropdown").addEventListener("mousedown",(e)=> {
-                const checkPickerArea = e.target.closest(`${this.trigger}`);
+            globHouse.addEventListener("mousedown",(e)=> {
+                // const checkPickerArea = e.target.closest(`${this.trigger}`);
+                const checkPickerArea = e.target.closest(`.yogo_global_house`);
               
                 if(checkPickerArea) {
                     e.preventDefault();
@@ -1099,7 +1145,7 @@ class YogoUI {
 
             // console.log(selector, this.options)
 
-            const crtHTML = new yogo_Selector();
+            const crtHTML = new Selector();
             crtHTML.init({
                 name : this.trigger,
                 search : this.options.search,

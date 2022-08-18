@@ -16,77 +16,87 @@
         padding-left: 13px;
         border-color: transparent;
     }
+    .yogo_picker-input input::placeholder {
+        color: #ccc;
+    }
 
 
     // dropdown menu
-    .yogo_picker-dropdown {
-        z-index: 10;
-        position: absolute;
-        top: 36px;
-        left: 0;
-        overflow: hidden;
-        // width: 184px;
-        min-width: 122px;
-        height: 0;
-        background: #FFFFFF;
-        box-sizing: border-box;
-        border-width: 0px 1px 0px 1px;
-        border-style: solid;
-        border-color: transparent;
-        border-radius: 3px;
-        transition: height .2s cubic-bezier(0.16, 1, 0.3, 1);
-
-        &.active {
-            height: 280px;
-            border: 1px solid rgba(195, 198, 205, 0.6);
-        }
-    }
-    .yogo_picker-dropdown .flex-wrap {
-        display: flex;
-        overflow: hidden;
-        height: 100%;
-    }
-    .yogo_picker-dropdown .section {
-        overflow-y: scroll;
-        width: 60px;
-    }
-    .yogo_picker-dropdown .section + .section {
-        border-left: 1px solid rgba(195, 198, 205, 0.6);
-    }
-    .yogo_picker-dropdown .section::-webkit-scrollbar {
-        width: 4px;
-        background: #F2F4F6;
-    }
-    .yogo_picker-dropdown .section::-webkit-scrollbar-thumb {
-        border : none;
-        background: #B9BEC5;
-    }
-    .yogo_picker-dropdown .section ul {
-        padding-bottom: 80px;
-    }
-    .yogo_picker-dropdown .section ul li {
-        height: 24px;
-        text-align: center;
-
-        &:hover {
-            background-color: rgba(000,000,000,0.05);
-        }
-
-        &.active span {
-            color: #fff;
-            background-color: #5A5D61;
-        }
-    }
-    .yogo_picker-dropdown .section ul li span {
-        cursor: pointer;
-        display: block;
-        width: 100%;
-        height: 100%;
-        font-family: 'Roboto';
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 24px;
-        color: #3C3E41;
-    }
+    
 };
+
+body {
+    .yogo_global_house {
+        .yogo_picker-dropdown {
+            z-index: 10;
+            position: absolute;
+            // top: 36px;
+            // left: 0;
+            overflow: hidden;
+            // width: 184px;
+            min-width: 122px;
+            height: 0;
+            background: #FFFFFF;
+            box-sizing: border-box;
+            border-width: 0px 1px 0px 1px;
+            border-style: solid;
+            border-color: transparent;
+            border-radius: 3px;
+            transition: height .2s cubic-bezier(0.16, 1, 0.3, 1);
+    
+            &.active {
+                height: 280px;
+                border: 1px solid rgba(195, 198, 205, 0.6);
+            }
+        }
+        .yogo_picker-dropdown .flex-wrap {
+            display: flex;
+            overflow: hidden;
+            height: 100%;
+        }
+        .yogo_picker-dropdown .section {
+            overflow-y: scroll;
+            width: 60px;
+        }
+        .yogo_picker-dropdown .section + .section {
+            border-left: 1px solid rgba(195, 198, 205, 0.6);
+        }
+        .yogo_picker-dropdown .section::-webkit-scrollbar {
+            width: 4px;
+            background: #F2F4F6;
+        }
+        .yogo_picker-dropdown .section::-webkit-scrollbar-thumb {
+            border : none;
+            background: #B9BEC5;
+        }
+        .yogo_picker-dropdown .section ul {
+            padding-bottom: 80px;
+        }
+        .yogo_picker-dropdown .section ul li {
+            height: 24px;
+            text-align: center;
+    
+            &:hover {
+                background-color: rgba(000,000,000,0.05);
+            }
+    
+            &.active span {
+                color: #fff;
+                background-color: #5A5D61;
+            }
+        }
+        .yogo_picker-dropdown .section ul li span {
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            height: 100%;
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 24px;
+            color: #3C3E41;
+        }
+    }
+    
+}
 // yogo_picker CSS END
