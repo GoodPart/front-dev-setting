@@ -15,6 +15,7 @@
     max-height: 120px;
     overflow: hidden;
     background: #fff;
+    border: 1px solid rgba(195, 198, 205, 0.6);
     border-radius: 4px;
 
     &.placeholder:after {
@@ -61,6 +62,7 @@
 .yogo_value_area .yogo_category-wrap {
     position: relative;
     z-index: 1;
+    display: inline-block;
     /* width: 0; */
     /* opacity: 0; */
     font-size: 12px;
@@ -73,12 +75,18 @@
     padding: 0 4px 0 8px;
     border-radius: 3px;
     color: #3C3E41;
-    background-color: #F7F8FB;
-    // background-color: coral;
-    height: 24px;
+    // background-color: #F7F8FB;
+    background-color: coral;
+    // height: 24px;
+    line-height: 24px;
 
     &.active {
-        display: inline;
+        display: inline-block;
+        animation-name: itemShow;
+        animation-duration: .2s;
+        // animation-delay: 1s;
+        animation-direction: alternate;
+        animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     i {
@@ -120,6 +128,10 @@ body {
     .yogo_global_house {
 
 
+        div {
+        z-index: 10;
+
+        }
 
         .yogo_options {
             position: absolute;
@@ -450,5 +462,15 @@ body {
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@keyframes itemShow {
+    0% {
+        transform: translateY(10px);
+        
+    }
+    100% {
+        transform: translateY(0px);
     }
 }
