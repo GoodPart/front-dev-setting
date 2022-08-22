@@ -174,12 +174,13 @@
             type : "multiselector",
             search : true,
             depthLength : 2,
+            textEllipsis : true,
             allCheckControler : true,
             data : dummyData_2_depth,
             mode : [
                 "sticky",
-                "category_count",
-                "category_smooth",
+                "category_count", // 카운트노출
+                "category_smooth", // transition
             ]
         });
 
@@ -190,11 +191,11 @@
             type : "multiselector",
             search : true,
             depthLength : 1,
+            textEllipsis : true,
             allCheckControler : true,
             data : dummyData_1_depth,
             mode : [
-                // "sticky",
-                "category_count",
+                // "category_count",
                 "category_smooth",
             ]
         });

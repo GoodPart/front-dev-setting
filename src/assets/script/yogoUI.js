@@ -173,6 +173,7 @@ class Selector {
             const globHouse = document.querySelector(".yogo_global_house");
 
             const placeholderCheck = valueArea.querySelectorAll(".active").length != 0 ? false : true
+            // console.log(valueArea.querySelectorAll(".active").length)
 
             if(placeholderCheck) {
                 // 아이템이 체크된 상태
@@ -181,130 +182,131 @@ class Selector {
                 valueArea.parentNode.classList.remove("placeholder")
 
             }
-            
         }
 
         // 체크된 리스트 노출.
-        showCheckedItem(target, options, showlist, depthLength, action, checkBoxListItemInputsLength) {
-            const _target = target
-            const _depth = depthLength;
+        // showCheckedItem(target, options, showlist, depthLength, action, checkBoxListItemInputsLength) {
+        //     const _target = target
+        //     const _depth = depthLength;
 
-            // console.log(options)
+        //     // console.log(options)
 
-            function showValue (dataList, target) {
-                const _target = target;
-                const showArea = _target.querySelector(".yogo_value_area");
+        //     function showValue (dataList, target) {
+        //         const _target = target;
+        //         const showArea = _target.querySelector(".yogo_value_area");
             
-                const _dataList = dataList;
+        //         const _dataList = dataList;
 
-                // 리스트 초기화
-                if(_depth > 1) {
-                showArea.innerHTML = ''
+        //         // 리스트 초기화
+        //         if(_depth > 1) {
+        //         showArea.innerHTML = ''
 
-                    _dataList.map((ele, index)=> {
-                        const crtEleSpan = document.createElement("span");
-                        const findIdValue = _target.querySelector(`.yogo_title input[id=${ele.rootId}] + label span`);
-
-                        crtEleSpan.innerHTML = `
-                            ${findIdValue.innerHTML} - ${ele.value}
-                        `
-                        showArea.append(crtEleSpan)
-                    })
-                }else {
-                showArea.innerHTML = ''
-
-                    _dataList.map((ele, index)=> {
-                        const crtEleSpan = document.createElement("span");
-                        const findIdValue = _target.querySelector(`.yogo_option input[id=${ele.id}] + label span`);
+        //             // _dataList.map((ele, index)=> {
+        //             //     const crtEleSpan = document.createElement("span");
+        //             //     const findIdValue = _target.querySelector(`.yogo_title input[id=${ele.rootId}] + label span`);
 
 
-                        crtEleSpan.innerHTML = `
-                            ${findIdValue.innerHTML}
-                        `
-                        showArea.append(crtEleSpan)
-                    })
-                }
+        //             //     console.log("text Ellipsis-->",textEllipsis)
+        //             //     crtEleSpan.innerHTML = `
+        //             //         ${findIdValue.innerHTML} - ${ele.value}
+        //             //     `
+        //             //     showArea.append(crtEleSpan)
+        //             // })
+        //         }else {
+        //         showArea.innerHTML = ''
+
+        //             _dataList.map((ele, index)=> {
+        //                 const crtEleSpan = document.createElement("span");
+        //                 const findIdValue = _target.querySelector(`.yogo_option input[id=${ele.id}] + label span`);
+
+
+        //                 crtEleSpan.innerHTML = `
+        //                     ${findIdValue.innerHTML}
+        //                 `
+        //                 showArea.append(crtEleSpan)
+        //             })
+        //         }
 
                 
-            }
+        //     }
 
-            function listReducer (option, action, showlist, checkBoxListItemInputsLength) {
-                const optionId = option.id;
-                const optionValue = option.value;
+        //     function listReducer (option, action, showlist, checkBoxListItemInputsLength) {
+        //         const optionId = option.id;
+        //         const optionValue = option.value;
 
 
-                if(_depth > 1) {
+        //         if(_depth > 1) {
                     
-                    if(action === 'PUSH') {
-                        // showlist에 있는지 비교.
-                        if(showlist == '') {
-                            showlist.push(option)
-                        }
+        //             if(action === 'PUSH') {
+        //                 // showlist에 있는지 비교.
+        //                 if(showlist == '') {
+        //                     showlist.push(option)
+        //                 }
                         
-                        Object.values(showlist).map((showlistItem, index)=> {
-                            if(showlistItem.id === optionId && showlistItem.value === optionValue) {
-                                // console.log("중복인데", showlist[index])
-                            }
-                                showlist.push(option)
-                                // 중복 리스트 제거
-                                showlist = Array.from(new Set(showlist))
+        //                 Object.values(showlist).map((showlistItem, index)=> {
+        //                     if(showlistItem.id === optionId && showlistItem.value === optionValue) {
+        //                         // console.log("중복인데", showlist[index])
+        //                     }
+        //                         showlist.push(option)
+        //                         // 중복 리스트 제거
+        //                         showlist = Array.from(new Set(showlist))
                             
                             
                             
-                        })
-                    }
-                    if(action === 'PUSH_ALL') {
-                        if(showlist == '') {
-                            showlist.push(option)
-                        }
-                        const beforeListLength = showlist.length;
+        //                 })
+        //             }
+        //             if(action === 'PUSH_ALL') {
+        //                 if(showlist == '') {
+        //                     showlist.push(option)
+        //                 }
+        //                 const beforeListLength = showlist.length;
 
-                        showlist.push(option)
+        //                 showlist.push(option)
                         
 
 
-                    }
-                    if(action === 'POP') {
-                        console.log(option)
-                    }
+        //             }
+        //             if(action === 'POP') {
+        //                 console.log(option)
+        //             }
 
 
 
 
-                }else {
-                    if(showlist == '') {
-                        showlist.push(option)
-                    }else {
-                        if(action === 'PUSH') {
-                            // showlist에 있는지 비교.
-                            showlist.push(option)
-                            // 중복 리스트 제거
-                            showlist = Array.from(new Set(showlist))
+        //         }else {
+        //             if(showlist == '') {
+        //                 showlist.push(option)
+        //             }else {
+        //                 if(action === 'PUSH') {
+        //                     // showlist에 있는지 비교.
+        //                     showlist.push(option)
+        //                     // 중복 리스트 제거
+        //                     showlist = Array.from(new Set(showlist))
                             
-                        }
-                        if(action === 'POP') {
+        //                 }
+        //                 if(action === 'POP') {
 
-                            if(showlist.indexOf(option)) {
-                                showlist.splice(showlist.indexOf(option), 1)
-                            }else {
-                                // console.log("안대는데")
-                            }
+        //                     if(showlist.indexOf(option)) {
+        //                         showlist.splice(showlist.indexOf(option), 1)
+        //                     }else {
+        //                         // console.log("안대는데")
+        //                     }
 
                             
-                        }
-                    }
-                }
+        //                 }
+        //             }
+        //         }
 
-                showValue(showlist, target)
+        //         showValue(showlist, target)
 
                 
-            }
+        //     }
             
 
 
 
-            listReducer(options, action, showlist, checkBoxListItemInputsLength);
-        }
+        //     listReducer(options, action, showlist, checkBoxListItemInputsLength);
+        // }
 
         // value 영역 선택된 체크리스트 제거 버튼 클릭시
         deleteItem(name, globHouse) {
@@ -389,6 +391,7 @@ class Selector {
                     const depth_0_title = data[index].depth_0[0].value;
                     
                     Object.values(data[index].depth_1).map((ele, index2)=> {
+                        console.log('textEllipsis-->', this.textEllipsis,index2)
                         const crtEleSpan = document.createElement("span");
                         crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
                         crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
@@ -811,7 +814,7 @@ class Selector {
         };
 
         // 진입
-        init({name ,search, depthLength, allCheckControler, data, mode}) {
+        init({name ,search, depthLength, textEllipsis,allCheckControler, data, mode}) {
 
                 if(name === undefined || name === '') {
                     throw new SyntaxError("name is not defind")
@@ -827,6 +830,11 @@ class Selector {
                     this.depthLength = 1
                 }else {
                     this.depthLength = depthLength;
+                }
+                if(textEllipsis === undefined || textEllipsis === '' ) {
+                    this.textEllipsis = true
+                }else {
+                    this.textEllipsis = textEllipsis
                 }
                 if(allCheckControler === undefined || allCheckControler === '') {
                     this.allCheckControler = false
@@ -846,6 +854,8 @@ class Selector {
 
                 // console.log('this --->',this.name,this.search,this.depthLength,this.allCheckControler, this.data)   
 
+                // console.log('text Ellipsis',this.textEllipsis)
+
                 
 
                 
@@ -863,10 +873,6 @@ class Selector {
 
                     // 각 카테고리 별 모든 체크 
                     this.checkAllByCategory(this.name, this.depthLength, this.data);
-
-                    // valueInit()
-
-                  
 
                     if(this.allCheckControler) {
                         this.checkAllByCenterControl(this.name, this.depthLength);
@@ -1206,6 +1212,7 @@ class YogoUI {
                 name : this.trigger,
                 search : this.options.search,
                 depthLength : this.options.depthLength,
+                textEllipsis : this.options.textEllipsis,
                 allCheckControler : this.options.allCheckControler,
                 data : this.options.data,
                 mode : this.options.mode
