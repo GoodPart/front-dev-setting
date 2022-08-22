@@ -5,6 +5,9 @@
 }
 .yogo_selector .yogo_selector_wrap {
     height: 100%;
+    background: #fff;
+    border: 1px solid rgba(195, 198, 205, 0.6);
+    border-radius: 4px;
 }
 
 .yogo_value_area {
@@ -14,11 +17,10 @@
     height: 32px;
     max-height: 120px;
     overflow: hidden;
-    background: #fff;
-    border: 1px solid rgba(195, 198, 205, 0.6);
-    border-radius: 4px;
+    
 
     &.placeholder:after {
+        opacity: 1;
         content: 'Please Select Options';
         position: absolute;
         top: 50%;
@@ -32,18 +34,26 @@
 
 .yogo_selector .yogo_value_area .yogo_selector_anchor {
     cursor: pointer;
-    z-index: 0;
+    z-index: 10;
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
+    width: 22px;
     height: 100%;
+
+    div {
+        position: absolute;
+        right: 0;
+        width: 20px;
+        height: 100%;
+        background: #fff;
+    }
 
    
     i {
         position: absolute;
         top: 50%;
-        right: 10px;
+        left: 4px;
         transform: translateY(-50%);
         transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1);;
     }
@@ -68,6 +78,10 @@
     font-size: 12px;
 }
 
+.yogo_value_area .yogo_category-wrap + .yogo_category-wrap {
+    margin-left: 4px;
+} 
+
 .yogo_value_area .yogo_show-item-value {
     z-index: 1;
     position: relative;
@@ -75,9 +89,7 @@
     padding: 0 4px 0 8px;
     border-radius: 3px;
     color: #3C3E41;
-    // background-color: #F7F8FB;
     background-color: coral;
-    // height: 24px;
     line-height: 24px;
 
     &.active {
@@ -85,7 +97,7 @@
         animation-name: itemShow;
         animation-duration: .2s;
         // animation-delay: 1s;
-        animation-direction: alternate;
+        animation-direction: normal;
         animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     }
 

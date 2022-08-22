@@ -146,11 +146,20 @@ class Selector {
                 listArea.classList.toggle(ACTIVE)
             }
 
-            anchor.addEventListener("click", handleClick);
+            // anchor.addEventListener("click", handleClick);
 
             window.addEventListener("click", (e)=> {
                 if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+                    console.log(e.target.classList.contains("ico-btn_delete"));
                     
+                    if(e.target.classList.contains("ico-btn_delete")) {
+                        anchor.classList.remove(ACTIVE);
+                        listArea.classList.remove(ACTIVE)
+                    }else {
+                        anchor.classList.add(ACTIVE);
+                        listArea.classList.add(ACTIVE)
+
+                    }
                 }else {
                     console.log("false")
                     anchor.classList.remove(ACTIVE);
@@ -370,7 +379,7 @@ class Selector {
                     const getCategoryColor = ele.querySelector(".yogo_title .index_color").style.backgroundColor;
 
 
-                    const crtShowListWrap = document.createElement("span");
+                    const crtShowListWrap = document.createElement("div");
                     crtShowListWrap.className = `yogo_category-wrap yogo_category-wrap--${index}`;
 
                     const listarea = target.querySelector(".yogo_value_area .yogo_value_wrap");
@@ -658,7 +667,7 @@ class Selector {
             crtAnchor.className = "yogo_selector_anchor";
 
             const anchorIcon = `
-                <i class="ico ico-btn_arrow"></i>
+                <div><i class="ico ico-btn_arrow"></i></div>
             `
             crtAnchor.innerHTML = anchorIcon
 
