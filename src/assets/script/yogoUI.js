@@ -389,9 +389,13 @@ class Selector {
 
                     // find depth 0 title value.
                     const depth_0_title = data[index].depth_0[0].value;
+
                     
+                    
+                    // value_area 영역에 노출되는 아이템 만드는 영역
                     Object.values(data[index].depth_1).map((ele, index2)=> {
-                        console.log('textEllipsis-->', this.textEllipsis,index2)
+
+
                         const crtEleSpan = document.createElement("span");
                         crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
                         crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
@@ -435,8 +439,38 @@ class Selector {
                                 if(ele.checked) {
                                     // console.log(ele,`의 상태는 ${ele.checked}입니다.`, checkedItemState)
                                 }
+
+                                if(this.textEllipsis) {
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+
+                                    if(placeholderCheck) {
+                                        // 3개 초과시
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            // console.log(ele)
+
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }else {
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            // console.log(ele)
+
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }
+                                }
+
                             }else {
+                                const showListChange = target.querySelector(`.yogo_show-item-value.${ele.id}`);
                                 showListChange.classList.remove("active")
+
                                 getCategoryCount.querySelector(".checked-item").innerHTML = 0 
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
                                 setTimeout(()=> {
@@ -444,15 +478,34 @@ class Selector {
 
                                 }, 200)
 
+                                if(this.textEllipsis) {
+                                showListChange.style.display = 'none'
+
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+
+                                    if(placeholderCheck) {
+                                        // 3개 초과시
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+
+                                            ele.style.display = 'inline-block';
+                                            if(index >=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }
+                                        })
+                                    }else {
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }
+                                }
+
                             }
-                            console.log("카테고리 클릭 변경 댐")
 
                             ele.checked = e.target.checked
-
-
-
-
-
 
                         });
                         this.togglePlaceholder(this.name, listarea)
@@ -472,8 +525,9 @@ class Selector {
 
 
 
+
                             if(ele.checked) {
-                                // showListChange.style.display = 'inline-block';
+
                                 showListChange.classList.add("active")
                                 getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length 
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
@@ -481,6 +535,32 @@ class Selector {
                                     getCategoryCount.querySelector(".checked-item").classList.remove("bounce")
                                 }, 200)
 
+                                if(this.textEllipsis) {
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+
+                                    if(placeholderCheck) {
+                                        // 3개 초과시
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            // console.log(ele)
+
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }else {
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            // console.log(ele)
+
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }
+                                }
                                 
                             }else {
                                 // showListChange.style.display = 'none';
@@ -491,6 +571,33 @@ class Selector {
                                 setTimeout(()=> {
                                     getCategoryCount.querySelector(".checked-item").classList.remove("bounce")
                                 }, 200)
+
+
+
+                                if(this.textEllipsis) {
+                                showListChange.style.display = 'none'
+
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+
+                                    if(placeholderCheck) {
+                                        // 3개 초과시
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+
+                                            ele.style.display = 'inline-block';
+                                            if(index >=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }
+                                        })
+                                    }else {
+                                        Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                            if(index>=this.textEllipsis.length) {
+                                                ele.style.display = 'none';
+                                            }else {
+                                                ele.style.display = 'inline-block';
+                                            }
+                                        })
+                                    }
+                                }
 
                             }
                             this.togglePlaceholder(this.name, listarea)
@@ -832,7 +939,8 @@ class Selector {
                     this.depthLength = depthLength;
                 }
                 if(textEllipsis === undefined || textEllipsis === '' ) {
-                    this.textEllipsis = true
+                    console.log("요기니??", textEllipsis)
+                    this.textEllipsis = false;
                 }else {
                     this.textEllipsis = textEllipsis
                 }
