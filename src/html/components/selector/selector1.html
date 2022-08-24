@@ -186,8 +186,8 @@
             allCheckControler : true,
             data : dummyData_2_depth,
             mode : [
-                // "sticky",
-                // "category_smooth", // transition
+                "sticky",
+                "category_smooth", // transition
             ]
         });
 
@@ -198,7 +198,10 @@
             type : "multiselector",
             search : true,
             depthLength : 1,
-            textEllipsis : true,
+            textEllipsis : {
+                length : 2,
+                subTextTemplate : '외 @@개 있습니다.' // @@에 숫자가 들어감.
+            },
             allCheckControler : true,
             data : dummyData_1_depth,
             mode : [

@@ -635,7 +635,7 @@ class Selector {
 
 
                                 if(this.textEllipsis) {
-                                showListChange.style.display = 'none'
+                                    showListChange.style.display = 'none'
 
                                     const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
 
@@ -679,11 +679,7 @@ class Selector {
                         this.togglePlaceholder(this.name, listarea)
 
                         
-                    })
-
-
-
-
+                    });
 
                 }
                 else {
@@ -709,8 +705,83 @@ class Selector {
                         if(ele.querySelector("input").checked) {
                             showListChange.classList.add("active")
 
+                            if(this.textEllipsis) {
+                                const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+                                console.log(listarea.querySelectorAll(".active").length, this.textEllipsis.length)
+
+                                const ellipsisCount = target.querySelector(".ellipsis-count");
+                                ellipsisCount.parentNode.appendChild(ellipsisCount)
+
+
+
+                                if(placeholderCheck) {
+                                    // 3개 초과시
+
+                                    Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                        console.log(ele)
+
+                                        if(index>=this.textEllipsis.length) {
+                                            ele.style.display = 'none';
+                                        }else {
+                                            ele.style.display = 'inline-block';
+                                        }
+                                    })
+                                    textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
+
+                                }else {
+
+                                    Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                        // console.log(ele)
+
+                                        if(index>=this.textEllipsis.length) {
+                                            ele.style.display = 'none';
+                                        }else {
+                                            ele.style.display = 'inline-block';
+                                        }
+                                    })
+
+                                    textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
+                                }
+                            }
+                            
+
                         }else {
                             showListChange.classList.remove("active")
+
+                            if(this.textEllipsis) {
+                                showListChange.style.display = 'none'
+
+                                const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
+
+                                const ellipsisCount = target.querySelector(".ellipsis-count");
+                                ellipsisCount.parentNode.appendChild(ellipsisCount)
+
+
+                                if(placeholderCheck) {
+                                    // 3개 초과시
+                                    Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+
+                                        ele.style.display = 'inline-block';
+                                        if(index >=this.textEllipsis.length) {
+                                            ele.style.display = 'none';
+                                        }
+                                    })
+                                 
+                                    textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
+
+                                }else {
+                                    Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
+                                        if(index>=this.textEllipsis.length) {
+                                            ele.style.display = 'none';
+                                        }else {
+                                            ele.style.display = 'inline-block';
+                                        }
+                                    })
+                                   
+                                    textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
+                                }
+                                
+                            }
 
                         }
 
