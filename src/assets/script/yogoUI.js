@@ -142,22 +142,14 @@ class Selector {
 
         toggleChange(name, globHouse){
             const _target = document.querySelector(name);
-            console.log(_target)
 
             const anchor = _target.querySelector(".yogo_selector_anchor");
             const listArea = globHouse;
 
             const ACTIVE = "active";
 
-            function handleClick() {
-                anchor.classList.toggle(ACTIVE);
-                listArea.classList.toggle(ACTIVE)
-            }
-
-
             window.addEventListener("click", (e)=> {
                 if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-                    console.log(e.target.classList.contains("ico-btn_delete"));
                     
                     if(e.target.classList.contains("ico-btn_delete")) {
                         anchor.classList.remove(ACTIVE);
@@ -168,7 +160,6 @@ class Selector {
 
                     }
                 }else {
-                    console.log("false")
                     anchor.classList.remove(ACTIVE);
                     listArea.classList.remove(ACTIVE)
                 }
@@ -336,7 +327,7 @@ class Selector {
 
 
         // 카테고리별 모두 체크 기능
-        checkAllByCategory(name, depthLength, data, randomColor) {
+        checkAllByCategory(name, depthLength, data, optionEllipsis) {
             const _showlist = []
 
 
@@ -370,6 +361,19 @@ class Selector {
 
             }
 
+            function textEllipsisFunc(ellipsisEle, displayParam, optionEllipsis, area) {
+                ellipsisEle.style.display = `${displayParam}`;
+
+                if(optionEllipsis.subTextTemplate) {
+                    const tempSource = optionEllipsis.subTextTemplate;
+                    const result = tempSource.replace("@@", area.querySelectorAll(".active").length - optionEllipsis.length)
+                    return ellipsisEle.innerHTML = result;
+                }else {
+                    return ellipsisEle.innerHTML = `and ${area.querySelectorAll(".active").length - optionEllipsis.length} more options`;
+                
+                }
+            }
+
 
             Object.values(newGetOptionsItem).map((ele, index)=> {
                 const option = ele;
@@ -401,8 +405,6 @@ class Selector {
                     
                     // value_area 영역에 노출되는 아이템 만드는 영역
                     Object.values(data[index].depth_1).map((ele, index2)=> {
-
-
                         const crtEleSpan = document.createElement("span");
                         crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
                         crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
@@ -442,10 +444,6 @@ class Selector {
 
                                 }, 200)
                                 
-                                
-                                if(ele.checked) {
-                                    // console.log(ele,`의 상태는 ${ele.checked}입니다.`, checkedItemState)
-                                }
 
                                 if(this.textEllipsis) {
                                     const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
@@ -455,7 +453,6 @@ class Selector {
 
                                     if(placeholderCheck) {
                                         // 3개 초과시
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
 
                                             if(index>=this.textEllipsis.length) {
@@ -475,10 +472,7 @@ class Selector {
 
                                         }
                                     }else {
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
-                                            // console.log(ele)
-
 
                                             if(index>=this.textEllipsis.length) {
                                                 ele.style.display = 'none';
@@ -487,7 +481,7 @@ class Selector {
                                             }
                                         })
                                         ellipsisCount.style.display = 'inline-block'
-                                       if(this.textEllipsis.subTextTemplate) {
+                                        if(this.textEllipsis.subTextTemplate) {
                                             const tempSource = this.textEllipsis.subTextTemplate;
                                             const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
                                             ellipsisCount.innerHTML = result;
@@ -610,16 +604,7 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
-
-                                        ellipsisCount.style.display = 'inline-block'
-                                        if(this.textEllipsis.subTextTemplate) {
-                                            const tempSource = this.textEllipsis.subTextTemplate;
-                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
-                                            ellipsisCount.innerHTML = result;
-                                        }else {
-                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
-
-                                        }
+                                        textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
 
                                     }else {
 
@@ -632,22 +617,9 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
-                                        ellipsisCount.style.display = 'none'
-                                    
-                                        if(this.textEllipsis.subTextTemplate) {
-                                            const tempSource = this.textEllipsis.subTextTemplate;
-                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
-                                            ellipsisCount.innerHTML = result;
-                                        }else {
-                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
 
-                                        }
-                                        ellipsisCount.parentNode.appendChild(ellipsisCount)
-
-
+                                        textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                     }
-
-                                    
                                 }
                                 
                             }else {
@@ -680,16 +652,8 @@ class Selector {
                                                 ele.style.display = 'none';
                                             }
                                         })
-                                        ellipsisCount.style.display = 'inline-block'
-
-                                        if(this.textEllipsis.subTextTemplate) {
-                                            const tempSource = this.textEllipsis.subTextTemplate;
-                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
-                                            ellipsisCount.innerHTML = result;
-                                        }else {
-                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
-
-                                        }
+                                     
+                                        textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
 
                                     }else {
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
@@ -699,16 +663,8 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
-                                        ellipsisCount.style.display = 'none'
-
-                                    if(this.textEllipsis.subTextTemplate) {
-                                            const tempSource = this.textEllipsis.subTextTemplate;
-                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
-                                            ellipsisCount.innerHTML = result;
-                                        }else {
-                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
-
-                                        }
+                                       
+                                        textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                     }
                                     
                                 }
@@ -902,7 +858,6 @@ class Selector {
 
             crtSelectorValue.appendChild(crtAnchor)
 
-            console.log(this.sortColorPicker(this.sortColor))
             // 옵션 영역
             const crtOptionList = document.createElement("div");
             crtOptionList.className =  "yogo_options"; // active 제거
@@ -959,14 +914,6 @@ class Selector {
                             </label>
                                 <div class='category_count'><div class='checked-item'></div><div class='check-item'>${data[i].depth_1.length}</div></div>
                     `
-                    // const crtInputLabel_depth_1 = `
-                    //     <input type='checkbox' id='yogo_depth-${_name}-${i}' ${data[i].depth_0[0].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}_checkall'>
-                    //         <label for='yogo_depth-${_name}-${i}'>
-                    //             <span class='index_color' style='background-color:${randomColor()}'></span>
-                    //             <span class='desc'>${data[i].depth_0[0].value}</span>
-                    //         </label>
-                    //             <div class='category_count'><div class='checked-item'></div><div class='check-item'>${data[i].depth_1.length}</div></div>
-                    // `
 
                     // yogo_title 추가
                     crtDepth_1_Title.innerHTML=crtInputLabel_depth_1;
@@ -1001,7 +948,6 @@ class Selector {
                 }; // for 완료
 
                 // crtSelectorWrap
-                // crtSelectorWrap.appendChild(crtOptionList);
                 globHouse.append(crtOptionList)
             };
 
@@ -1032,10 +978,6 @@ class Selector {
                 globHouse.append(crtOptionList)
             }
             
-
-            // crtSelectorWrap
-            // crtSelectorWrap.appendChild(crtOptionList);
-
             
             crtSelectorWrap.prepend(crtSelectorValue)
 
@@ -1098,7 +1040,7 @@ class Selector {
 
                 
 
-                this.sortColorPicker(this.sortColor)
+                // this.sortColorPicker(this.sortColor)
                 
 
                 // 모든 조건문 만족시 진행
@@ -1113,7 +1055,7 @@ class Selector {
                     this.toggleChange(this.name, globHouse)
 
                     // 각 카테고리 별 모든 체크 
-                    this.checkAllByCategory(this.name, this.depthLength, this.data);
+                    this.checkAllByCategory(this.name, this.depthLength, this.data, this.textEllipsis);
 
                     if(this.allCheckControler) {
                         this.checkAllByCenterControl(this.name, this.depthLength);
