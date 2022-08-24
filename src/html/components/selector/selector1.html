@@ -175,13 +175,18 @@
             search : true,
             depthLength : 2,
             textEllipsis : {
-                length : 5
+                length : 3,
+                // subTextTemplate : '외 @@개 있습니다.'
             },
+            sortColor : [
+                "#a52a2a",
+                "#ff8c00",
+                "#6b8e23"
+            ],
             allCheckControler : true,
             data : dummyData_2_depth,
             mode : [
-                "sticky",
-                "category_count", // 카운트노출
+                // "sticky",
                 "category_smooth", // transition
             ]
         });
@@ -197,7 +202,6 @@
             allCheckControler : true,
             data : dummyData_1_depth,
             mode : [
-                // "category_count",
                 "category_smooth",
             ]
         });

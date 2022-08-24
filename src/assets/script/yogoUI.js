@@ -131,11 +131,19 @@ class Selector {
             return `rgb( ${new Array(3).fill().map(v => Math.random() * 255).join(", ")} )`;
         }
 
+        sortColorPicker(sortColor, i) {
+            if(sortColor === false) {
+                return this.getRandomColor()
+            }else {
+                return sortColor[i] // [Array];
+            }
+
+        }
+
         toggleChange(name, globHouse){
             const _target = document.querySelector(name);
             console.log(_target)
 
-            // const valueArea = _target.querySelector(".yogo_value_area")
             const anchor = _target.querySelector(".yogo_selector_anchor");
             const listArea = globHouse;
 
@@ -146,7 +154,6 @@ class Selector {
                 listArea.classList.toggle(ACTIVE)
             }
 
-            // anchor.addEventListener("click", handleClick);
 
             window.addEventListener("click", (e)=> {
                 if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
@@ -443,6 +450,9 @@ class Selector {
                                 if(this.textEllipsis) {
                                     const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
 
+                                    const ellipsisCount = target.querySelector(".ellipsis-count");
+                                    ellipsisCount.parentNode.appendChild(ellipsisCount)
+
                                     if(placeholderCheck) {
                                         // 3개 초과시
                                         console.log('active 갯수',listarea.querySelectorAll(".active").length)
@@ -454,6 +464,16 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
+                                        ellipsisCount.style.display = 'inline-block';
+
+                                        if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
                                     }else {
                                         console.log('active 갯수',listarea.querySelectorAll(".active").length)
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
@@ -466,6 +486,15 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
+                                        ellipsisCount.style.display = 'inline-block'
+                                       if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
                                     }
                                 }
 
@@ -485,9 +514,11 @@ class Selector {
 
                                     const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
 
+                                    const ellipsisCount = target.querySelector(".ellipsis-count");
+                                    ellipsisCount.parentNode.appendChild(ellipsisCount)
+
                                     if(placeholderCheck) {
                                         // 3개 초과시
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
 
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
 
@@ -496,8 +527,16 @@ class Selector {
                                                 ele.style.display = 'none';
                                             }
                                         })
+                                        ellipsisCount.style.display = 'inline-block'
+                                       if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
                                     }else {
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
 
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
                                             if(index>=this.textEllipsis.length) {
@@ -506,6 +545,16 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
+
+                                        ellipsisCount.style.display = 'inline-block'
+                                       if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
                                     }
                                 }
 
@@ -551,7 +600,6 @@ class Selector {
 
                                     if(placeholderCheck) {
                                         // 3개 초과시
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length, ellipsisCount)
 
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
                                             // console.log(ele)
@@ -564,10 +612,16 @@ class Selector {
                                         })
 
                                         ellipsisCount.style.display = 'inline-block'
-                                        ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more`;
+                                        if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
 
                                     }else {
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
 
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
                                             // console.log(ele)
@@ -580,8 +634,15 @@ class Selector {
                                         })
                                         ellipsisCount.style.display = 'none'
                                     
-                                    ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more`
-                                    ellipsisCount.parentNode.appendChild(ellipsisCount)
+                                        if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
+                                        ellipsisCount.parentNode.appendChild(ellipsisCount)
 
 
                                     }
@@ -612,8 +673,6 @@ class Selector {
 
                                     if(placeholderCheck) {
                                         // 3개 초과시
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
-
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
 
                                             ele.style.display = 'inline-block';
@@ -623,11 +682,16 @@ class Selector {
                                         })
                                         ellipsisCount.style.display = 'inline-block'
 
-                                        ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more`
+                                        if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
 
                                     }else {
-                                        console.log('active 갯수',listarea.querySelectorAll(".active").length)
-
                                         Object.values(listarea.querySelectorAll(".active")).map((ele, index)=> {
                                             if(index>=this.textEllipsis.length) {
                                                 ele.style.display = 'none';
@@ -635,10 +699,18 @@ class Selector {
                                                 ele.style.display = 'inline-block';
                                             }
                                         })
-                                    }
-                                    ellipsisCount.style.display = 'none'
+                                        ellipsisCount.style.display = 'none'
 
-                                    ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more`
+                                    if(this.textEllipsis.subTextTemplate) {
+                                            const tempSource = this.textEllipsis.subTextTemplate;
+                                            const result = tempSource.replace("@@", listarea.querySelectorAll(".active").length - this.textEllipsis.length)
+                                            ellipsisCount.innerHTML = result;
+                                        }else {
+                                            ellipsisCount.innerHTML = `and ${listarea.querySelectorAll(".active").length - this.textEllipsis.length} more options`;
+
+                                        }
+                                    }
+                                    
                                 }
 
                             }
@@ -800,7 +872,7 @@ class Selector {
         }
 
         // html 생성
-        createUseEle(name, depthLength, data, allCheckControler, search, mode, randomColor) {
+        createUseEle(name, depthLength, data, allCheckControler, search, mode) {
             const target = document.querySelector(name);
 
             const _name = name.split('#')[1];
@@ -830,6 +902,7 @@ class Selector {
 
             crtSelectorValue.appendChild(crtAnchor)
 
+            console.log(this.sortColorPicker(this.sortColor))
             // 옵션 영역
             const crtOptionList = document.createElement("div");
             crtOptionList.className =  "yogo_options"; // active 제거
@@ -881,11 +954,19 @@ class Selector {
                     const crtInputLabel_depth_1 = `
                         <input type='checkbox' id='yogo_depth-${_name}-${i}' ${data[i].depth_0[0].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}_checkall'>
                             <label for='yogo_depth-${_name}-${i}'>
-                                <span class='index_color' style='background-color:${randomColor()}'></span>
+                                <span class='index_color' style='background-color: ${this.sortColorPicker(this.sortColor, i)}'></span>
                                 <span class='desc'>${data[i].depth_0[0].value}</span>
                             </label>
                                 <div class='category_count'><div class='checked-item'></div><div class='check-item'>${data[i].depth_1.length}</div></div>
                     `
+                    // const crtInputLabel_depth_1 = `
+                    //     <input type='checkbox' id='yogo_depth-${_name}-${i}' ${data[i].depth_0[0].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}_checkall'>
+                    //         <label for='yogo_depth-${_name}-${i}'>
+                    //             <span class='index_color' style='background-color:${randomColor()}'></span>
+                    //             <span class='desc'>${data[i].depth_0[0].value}</span>
+                    //         </label>
+                    //             <div class='category_count'><div class='checked-item'></div><div class='check-item'>${data[i].depth_1.length}</div></div>
+                    // `
 
                     // yogo_title 추가
                     crtDepth_1_Title.innerHTML=crtInputLabel_depth_1;
@@ -968,7 +1049,7 @@ class Selector {
         };
 
         // 진입
-        init({name ,search, depthLength, textEllipsis,allCheckControler, data, mode}) {
+        init({name ,search, depthLength, textEllipsis, sortColor, allCheckControler, data, mode}) {
 
                 if(name === undefined || name === '') {
                     throw new SyntaxError("name is not defind")
@@ -986,10 +1067,14 @@ class Selector {
                     this.depthLength = depthLength;
                 }
                 if(textEllipsis === undefined || textEllipsis === '' ) {
-                    console.log("요기니??", textEllipsis)
                     this.textEllipsis = false;
                 }else {
                     this.textEllipsis = textEllipsis
+                }
+                if(sortColor === undefined || sortColor  === '') {
+                    this.sortColor = false;
+                }else {
+                    this.sortColor = sortColor
                 }
                 if(allCheckControler === undefined || allCheckControler === '') {
                     this.allCheckControler = false
@@ -1013,13 +1098,14 @@ class Selector {
 
                 
 
+                this.sortColorPicker(this.sortColor)
                 
 
                 // 모든 조건문 만족시 진행
                 if(true) {
                     
                     // element 생성
-                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.getRandomColor);
+                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.sortColorPicker);
 
 
                     const _name = name.substr(1);
@@ -1368,6 +1454,7 @@ class YogoUI {
                 search : this.options.search,
                 depthLength : this.options.depthLength,
                 textEllipsis : this.options.textEllipsis,
+                sortColor : this.options.sortColor,
                 allCheckControler : this.options.allCheckControler,
                 data : this.options.data,
                 mode : this.options.mode
