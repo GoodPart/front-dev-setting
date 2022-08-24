@@ -1080,13 +1080,17 @@ class YogoUI {
             const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${Picker.id}"]`);
             const globLi = globHouse.querySelectorAll(".section ul li");
 
+          
             const pickerValue = {
-                pageX : Picker.offsetLeft,
-                pageY : Picker.offsetTop + Picker.offsetHeight + 8, //8 = 사이 넓이 값
-            }
+                pageX : Picker.getBoundingClientRect().left,
+                pageY : Picker.getBoundingClientRect().top + Picker.offsetHeight + 8, //8 = 사이 넓이 값
+            }    
+
             globHouse.style.top = `${pickerValue.pageY}px`;
             globHouse.style.left = `${pickerValue.pageX}px`; 
-
+           
+            
+            
 
 
             Object.values(globLi).map((ele, index)=> {
@@ -1303,6 +1307,11 @@ class YogoUI {
 
                 }
             });
+
+            
+
+            
+            
         }
         if(this.options.type == 'multiselector') {
             const selector = document.querySelector(`${this.trigger}`);
@@ -1323,12 +1332,22 @@ class YogoUI {
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
 
 
-            const selectorValue = {
-                pageX : selector.offsetLeft,
-                pageY : selector.offsetTop + selector.offsetHeight + 4, //8 = 사이 넓이 값
-                width : selector.offsetWidth,
-            }
+            // const selectorValue = {
+            //     pageX : selector.offsetLeft,
+            //     pageY : selector.offsetTop + selector.offsetHeight + 4, //8 = 사이 넓이 값
+            //     width : selector.offsetWidth,
+            // }
 
+
+            // globHouse.style.top = `${selectorValue.pageY}px`;
+            // globHouse.style.left = `${selectorValue.pageX}px`;
+            // globHouse.style.width = `${selectorValue.width}px`;
+
+            const selectorValue = {
+                pageX : selector.getBoundingClientRect().left,
+                pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
+                width : selector.getBoundingClientRect().width,
+            }    
 
             globHouse.style.top = `${selectorValue.pageY}px`;
             globHouse.style.left = `${selectorValue.pageX}px`;
