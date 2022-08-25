@@ -1086,17 +1086,13 @@ class YogoUI {
                 pageY : Picker.getBoundingClientRect().top + Picker.offsetHeight + 8, //8 = 사이 넓이 값
             }    
 
-            // globHouse.style.top = `${pickerValue.pageY}px`;
-            // globHouse.style.left = `${pickerValue.pageX}px`;
-            
-            
 
             if(initOption) {
                 const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
 
                 if(initOption.hasScrollBar.useScrollType === 'window') {
                     _parent.addEventListener("scroll", (e)=> {
-                        globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY - e.target.scrollTop}px)`
+                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY - e.target.scrollTop}px)`
                     })
                 }
                
@@ -1104,12 +1100,12 @@ class YogoUI {
                     _parent.addEventListener("wheel", (e)=> {
                         const result = _parent.style.top;
                         const changeNumb = Number(result.replace("px",''))
-                        globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY + changeNumb}px)`
+                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY + changeNumb}px)`
                     })
                 }
             }
             
-            globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY}px)`
+            globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
 
 
 
@@ -1352,22 +1348,29 @@ class YogoUI {
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
 
 
-            // const selectorValue = {
-            //     pageX : selector.offsetLeft,
-            //     pageY : selector.offsetTop + selector.offsetHeight + 4, //8 = 사이 넓이 값
-            //     width : selector.offsetWidth,
-            // }
-
-
-            // globHouse.style.top = `${selectorValue.pageY}px`;
-            // globHouse.style.left = `${selectorValue.pageX}px`;
-            // globHouse.style.width = `${selectorValue.width}px`;
-
             const selectorValue = {
                 pageX : selector.getBoundingClientRect().left,
                 pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
                 width : selector.getBoundingClientRect().width,
             }    
+
+            if(initOption) {
+                const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
+
+                if(initOption.hasScrollBar.useScrollType === 'window') {
+                    _parent.addEventListener("scroll", (e)=> {
+                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY - e.target.scrollTop}px)`
+                    })
+                }
+               
+                if(initOption.hasScrollBar.useScrollType === 'position') {
+                    _parent.addEventListener("wheel", (e)=> {
+                        const result = _parent.style.top;
+                        const changeNumb = Number(result.replace("px",''))
+                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY + changeNumb}px)`
+                    })
+                }
+            }
 
             globHouse.style.top = `${selectorValue.pageY}px`;
             globHouse.style.left = `${selectorValue.pageX}px`;
