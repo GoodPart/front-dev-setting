@@ -13,14 +13,20 @@
     <link rel="stylesheet" href="../../../assets/style/sp_all.css"> -->
 </head>
 
-<body>
-    <div style="background-color: #000; width: 100px; height: 100px;">
-        <i class="ico ico-ico_timeline-next"></i>
-    </div>
+<body style="height: 2000px">
+        <div style="background-color: #000; width: 100px; height: 200px;">
+            <i class="ico ico-ico_timeline-next"></i>
+        </div>
     
-    <div>
-        <!-- id 제거 -->
-        <input type="text" id="testpicker" class="timepicker1 add_class_name">
+    
+    <div class="scrolled" style="overflow-y: scroll; height : 100px">
+
+        <div style="height: 500px;">
+            <div>
+                <!-- id 제거 -->
+                <input type="text" id="testpicker" class="timepicker1 add_class_name">
+            </div>
+        </div>
     </div>
 
     <div style="margin-top: 400px">
@@ -39,7 +45,13 @@
             type : "timepicker", // 사용할 타입 선언
             timeSet : "00:00:00", // 00:00:00 , 00:00
         })
-        test1.init();
+        test1.init({
+            hasScrollBar : {
+                ele : ".scrolled",
+                useScrollType : "window", // window, position( use top value of position) 
+            },
+
+        });
 
         var test2 = new YogoUI("#testpicker2", {
             type : "timepicker", // 사용할 타입 선언

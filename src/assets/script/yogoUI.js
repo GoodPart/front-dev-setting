@@ -1038,7 +1038,7 @@ class YogoUI {
 
     }
 
-    init() {
+    init(initOption) {
         const crtGolbalArea = document.createElement("div");
         crtGolbalArea.className = 'yogo_global_house';
 
@@ -1086,11 +1086,31 @@ class YogoUI {
                 pageY : Picker.getBoundingClientRect().top + Picker.offsetHeight + 8, //8 = 사이 넓이 값
             }    
 
-            globHouse.style.top = `${pickerValue.pageY}px`;
-            globHouse.style.left = `${pickerValue.pageX}px`; 
-           
+            // globHouse.style.top = `${pickerValue.pageY}px`;
+            // globHouse.style.left = `${pickerValue.pageX}px`;
             
             
+
+            if(initOption) {
+                const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
+
+                if(initOption.hasScrollBar.useScrollType === 'window') {
+                    _parent.addEventListener("scroll", (e)=> {
+                        globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY - e.target.scrollTop}px)`
+                    })
+                }
+               
+                if(initOption.hasScrollBar.useScrollType === 'position') {
+                    _parent.addEventListener("wheel", (e)=> {
+                        const result = _parent.style.top;
+                        const changeNumb = Number(result.replace("px",''))
+                        globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY + changeNumb}px)`
+                    })
+                }
+            }
+            
+            globHouse.style.transform = `translate(${pickerValue.pageX}px, ${pickerValue.pageY}px)`
+
 
 
             Object.values(globLi).map((ele, index)=> {
@@ -1353,6 +1373,8 @@ class YogoUI {
             globHouse.style.left = `${selectorValue.pageX}px`;
             globHouse.style.width = `${selectorValue.width}px`;
 
+
+           
 
         }
     }
