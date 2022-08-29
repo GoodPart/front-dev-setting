@@ -727,7 +727,7 @@ class Selector {
             yogo_addon.className = 'yogo_addon'
 
                  const _allCheckControler = `
-                    <button type='button' name='yogo_allCheck'>Select All</button> <button type='button' name='yogo_clearCheck'>Deselect All</button>
+                    <button type='button' name='yogo_allCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Select All <span class='yogoClickRipple-root'></span></button> <button type='button' name='yogo_clearCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Deselect All <span class='yogoClickRipple-root'></span></button>
                 `
                 const _searchControler = `
                         <i class="ico ico-ico_search"></i>
@@ -851,7 +851,9 @@ class Selector {
                         const crtDepth_2_div = document.createElement("div");
 
                         const crtInputLabel_depth_2 = `
-                        <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label for='yogo_depth-${_name}-${i}-${j}'><span>${data[i].depth_1[j].value}</span></label>
+                        <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                        
+
                         `
 
                         crtDepth_2_div.innerHTML = crtInputLabel_depth_2
@@ -882,7 +884,7 @@ class Selector {
                     const crtDepth_1_Title = document.createElement("div");
 
                     const crtInputLabel_depth_1 = `
-                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label for='yogo_depth-${_name}-${i}'><span>${data[i]}</span></label>
+                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><span>${data[i]}</span><span class="yogoClickRipple-root"></span></label>
                     `
 
                     // yogo_title 추가
@@ -1011,13 +1013,68 @@ class Selector {
 
     }
 
+class ClickRipple {
+    // yogoClickRipple-root
 
+    getXY(trigger) {
+
+        const _target = trigger.substr(1);
+        const root = document.querySelectorAll('.yogoUiButton-root');
+        const root2 = document.querySelectorAll(`.yogo_global_house div[data-id="${_target}"] .yogoUiButton-root`)
+        Object.values(root).map((item, index)=> {
+
+            // if(item.type == 'checkbox') {
+                // console.log("checkbox")
+                
+            // }else if(item.type == 'button') {
+                // console.log("button")
+                const findRippleRoot = item.querySelector(".yogoClickRipple-root");
+
+                // if(item.type)
+                item.addEventListener("mousedown", (e)=> {
+                    const getXY = {
+                        valueX : e.offsetX,
+                        valueY : e.offsetY
+                    }
+                    console.log(getXY)
+                    const fillSpan = document.createElement("span");
+                    fillSpan.className = 'fill';
+                    fillSpan.style.top = `${getXY.valueY}px`;
+                    fillSpan.style.left = `${getXY.valueX}px`;
+                    findRippleRoot.appendChild(fillSpan);
+
+                    
+                    
+                    setTimeout(()=> {
+
+                        fillSpan.remove()
+                    }, 800)
+                })
+
+                
+
+            // }
+        })
+
+        
+
+        // root.querySelector(".yogoClickRipple-root");
+
+    }
+
+    init(trigger) {
+        console.log(trigger)
+        this.getXY(trigger)
+    }
+
+}
 
 
 class YogoUI {
     moduleTypeList = [
         'timepicker',
         'multiselector',
+        // 'ripple'
     ]
     
     constructor(trigger, options) {
@@ -1038,6 +1095,8 @@ class YogoUI {
 
     }
 
+
+
     init(initOption) {
         const crtGolbalArea = document.createElement("div");
         crtGolbalArea.className = 'yogo_global_house';
@@ -1057,7 +1116,12 @@ class YogoUI {
             document.querySelector("body").append(crtGolbalArea)
         }else {
         };
+
+
         
+        
+        
+
         if(this.options.type =='timepicker') {
             const picker = document.querySelector(`${this.trigger}`);
             const parent = picker.parentElement;
@@ -1380,6 +1444,9 @@ class YogoUI {
            
 
         }
+    
+        const rippleInit = new ClickRipple();
+        rippleInit.init(this.trigger);
     }
     
 

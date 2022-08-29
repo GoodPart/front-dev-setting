@@ -82,7 +82,7 @@ var DIST_PATH = {
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
                 .pipe(autoprefixer())
-                .pipe(cssmin())
+                // .pipe(cssmin())
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
                 .pipe(gulp.dest( DEV_PATH.ASSETS.STYLE))
@@ -91,6 +91,30 @@ var DIST_PATH = {
             resolve(); 
         }); 
     });
+
+    gulp.task('sassMin', () => {
+        return new Promise( resolve => { 
+            var options = { 
+            outputStyle: "expanded" , 
+            indentType: "space" ,
+            indentWidth: 4  ,
+            precision: 8 , 
+            sourceComments: false
+            }; 
+
+            gulp.src(PATH.ASSETS.STYLE + '/**/*.scss' ) 
+            .pipe( sourcemaps.init()) 
+            .pipe(sass(options)) 
+            .pipe(autoprefixer())
+            .pipe(cssmin())
+            // .pipe( sourcemaps.write()) 
+            // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
+            .pipe(gulp.dest( DEV_PATH.ASSETS.STYLE))
+            // .pipe(gulp.dest( DIST_PATH.ASSETS.STYLE))
+            .pipe(browserSync.reload({ stream: true }));
+        resolve(); 
+    }); 
+});
 
     //이미지
     gulp.task('image', ()=> {
@@ -163,33 +187,6 @@ var DIST_PATH = {
         });
     })
 
-    // fileinclude
-    // gulp.task('fileinclude', () => {
-    //     return new Promise(resolve => {
-    //         gulp.src([
-    //             // './src/html/index.html',
-    //             './src/html/components/timepicker/*.html',
-    //             './src/html/components/selector/*.html'
-    //             // './src/html/components',
-    //             // '!'+'./src/html/footer',
-    //             // '!'+'./src/html/header',
-    //         ]) 
-    //         .pipe(fileinclude({
-    //             prefix : '@@',
-    //             basepath : '@root'
-    //         }))
-    //         // .pipe(gulp.dest(DEV_PATH.ROOT))
-    //         // .pipe(replace(
-    //         //     '<link rel="stylesheet" href="/', 
-    //         //     '<link rel="stylesheet" href="./'
-    //         // ))
-    //         .pipe(gulp.dest('./dev/html/'))
-    //         // .pipe(gulp.dest(PATH.DEV+'/dev'))
-
-
-    //         resolve();
-    //     })
-    // })
     //script
     gulp.task('script', () => {
         return new Promise(resolve => {
@@ -277,13 +274,14 @@ var allSeries = gulp.series([
 var buildSeries = gulp.series([
     'clean',
     'html', 
-    'sass',
+    'sassMin',
     'image',
-    'scriptMin',
+    'sprite',
+    'scriptMin', 
     'library',
 ])
 
 
 gulp.task('default', allSeries);
 
-gulp.task('build', buildSeries)
+gulp.task('export_build', buildSeries)
