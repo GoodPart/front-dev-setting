@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    @@include('../../footer/scriptArea.html', {
+
+    })
+   
+    <script>
+        
+
+	// write text plugin
+
+
+	var config = {
+		type: 'doughnut',
+		data: {
+			labels: [
+				"Red",
+				"Gray"
+			],
+			datasets: [
+            {
+				data: [67, 33],
+				backgroundColor: [
+					"#FF6684",
+					"#2F3235"
+				],
+				hoverBackgroundColor: [
+					"#FF6384",
+					"#2F3235"
+				],
+          
+			},
+            {
+				data: [70, 100],
+				backgroundColor: [
+					"#AB9FF8",
+					"#2F3235"
+				],
+				hoverBackgroundColor: [
+					"#AB9FF8",
+					"#2F3235"
+				],
+			},
+            {
+				data: [30, 100],
+				backgroundColor: [
+					"#FFF065",
+					"#2F3235"
+				],
+				hoverBackgroundColor: [
+					"#FFF065",
+					"#2F3235"
+				],
+			},
+            {
+				data: [75, 100],
+				backgroundColor: [
+					"#63D9FF",
+					"#2F3235"
+				],
+				hoverBackgroundColor: [
+					"#63D9FF",
+					"#2F3235"
+				],
+			},
+            {
+				data: [75, 100],
+				backgroundColor: [
+					"#B3EE67",
+					"#2F3235"
+				],
+				hoverBackgroundColor: [
+					"#B3EE67",
+					"#2F3235"
+				],
+			}
+      ]
+		},
+		plugins: [{ //plugin added for this chart
+            afterUpdate : function(chart) {
+                var a=chart.config.data.datasets.length -1;
+
+                    for (let i in chart.config.data.datasets) {
+                        for(var j = chart.config.data.datasets[i].data.length - 1; j>= 0;--j) { 
+                            if (Number(j) == (chart.config.data.datasets[i].data.length - 1))
+                                continue;
+                            var arc = chart.getDatasetMeta(i).data[j];
+
+                            
+                            arc.round = {
+                                x: (chart.chartArea.left + chart.chartArea.right) / 2,
+                                y: (chart.chartArea.top + chart.chartArea.bottom) / 2,
+                                radius : (arc.innerRadius + arc.outerRadius) / 2,
+                                thickness: (arc.outerRadius - arc.innerRadius) / 2,
+                                backgroundColor: arc.options.backgroundColor
+                            }
+                        }
+                        a--;
+                    }
+                    console.log(arc)
+            },
+            afterDraw: function(chart, options) {
+
+                var ctx = chart.ctx;
+                for (let i in chart.config.data.datasets) {
+                        for(var j = chart.config.data.datasets[i].data.length - 1; j>= 0;--j) { 
+                            if (Number(j) == (chart.config.data.datasets[i].data.length - 1))
+                                continue;
+                            var arc = chart.getDatasetMeta(i).data[j];
+                            var startAngle = Math.PI / 2 - arc.startAngle;
+                            var endAngle = Math.PI / 2 - arc.endAngle;
+
+                            ctx.save();
+                            ctx.translate(arc.round.x, arc.round.y);
+                            ctx.fillStyle = arc.round.backgroundColor;
+
+                            ctx.beginPath();
+                            ctx.arc(
+                                arc.round.radius * Math.sin(endAngle),
+                                arc.round.radius * Math.cos(endAngle),
+                                arc.round.thickness, 
+                                0, 
+                                2 * Math.PI
+                            );
+                            ctx.arc(
+                                arc.round.radius * Math.sin(startAngle),
+                                arc.round.radius * Math.cos(startAngle),
+                                arc.round.thickness, 
+                                0, 
+                                2 * Math.PI
+                            );
+                            ctx.closePath();
+                            ctx.fill();
+                            ctx.restore();
+                        }
+                    }
+
+                
+            }
+         }],
+        options: {
+        // cutoutPercentage: 90,
+        // cutout : 700,
+        // borderAborderAlign : center
+        // circumference: 1 * Math.PI,
+        borderWidth : 1,
+        responsive: false,
+			elements: {
+				center: {
+					// the longest text that could appear in the center
+					maxText: '100',
+					text: '67',
+					fontColor: '#FF6684',
+					fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+					fontStyle: 'normal',
+					// fontSize: 12,
+					// if a fontSize is NOT specified, we will scale (within the below limits) maxText to take up the maximum space in the center
+					// if these are not specified either, we default to 1 and 256
+					minFontSize: 1,
+					maxFontSize: 20,
+				}
+				
+			},
+      legend : false,
+		}
+	};
+
+
+		var ctx = document.getElementById("myChart").getContext("2d");
+		var myChart = new Chart(ctx, config);
+
+        </script>
+    </script>
+</body>
+</html>
