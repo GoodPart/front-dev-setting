@@ -5,9 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        body {
+            position: relative;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        canvas {
+            margin: 0 auto;
+        }
+        .chart-legend {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        .chart-legend ul {
+            /* display: flex; */
+        }
+        .chart-legend ul li {
+            display: flex;
+        }
+        .chart-legend ul li div {
+            align-self: center;
+        }
+
+        
+    </style>
 </head>
 <body>
     <canvas id="myChart" width="400" height="400"></canvas>
+    <div id="chart-legend" class="chart-legend"></div>
+
+    <button onclick="randomizeData()">데이터 갱신</button>
 
     @@include('../../footer/scriptArea.html', {
 
@@ -19,15 +52,17 @@
 	// write text plugin
 
 
+    const labels = 2;
+
+    var optionLabels = ["data1", "data2","data3", "data4", "data5"];
+
 	var config = {
 		type: 'doughnut',
 		data: {
-			labels: [
-				"Red",
-				"Gray"
-			],
+            labels : optionLabels,
 			datasets: [
             {
+                label : "data1",
 				data: [67, 33],
 				backgroundColor: [
 					"#FF6684",
@@ -40,6 +75,7 @@
           
 			},
             {
+                label : "data2",
 				data: [70, 100],
 				backgroundColor: [
 					"#AB9FF8",
@@ -51,6 +87,7 @@
 				],
 			},
             {
+                label : "data3",
 				data: [30, 100],
 				backgroundColor: [
 					"#FFF065",
@@ -62,6 +99,7 @@
 				],
 			},
             {
+                label : "data4",
 				data: [75, 100],
 				backgroundColor: [
 					"#63D9FF",
@@ -72,20 +110,22 @@
 					"#2F3235"
 				],
 			},
-            {
-				data: [75, 100],
-				backgroundColor: [
-					"#B3EE67",
-					"#2F3235"
-				],
-				hoverBackgroundColor: [
-					"#B3EE67",
-					"#2F3235"
-				],
-			}
+            // {
+            //     label : "data5",
+			// 	data: [75, 100],
+			// 	backgroundColor: [
+			// 		"#B3EE67",
+			// 		"#2F3235"
+			// 	],
+			// 	hoverBackgroundColor: [
+			// 		"#B3EE67",
+			// 		"#2F3235"
+			// 	],
+			// }
       ]
 		},
 		plugins: [{ //plugin added for this chart
+           
             afterUpdate : function(chart) {
                 var a=chart.config.data.datasets.length -1;
 
@@ -100,13 +140,13 @@
                                 x: (chart.chartArea.left + chart.chartArea.right) / 2,
                                 y: (chart.chartArea.top + chart.chartArea.bottom) / 2,
                                 radius : (arc.innerRadius + arc.outerRadius) / 2,
-                                thickness: (arc.outerRadius - arc.innerRadius) / 2,
+                                thickness: (arc.outerRadius - arc.innerRadius - arc.options.borderWidth) / 2,
                                 backgroundColor: arc.options.backgroundColor
                             }
                         }
                         a--;
-                    }
-                    console.log(arc)
+                    };
+
             },
             afterDraw: function(chart, options) {
 
@@ -142,41 +182,134 @@
                             ctx.fill();
                             ctx.restore();
                         }
-                    }
+                };
+
+                // chart.legend.position = "right"
+                var centerConfig = chart.config.options.elements.center;
+				var ctx = chart.ctx;
+
+                // console.log(chart)
+				ctx.save();
+				// ctx.font = chart.center.font;
+				ctx.fillStyle = 'red';
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				var centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+				var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+				ctx.fillText(centerConfig.text, centerX, centerY);
+				ctx.restore();
 
                 
-            }
-         }],
+            },
+        },
+         
+        ],
         options: {
-        // cutoutPercentage: 90,
-        // cutout : 700,
-        // borderAborderAlign : center
-        // circumference: 1 * Math.PI,
-        borderWidth : 1,
-        responsive: false,
-			elements: {
-				center: {
-					// the longest text that could appear in the center
-					maxText: '100',
-					text: '67',
-					fontColor: '#FF6684',
-					fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-					fontStyle: 'normal',
-					// fontSize: 12,
-					// if a fontSize is NOT specified, we will scale (within the below limits) maxText to take up the maximum space in the center
-					// if these are not specified either, we default to 1 and 256
-					minFontSize: 1,
-					maxFontSize: 20,
-				}
-				
-			},
-      legend : false,
-		}
+            plugins : {
+                legend : {
+                    display : false,
+                    position : "bottom",
+                    align : "end",
+                    labels : {
+                        
+
+                        // generateLabels : function(color) {
+                        //     console.log(color)
+                        // }
+                    }
+                },
+            },
+            responsive: false,
+                elements: {
+                    center: {
+                        // the longest text that could appear in the center
+                        maxText: '100',
+                        text: '67',
+                        fontColor: '#FF6684',
+                        fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                        fontStyle: 'normal',
+                        // fontSize: 12,
+                        // if a fontSize is NOT specified, we will scale (within the below limits) maxText to take up the maximum space in the center
+                        // if these are not specified either, we default to 1 and 256
+                        minFontSize: 1,
+                        maxFontSize: 20,
+                    }
+                    
+                },
+            }
 	};
 
 
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var myChart = new Chart(ctx, config);
+
+        function parseDataInChart() {
+            const chart = myChart;
+
+            const crtUl = document.createElement("ul");
+            crtUl.className = 'legend-list';
+            
+            let data = [];
+
+            Object.values(chart._sortedMetasets).map((ele, index)=> {
+                data = [...data,{
+                        backgroundColor : ele._dataset.backgroundColor[0],
+                        text : ele._dataset.label,
+                        value : ele._dataset.data[0]
+                    }]
+
+            })
+            return data;
+        }
+
+        function crtLegend(data) {
+            const crtLegend = (props) => `
+                <div style="background-color : ${props.backgroundColor}; width : 16px; height : 16px"></div> <div>${props.text}</div> - <div class="label">${props.value}</div>
+            `
+
+            const crtUl = document.createElement("ul");
+            // crtUl.className =""
+                
+            for(let i = 0; i<data.length; i++) {
+                const crtLi = document.createElement("li");
+                crtLi.innerHTML = crtLegend(data[i])
+                crtUl.appendChild(crtLi)
+
+                if(i == data.length-1) {
+                    document.getElementById('chart-legend').appendChild(crtUl)
+                }
+            }
+
+        }
+
+        function updateLegend(newValue) {
+            const legend = document.querySelector(".chart-legend");
+            const labels = legend.querySelectorAll("li");
+
+            Object.values(labels).map((ele, index)=> {
+                ele.querySelector(".label").innerText = newValue[index];
+
+                console.log(ele)
+                
+            })
+        }
+
+        crtLegend(parseDataInChart())
+
+        // Randomize data button function
+        function randomizeData() {
+            let newDataBaby = config.data.datasets.map(x => Math.floor(Math.random() * 50));
+            let newMoreDataBaby = newDataBaby.map(x => Math.floor(Math.random() * 40));
+            let newTotalData = newDataBaby.reduce((a,b) =>a  + b )
+
+            for(let i = 0; i<config.data.datasets.length; i++) {
+                config.data.datasets[i].data[0] = newDataBaby[i];
+                config.data.datasets[i].data[1] = newMoreDataBaby[i]
+            }
+            config.options.elements.center.text = newTotalData;
+            updateLegend(newDataBaby)
+            myChart.update();
+        };
 
         </script>
     </script>
