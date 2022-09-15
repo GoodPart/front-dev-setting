@@ -9,6 +9,7 @@
     <style>
         body {
             position: relative;
+            background-color: #2F3235;
         }
         * {
             padding: 0;
@@ -33,20 +34,119 @@
             align-self: center;
         }
 
+        #chart-indexhand {
+            width:  1.5%;
+            height: 100%;
+            /* background: rosybrown; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 10s cubic-bezier(0.19, 1, 0.22, 1);
+            /* box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.25); */
+
+        }
+
+        /* #chart-indexhand:after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 50%;
+            background-color: seagreen;
+            box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.25);
+
+        } */
+
+        #chart-indexhand .hand1 {
+            width: 100%;
+            height: 50%;
+            background-color: 'transparent';
+        }
+        #chart-indexhand .hand2 {
+            width: 100%;
+            height: 50%;
+            background-color: coral;
+            transition: box-shadow .5s cubic-bezier(0.19, 1, 0.22, 1);
+
+            /* background-color: 'transparent'; */
+        }
+        /* #chart-indexhand:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 50%;
+            background-color: 'transparent';
+        } */
+        #chart-indexhand {
+            /* animation-name: rotate;
+            animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+            animation-duration: 2s;
+            animation-delay: 1s;
+            animation-direction: alternate; */
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
         
     </style>
 </head>
 <body>
-    <canvas id="myChart" width="400" height="400"></canvas>
-    <div id="chart-legend" class="chart-legend"></div>
+    <div style="position: relative">
+        <canvas id="myChart" width="400" height="400"></canvas>
+        <div id="chart-legend" class="chart-legend"></div>
+    
+        <button onclick="randomizeData()">데이터 갱신</button>
+    </div>
+    
 
-    <button onclick="randomizeData()">데이터 갱신</button>
+
+    <hr>
+
+    <div style="position: relative;">
+        <canvas id="canvas2" width=300 height=300></canvas>
+        <div id="chart-indexhand">
+            <div class="hand1"></div>
+            <div class="hand2"></div>
+        </div>
+        
+    </div>
+
+    <hr>
+
+    <div style="position: relative;">
+        <canvas id="myChart2" width="460" height="285"></canvas>
+    </div>
+
+    <hr>
+    <div style="position: relative;">
+        <canvas id="myChart3" width="460" height="285"></canvas>
+    </div>
 
     @@include('../../footer/scriptArea.html', {
 
     })
    
     <script>
+
+        const defaultValue = {
+            color : {
+                c0 : '#51AEC2',
+                c1 : '#618CDF',
+                c2 : '#907FF4',
+                c3 : '#BA7FD6',
+                c4 : '#CF6498',
+                c5 : '#AF4040',
+                c6 : '#CFA15C',
+                c7 : '#9AA74C',
+                c8 : '#69B58C'
+            }
+        }
         
 
 	// write text plugin
@@ -66,62 +166,62 @@
 				data: [67, 33],
 				backgroundColor: [
 					"#FF6684",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 				hoverBackgroundColor: [
 					"#FF6384",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
           
 			},
             {
                 label : "data2",
-				data: [70, 100],
+				data: [70, 30],
 				backgroundColor: [
 					"#AB9FF8",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 				hoverBackgroundColor: [
 					"#AB9FF8",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 			},
             {
                 label : "data3",
-				data: [30, 100],
+				data: [30, 70],
 				backgroundColor: [
 					"#FFF065",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 				hoverBackgroundColor: [
 					"#FFF065",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 			},
             {
                 label : "data4",
-				data: [75, 100],
+				data: [75, 25],
 				backgroundColor: [
 					"#63D9FF",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 				hoverBackgroundColor: [
 					"#63D9FF",
-					"#2F3235"
+					"rgba(0,0,0,0.2)"
 				],
 			},
-            // {
-            //     label : "data5",
-			// 	data: [75, 100],
-			// 	backgroundColor: [
-			// 		"#B3EE67",
-			// 		"#2F3235"
-			// 	],
-			// 	hoverBackgroundColor: [
-			// 		"#B3EE67",
-			// 		"#2F3235"
-			// 	],
-			// }
+            {
+                label : "data5",
+				data: [100, 0],
+				backgroundColor: [
+					"#B3EE67",
+					"rgba(0,0,0,0.2)"
+				],
+				hoverBackgroundColor: [
+					"#B3EE67",
+					"rgba(0,0,0,0.2)"
+				],
+			}
       ]
 		},
 		plugins: [{ //plugin added for this chart
@@ -205,11 +305,14 @@
          
         ],
         options: {
+            // rotation : 180,
+            borderColor : '#2F3235',
+            borderWidth : 5,
             plugins : {
                 legend : {
                     display : false,
-                    position : "bottom",
-                    align : "end",
+                    // position : "bottom",
+                    // align : "end",
                     labels : {
                         
 
@@ -258,21 +361,21 @@
                         value : ele._dataset.data[0]
                     }]
 
+                    // console.log('init value ->',data[index].value)
+
             })
             return data;
         }
 
         function crtLegend(data) {
-            const crtLegend = (props) => `
+            const crtLegendTemp = (props) => `
                 <div style="background-color : ${props.backgroundColor}; width : 16px; height : 16px"></div> <div>${props.text}</div> - <div class="label">${props.value}</div>
             `
 
             const crtUl = document.createElement("ul");
-            // crtUl.className =""
-                
             for(let i = 0; i<data.length; i++) {
                 const crtLi = document.createElement("li");
-                crtLi.innerHTML = crtLegend(data[i])
+                crtLi.innerHTML = crtLegendTemp(data[i])
                 crtUl.appendChild(crtLi)
 
                 if(i == data.length-1) {
@@ -289,8 +392,6 @@
             Object.values(labels).map((ele, index)=> {
                 ele.querySelector(".label").innerText = newValue[index];
 
-                console.log(ele)
-                
             })
         }
 
@@ -298,18 +399,433 @@
 
         // Randomize data button function
         function randomizeData() {
-            let newDataBaby = config.data.datasets.map(x => Math.floor(Math.random() * 50));
-            let newMoreDataBaby = newDataBaby.map(x => Math.floor(Math.random() * 40));
+            // 가장 큰 값을 기준
+            let newDataBaby = config.data.datasets.map(x => Math.floor(Math.random() * 101));
+            let newMoreDataBaby = newDataBaby.map(x => Math.abs(x - 100));
             let newTotalData = newDataBaby.reduce((a,b) =>a  + b )
 
             for(let i = 0; i<config.data.datasets.length; i++) {
                 config.data.datasets[i].data[0] = newDataBaby[i];
                 config.data.datasets[i].data[1] = newMoreDataBaby[i]
+                // console.log(newDataBaby[i],'-', newMoreDataBaby[i] )
             }
             config.options.elements.center.text = newTotalData;
             updateLegend(newDataBaby)
             myChart.update();
+            // console.log('------------------------------')
+
         };
+
+
+
+        // gradient doughnut
+        var canvas = document.getElementById("canvas2");
+
+        const ctx2 = document.querySelector("#canvas2").getContext('2d');
+
+        // console.log(ctx2)
+
+        function ChartLegendItem(startColor, endColor, itemName, voiceCount) {
+            this.start = startColor;
+            this.end = endColor;
+            this.name = itemName;
+            this.voiceCount = voiceCount;
+            this.colorGradient = function(){
+                let canvas = ctx.createLinearGradient(0,0,360,0);
+                canvas.addColorStop(0, this.start);
+                canvas.addColorStop(1, this.end);
+                return canvas;
+            };
+        };
+
+        const legendArray = {
+            awesome : new ChartLegendItem('#85CBF4', '#CAFC61', 'test', 100),
+            // good : new ChartLegendItem('#6FCF97', '#66D2EA', 'Хорошо', 65),
+            // soso : new ChartLegendItem('#BC9CFF', '#8BA4F9', 'Удовлетворительно', 65),
+            // disgusting : new ChartLegendItem('#919191', '#3D4975', 'Разочарован', 0),
+        };
+        const voicesCount = legendArray.awesome.voiceCount
+        // +
+                // legendArray.good.voiceCount+
+                // legendArray.soso.voiceCount+
+                // legendArray.disgusting.voiceCount;
+
+        const douChart2 = new Chart(ctx2, {
+            type : 'doughnut',
+            data: {
+                labels: [
+                    // legendArray.awesome, 
+                    // legendArray.good, legendArray.soso, legendArray.disgusting
+                ],
+                datasets: [{
+                    data: [
+                        legendArray.awesome.voiceCount,
+                        // legendArray.good.voiceCount,
+                        // legendArray.soso.voiceCount,
+                        // legendArray.disgusting.voiceCount
+                    ],
+                    backgroundColor: [
+                        legendArray.awesome.colorGradient(),
+                        // legendArray.good.colorGradient(),
+                        // legendArray.soso.colorGradient(),
+                        // legendArray.disgusting.colorGradient()
+                    ],
+                    borderColor: 'white',
+                    borderWidth: 0,
+                }]
+            },
+            plugins: [{ //plugin added for this chart
+           
+                afterUpdate : function(chart) {
+                    var a=chart.config.data.datasets.length -1;
+
+                        let arc = chart.getDatasetMeta(0).data[0]
+                        chart.getDatasetMeta(0).data[0].radius = {
+                            x: (chart.chartArea.left + chart.chartArea.right) / 2,
+                            y: (chart.chartArea.top + chart.chartArea.bottom) / 2,
+                            radius : (arc.innerRadius + arc.outerRadius) / 2,
+                            thickness: (arc.outerRadius - arc.innerRadius - arc.options.borderWidth) / 2,
+                            backgroundColor: arc.options.backgroundColor,
+                            indexHand : 230
+                        }
+
+                        // let shadowed = document.querySelector("#chart-indexhand");
+                        // shadowed.style.boxShadow = '20px 10px 15px 12px #333'
+                },
+                afterDraw: function(chart, options) {
+
+                    // console.log(chart.getDatasetMeta(0))
+                    var ctx2 = chart.ctx;
+
+                    let grade3 = 0;
+
+                    function getBoxShadow() {
+                        let shadowed = document.querySelector("#chart-indexhand");
+                        let val = shadowed.style['boxShadow'];
+                        let split = val.split(" ");
+                        
+                        let x = parseInt(split[3], 10);
+                        let y = parseInt(split[4], 10);
+                        
+
+                        let dgreeValue = chart.getDatasetMeta(0).data[0].radius.indexHand;
+
+
+                        let newVals = rotateBy(x, y, dgreeValue);
+
+                        let niceX = `${newVals[0].toFixed(2)}px`;
+                        let niceY = `${newVals[1].toFixed(2)}px`;
+
+                        split[3] = niceX;
+                        split[4] = niceY;
+
+                        let joined = split.join(" ");
+
+
+                        // shadowed.style.boxShadow = joined
+
+                        return joined
+                    }
+
+                    function rotateBy(x,y,angle) {
+                        let radians = (Math.PI / 180) * angle;
+                        // console.log(radians)
+                        let cos = Math.cos(radians);
+                        let sin = Math.sin(radians);
+
+
+                        let nx = (cos * x) + (sin * y);
+                        let ny = (cos * y) - (sin * x);
+
+                        console.log(nx, ny)
+
+
+                        return [nx, ny]
+                    }
+
+                    setTimeout(()=> {
+                        const indexHnad = document.querySelector("#chart-indexhand");
+                     
+                        indexHnad.style.transform =  `translate(-50%, -50%) rotate(${chart.getDatasetMeta(0).data[0].radius.indexHand}deg)`
+                        // indexHnad.style.boxShadow = getBoxShadow()
+                        
+
+                                // `rotate(${chart.getDatasetMeta(0).data[0].radius.indexHand}deg)`
+                       
+                        //  ctx2.rotate((Math.PI / 360) * 25)
+                    }, 1000)
+           
+                    // for (let i in chart.config.data.datasets) {
+                    //         for(var j = chart.config.data.datasets[i].data.length - 1; j>= 0;--j) { 
+                    //             if (Number(j) == (chart.config.data.datasets[i].data.length - 1))
+                    //                 continue;
+                    //             var arc = chart.getDatasetMeta(i).data[j];
+                    //             var startAngle = Math.PI / 2 - arc.startAngle;
+                    //             var endAngle = Math.PI / 2 - arc.endAngle;
+
+                    //             ctx.save();
+                    //             ctx.translate(arc.round.x, arc.round.y);
+                    //             ctx.fillStyle = arc.round.backgroundColor;
+
+                    //             ctx.beginPath();
+                    //             ctx.arc(
+                    //                 arc.round.radius * Math.sin(endAngle),
+                    //                 arc.round.radius * Math.cos(endAngle),
+                    //                 arc.round.thickness, 
+                    //                 0, 
+                    //                 2 * Math.PI
+                    //             );
+                    //             ctx.arc(
+                    //                 arc.round.radius * Math.sin(startAngle),
+                    //                 arc.round.radius * Math.cos(startAngle),
+                    //                 arc.round.thickness, 
+                    //                 0, 
+                    //                 2 * Math.PI
+                    //             );
+                    //             ctx.closePath();
+                    //             ctx.fill();
+                    //             ctx.restore();
+                    //         }
+                    // };
+
+                    // chart.legend.position = "right"
+                    // var centerConfig = chart.config.options.elements.center;
+                    // var ctx = chart.ctx;
+
+                    // ctx.save();
+                    // ctx.font = chart.center.font;
+                    // ctx.fillStyle = 'red';
+                    // ctx.textAlign = 'center';
+                    // ctx.textBaseline = 'middle';
+                    // var centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                    // var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                    // ctx.fillText(centerConfig.text, centerX, centerY);
+                    // ctx.restore();
+
+                    
+                },
+            },
+        
+       ],
+            options: {
+                cutout : 120,
+                tooltips: false,
+                rotation : 180,
+                cutoutPercentage: 90,
+                // rotation: 3.14*.5,
+                legend: false,
+                legendCallback: function(chart) {
+                var text = [];
+                text.push('<ul class="legend">');
+                for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
+                    text.push(`<li class="legend__list-item"><div class="legend__list-marker" style="background-color:${chart.data.labels[i].start}"></div><span>`);
+                    if (chart.data.labels[i].name) {
+                    text.push(chart.data.labels[i].name);
+                    }
+                    text.push('</span></li>');
+                }
+                text.push('</ul>');
+                return text.join("");
+                },
+            }
+        });
+
+        // $('.donut-chart__inner-text').prepend(voicesCount);
+
+
+
+
+        var lineCtx = document.getElementById("myChart2").getContext("2d");
+		// var myChart2 = new Chart(lineCtx, config);
+        var gradient = lineCtx.createLinearGradient(0, 0, 0, 450);
+            gradient.addColorStop(0, 'rgba(255, 124, 242, 0.5)');
+            gradient.addColorStop(0.5, 'rgba(255, 124, 242, 0.25)');
+            gradient.addColorStop(1, 'rgba(255, 124, 242, 0)');
+
+        var gradient2 = lineCtx.createLinearGradient(0, 0, 0, 450);
+            gradient2.addColorStop(0, 'rgba(124, 161, 255, 0.5)');
+            gradient2.addColorStop(0.5, 'rgba(124, 161, 255, 0.25)');
+            gradient2.addColorStop(1, 'rgba(124, 161, 255, 0)');
+
+
+        var lineData  = {
+            labels: [ 'January', 'February', 'March', 'April' ],
+            datasets: [{
+                    label: 'Custom Label Name',
+                    backgroundColor: gradient, 
+                    fill : true,
+                    pointBackgroundColor: '',
+                    borderWidth:3,
+                    borderColor: 'rgba(255, 124, 242, 1)',
+                    data: [10, 5, 11, 14],
+            },
+            {
+                    label: 'Custom Label Name2',
+                    backgroundColor: gradient2, 
+                    fill : true,
+                    pointBackgroundColor: '',
+                    borderWidth:3,
+                    borderColor: 'rgba(124, 161, 255, 1)',
+                    data: [0, 20, 13, 30],
+            }
+        ]
+        };
+
+        var lineOptions = {
+                responsive: false,
+                maintainAspectRatio: false,
+                animation: {
+                    easing: 'easeInOutQuad',
+                    duration: 1000
+                },
+                scales: {
+                    x : {
+                        // display :false,
+                        grid : {
+                            display : false,
+                            borderWidth : 0
+
+
+                        }
+                    },
+                    y : {
+                        grid : {
+                            display : false,
+                            borderWidth : 0
+
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
+                    },
+                    point: {
+                    // backgroundColor: 'transparent',
+                    // hoverBackgroundColor: 'transparent',
+                    radius: 0,
+                    pointStyle: 'transparent',
+                    hoverRadius: 0,
+                }
+                },
+                legend: {
+                    display: false
+                },
+                point: {
+                    // backgroundColor: 'transparent'
+                },
+            // tooltips: {
+            // 	titleFontFamily: 'Open Sans',
+            // 	backgroundColor: 'rgba(0,0,0,0.3)',
+            // 	titleFontColor: 'red',
+            // 	caretSize: 5,
+            // 	cornerRadius: 2,
+            // 	xPadding: 10,
+            // 	yPadding: 10
+            // }
+        };
+
+        var chartInstance = new Chart(lineCtx, {
+            type: 'line',
+            data: lineData,
+            options: lineOptions
+        });
+
+
+        // bar chart (horizontal)
+        var barCtx = document.getElementById("myChart3").getContext("2d");
+
+        var barData  = {
+            labels: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ],
+            datasets: [
+                {
+                        label: 'Custom Label Name',
+                        backgroundColor: (chart)=> {
+                            const colorArray = [];
+                            Object.values(defaultValue.color).map((ele, index)=> {
+                                colorArray.push(ele);
+                            });
+                            return colorArray
+                        }, 
+                        fill : true,
+                        borderWidth:0,
+                        // borderColor: 'rgba(255, 124, 242, 1)',
+                        data: [10, 5, 11, 14, 20, 30, 40, 50, 20],
+                }
+            ]
+        };
+
+        var barOptions = {
+                indexAxis: 'y',
+                borderSkipped: false,
+                borderRadius : 10,
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
+                scales: {
+                    x : {
+                        display :false,
+                        grid : {
+                            display : false,
+                            borderWidth : 0
+
+
+                        }
+                    },
+                    y : {
+                        position : 'right',
+                        // text : 'asdasdasdasd',
+                        ticks : {
+                            padding : 10
+                        },
+                        display : true,
+                        grid : {
+                            display : false,
+                            borderWidth : 0
+
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        // position: 'right',
+                        display : false
+                    },
+                    title: {
+                        display: true,
+                        // text: 'Chart.js Horizontal Bar Chart'
+                    }
+            }
+        }
+
+        var barChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: barData,
+            plugins : [{
+                // afterUpdate : function(chart) {
+                //     const ctx = chart;
+
+                // },
+                afterDraw : function(chart) {
+                    const ctx = chart;
+                    const getScalesXvalue = chart.data.datasets[0].data; // array
+                    const getScalesY = chart.scales.y._labelItems;
+                    
+                    Object.values(getScalesY).map((ele, index)=> {
+
+                        ele.label = getScalesXvalue[index]
+
+                    })
+
+                },
+            }],
+            options: barOptions
+        });
+
+
 
         </script>
     </script>
