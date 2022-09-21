@@ -1056,14 +1056,10 @@ class ClickRipple {
             // }
         })
 
-        
-
-        // root.querySelector(".yogoClickRipple-root");
-
     }
 
     init(trigger) {
-        console.log(trigger)
+        // console.log(trigger)
         this.getXY(trigger)
     }
 
@@ -1148,11 +1144,14 @@ class YogoUI {
             const pickerValue = {
                 pageX : Picker.getBoundingClientRect().left,
                 pageY : Picker.getBoundingClientRect().top + Picker.offsetHeight + 8, //8 = 사이 넓이 값
-            }    
+            }
+
+            // console.log(pickerValue.pageX + globHouse.offsetWidth + 20 , window.innerWidth)
 
 
             if(initOption) {
                 const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
+
 
                 if(initOption.hasScrollBar.useScrollType === 'window') {
                     _parent.addEventListener("scroll", (e)=> {
@@ -1168,14 +1167,21 @@ class YogoUI {
                     })
                 }
             }
-            
-            globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
 
+
+            // 드롭 다운 메뉴가 브라우저 우측으로 넘어갈시 좌우 보정
+            if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
+                // console.log("넘어감", )
+                globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
+            }else {
+                // console.log("통과")
+                globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+            }
 
 
             Object.values(globLi).map((ele, index)=> {
                 ele.addEventListener("click", (e)=> {
-                    console.log(ele.parentNode,e.target)
+                    // console.log(ele.parentNode,e.target)
                     const section = ele.parentNode.parentNode;
                     const listItem = e.path[1];
                     // const dataSet = `00:00:00`

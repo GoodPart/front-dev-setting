@@ -28,9 +28,13 @@
         </div>
     </div>
 
-    <div style="margin-top: 400px">
+    <div style="margin-top: 400px;">
         <!-- id 제거 -->
         <input type="text" id="testpicker2" class="timepicker2 add_class_name">
+    </div>
+    <div style="position: absolute; top: 400px; right:100px;">
+        <!-- id 제거 -->
+        <input type="text" id="testpicker3" class="timepicker2 add_class_name">
     </div>
 
     
@@ -47,7 +51,7 @@
         test1.init({
             hasScrollBar : {
                 ele : ".scrolled",
-                useScrollType : "window", // window, position( use top value of position) 
+                useScrollType : "window", // window, position( use top position of value  ) 
             },
 
         });
@@ -57,6 +61,12 @@
             timeSet : "00:00", // 00:00:00 , 00:00
         })
         test2.init();
+
+        var test3 = new YogoUI("#testpicker3", {
+            type : "timepicker", // 사용할 타입 선언
+            timeSet : "00:00:00", // 00:00:00 , 00:00
+        })
+        test3.init();
 
     </script>
 </body>
