@@ -71,9 +71,11 @@ class Timepicker {
     }
 
     init(props) {
-        
         this.crtEle(props)
+
     }
+   
+
 };
 
 
@@ -1120,18 +1122,27 @@ class YogoUI {
 
         if(this.options.type =='timepicker') {
             const picker = document.querySelector(`${this.trigger}`);
-            const parent = picker.parentElement;
 
-            parent.className = picker.className
-            parent.id = picker.id
+            // console.log('전',document.querySelector(`${this.trigger}`));
 
-            picker.remove(); // input 제거
+            if(picker.tagName == 'INPUT') {
+                const parent = picker.parentElement; // 상위 div
 
-            const crtPicker = new Timepicker();
-            crtPicker.init({
-                name : this.trigger,
-                dataset : this.options.timeSet,
-            })
+                parent.className = picker.className
+                parent.id = picker.id;
+
+                picker.remove(); // input 제거
+
+                const crtPicker = new Timepicker();
+                crtPicker.init({
+                    name : this.trigger,
+                    dataset : this.options.timeSet,
+                })
+            }
+
+            
+            // console.log('후',document.querySelectorAll(`${this.trigger}`));
+
             // HTML 생성됨.
             const Picker = document.querySelector(`${this.trigger}`);
             const PickerInput = Picker.querySelector("input[type='text']");
