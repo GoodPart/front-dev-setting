@@ -55,7 +55,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             title : "component1 title",
             filename : "component1.html",
-            template : "./src/html/components/component1.html"
+            template : "./src/html/components/component1.html",
+            chunks : ["component1"]
         }),
         // new HtmlWebpackPlugin({
         //     title : "component2 title",
