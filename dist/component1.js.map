@@ -1,0 +1,1 @@
+{"version":3,"file":"component1.js","mappings":"AAAAA,QAAQC,IAAI","sources":["webpack://front-dev-setting/./src/html/components/component1.js"],"sourcesContent":["console.log(\"component1.js\")"],"names":["console","log"],"sourceRoot":""}
