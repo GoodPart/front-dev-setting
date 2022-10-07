@@ -39,11 +39,12 @@ gulp.task('file-include', ()=> {
                 basepath : '@file'
             }))
             .pipe(gulp.dest('src/dev'))
+            .pipe(browserSync.reload({stream : true}));
         resolve()
     })
 })
 
-gulp.task('css', ()=> {
+gulp.task('sass', ()=> {
     return new Promise( resolve => {
 
         gulp.src('./src/assets/style/scss/*.scss')
@@ -52,9 +53,18 @@ gulp.task('css', ()=> {
         .pipe(postcss([autoprefixer()]))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./dist/css'))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.reload({stream : true}));
 
         resolve();
+    })
+})
+
+gulp.task("watch", ()=> {
+    return new Promise(resolve=> {
+        gulp.watch("src/html/**/*", gulp.series(['file-include']))
+        gulp.watch("src/assets/style/**/*", gulp.series(['sass']))
+        
+        resolve()
     })
 })
 
@@ -63,19 +73,21 @@ gulp.task('browser-sync', function() {
         server: {
             baseDir: "./src/dev",
             directory : true
-        }
+        },
+        cors : true
     });
 
-    gulp.watch("./src/assets/style/scss/*").on('change', browserSync.reload())
-    gulp.watch(["./src/html/*.html", "./src/html/**/*.html"]).on('change', browserSync.reload())
+    // gulp.watch("./src/assets/style/scss/*").on('change', browserSync.reload())
+    // gulp.watch(["./src/html/*.html", "./src/html/**/*.html"]).on('change', browserSync.reload())
 });
 
 gulp.task("default", gulp.series([
     'clean',
     'file-include',
     // 'html',
-    'css',
-    'browser-sync'
+    'sass',
+    'browser-sync',
+    "watch"
 ]))
 
 
