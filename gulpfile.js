@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var replace = require("gulp-replace")
 
 var browserSync = require("browser-sync").create();
 
@@ -27,6 +28,21 @@ gulp.task("html", ()=> {
     })
 })
 
+// build 
+gulp.task('exported', ()=> {
+    return new Promise(resolve=> {
+        gulp.src([
+            'dev/**/*.html',
+            '!dev/assets'
+        ])
+        .pipe(replace(
+            '<link rel="stylesheet" href="../../assets/style/css/',
+            '<link rel="stylesheet" href="../assets/style/css/',
+        ))
+
+    })
+})
+
 gulp.task('file-include', ()=> {
     return new Promise(resolve=> {
         gulp.src([
@@ -38,7 +54,7 @@ gulp.task('file-include', ()=> {
                 prefix : '@@',
                 basepath : '@file'
             }))
-            .pipe(gulp.dest('src/dev'))
+            .pipe(gulp.dest('dev'))
             .pipe(browserSync.reload({stream : true}));
         resolve()
     })
@@ -52,7 +68,7 @@ gulp.task('sass', ()=> {
         .pipe(sass())
         .pipe(postcss([autoprefixer()]))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./dist/css'))
+        .pipe(gulp.dest('dev/assets/style/css'))
         .pipe(browserSync.reload({stream : true}));
 
         resolve();
@@ -69,16 +85,18 @@ gulp.task("watch", ()=> {
 })
 
 gulp.task('browser-sync', function() {
-    browserSync.init({
-        server: {
-            baseDir: "./src/dev",
-            directory : true
-        },
-        cors : true
-    });
+    return new Promise(resolve => {
+        let bs = browserSync;
 
-    // gulp.watch("./src/assets/style/scss/*").on('change', browserSync.reload())
-    // gulp.watch(["./src/html/*.html", "./src/html/**/*.html"]).on('change', browserSync.reload())
+        bs.init({
+            server : {
+                baseDir : "dev",
+                directory : true,
+            },
+            cors : true,
+        })
+        resolve()
+    })
 });
 
 gulp.task("default", gulp.series([
@@ -91,3 +109,11 @@ gulp.task("default", gulp.series([
 ]))
 
 
+gulp.task("builded", gulp.series([
+    // 'file-include',
+    // 'html',
+    "exported"
+    // 'sass',
+    // 'browser-sync',
+    // "watch"
+]))
