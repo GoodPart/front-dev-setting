@@ -7,7 +7,10 @@ var sass = require('gulp-sass')(require('sass'));
 var postcss = require("gulp-postcss");
 var autoprefixer = require("autoprefixer");
 var sourcemaps = require("gulp-sourcemaps");
-var babel = require('gulp-babel');
+
+
+//webpack
+var webpack = require("webpack-stream");
 
 
 // function
@@ -28,20 +31,7 @@ gulp.task("html", ()=> {
     })
 })
 
-// build 
-gulp.task('exported', ()=> {
-    return new Promise(resolve=> {
-        gulp.src([
-            'dev/**/*.html',
-            '!dev/assets'
-        ])
-        .pipe(replace(
-            '<link rel="stylesheet" href="../../assets/style/css/',
-            '<link rel="stylesheet" href="../assets/style/css/',
-        ))
 
-    })
-})
 
 gulp.task('file-include', ()=> {
     return new Promise(resolve=> {
@@ -75,6 +65,34 @@ gulp.task('sass', ()=> {
     })
 })
 
+gulp.task('script', ()=> {
+    return new Promise(resolve=> {
+        gulp.src('src/assets/script/*.js')
+            .pipe(webpack(require('./webpack.config.js')))
+            .pipe(gulp.dest('dev/assets/script'))
+            
+        resolve()
+    })
+})
+
+
+// build 
+gulp.task('exported', ()=> {
+    return new Promise(resolve=> {
+        gulp.src([
+            'dev/**/*.html'
+            // '!dev/assets'
+        ])
+        .pipe(replace(
+            '<link rel="stylesheet" href="../../assets/style/css/',
+            '<link rel="stylesheet" href="../assets/style/css/',
+        ))
+        .pipe(gulp.dest('dev'))
+
+        resolve()
+    })
+})
+
 gulp.task("watch", ()=> {
     return new Promise(resolve=> {
         gulp.watch("src/html/**/*", gulp.series(['file-include']))
@@ -104,16 +122,7 @@ gulp.task("default", gulp.series([
     'file-include',
     // 'html',
     'sass',
+    'script',
     'browser-sync',
     "watch"
-]))
-
-
-gulp.task("builded", gulp.series([
-    // 'file-include',
-    // 'html',
-    "exported"
-    // 'sass',
-    // 'browser-sync',
-    // "watch"
 ]))

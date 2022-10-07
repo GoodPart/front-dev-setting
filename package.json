@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "gulp",
-    "build" : "gulp builded"
+    "build": "gulp exported"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,15 @@
   ],
   "homepage": "https://github.com/GoodPart/front-dev-setting#readme",
   "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
     "autoprefixer": "^10.4.12",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.5",
     "browser-sync": "^2.27.10",
     "del": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
-    "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-file-include": "^2.3.0",
     "gulp-postcss": "^9.0.1",
@@ -39,6 +42,7 @@
     "merge-stream": "^2.0.0",
     "postcss": "^8.4.17",
     "sass": "^1.55.0",
+    "webpack": "^5.74.0",
     "webpack-stream": "^7.0.0"
   }
 }
