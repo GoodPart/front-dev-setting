@@ -1,0 +1,42 @@
+{
+  "name": "front-dev-setting",
+  "version": "1.0.0",
+  "description": "gulp를 이용한 프론트 작업 셋팅",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoodPart/front-dev-setting.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GoodPart/front-dev-setting/issues"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "homepage": "https://github.com/GoodPart/front-dev-setting#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.12",
+    "browser-sync": "^2.27.10",
+    "del": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-file-include": "^2.3.0",
+    "gulp-postcss": "^9.0.1",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp.spritesmith": "^6.13.0",
+    "merge-stream": "^2.0.0",
+    "postcss": "^8.4.17",
+    "sass": "^1.55.0",
+    "webpack-stream": "^7.0.0"
+  }
+}

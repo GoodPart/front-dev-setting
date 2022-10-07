@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    background-color: blue;
+
+    &:after {
+        content: 'dasdasd';
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 30;
+    }
+}
