@@ -18,7 +18,7 @@ var clean = require('gulp-clean');
 const fileinclude = require('gulp-file-include');
 
 gulp.task("clean", () => {
-    return gulp.src(['./dist', 'src/dev'], {allowEmpty : true})
+    return gulp.src(['./dist', './dev'], {allowEmpty : true})
             .pipe(clean())
 })
 
@@ -97,6 +97,46 @@ gulp.task('exported', ()=> {
         resolve()
     })
 })
+gulp.task('replace-url-deploy', ()=> {
+    return new Promise(resolve=> {
+        gulp.src([
+            "src/html/page2/page2.html",
+            "!src/html/result-html",
+            "!src/html/include/*.html"
+        ])
+        .pipe(replace(
+            "deploy",
+            "development"
+        ))
+        .pipe(replace(
+            '<script src="../../assets',
+            '<script src="../assets',
+        ))
+        .pipe(gulp.dest('dev'))
+
+        resolve()
+    })
+});
+gulp.task('replace-url-dev', ()=> {
+    return new Promise(resolve=> {
+        gulp.src([
+            "src/html/**/*.html",
+            "!src/html/result-html",
+            "!src/html/include/*.html"
+        ])
+        .pipe(replace(
+            "development",
+            "deploy"
+        ))
+        .pipe(replace(
+            '<script src="../assets',
+            '<script src="../../assets',
+        ))
+        .pipe(gulp.dest('dev'))
+
+        resolve()
+    })
+});
 
 gulp.task("watch", ()=> {
     return new Promise(resolve=> {
@@ -123,7 +163,7 @@ gulp.task('browser-sync', function() {
     })
 });
 
-gulp.task("default", gulp.series([
+gulp.task("dev", gulp.series([
     'clean',
     'file-include',
     // 'html',
@@ -132,3 +172,13 @@ gulp.task("default", gulp.series([
     'browser-sync',
     "watch"
 ]))
+
+
+gulp.task("dp", gulp.series([
+    'clean',
+    'file-include',
+    // 'html',
+    'sass',
+    'script',
+]))
+
