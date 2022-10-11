@@ -70,6 +70,7 @@ gulp.task('script', ()=> {
         gulp.src('src/assets/script/*.js')
             .pipe(webpack(require('./webpack.config.js')))
             .pipe(gulp.dest('dev/assets/script'))
+            .pipe(browserSync.reload({stream : true}));
             
         resolve()
     })
@@ -101,6 +102,7 @@ gulp.task("watch", ()=> {
     return new Promise(resolve=> {
         gulp.watch("src/html/**/*", gulp.series(['file-include']))
         gulp.watch("src/assets/style/**/*", gulp.series(['sass']))
+        gulp.watch("src/assets/script/*.js", gulp.series(['script']))
         
         resolve()
     })

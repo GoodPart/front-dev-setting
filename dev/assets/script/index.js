@@ -89,7 +89,7 @@ var sayHello = function sayHello(word) {
 };
 
 var value = 12;
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.sum)(1, 4);
+(0,_util__WEBPACK_IMPORTED_MODULE_0__.sum)(5, 4);
 /* harmony default export */ __webpack_exports__["default"] = ({
   sum: _util__WEBPACK_IMPORTED_MODULE_0__.sum,
   sayHello: sayHello,
