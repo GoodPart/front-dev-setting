@@ -87,6 +87,10 @@ gulp.task('exported', ()=> {
             '<link rel="stylesheet" href="../../assets/style/css/',
             '<link rel="stylesheet" href="../assets/style/css/',
         ))
+        .pipe(replace(
+            "<script src='../../assets/script/index.js'>",
+            "<script src='../assets/script/index.js'>"
+        ))
         .pipe(gulp.dest('dev'))
 
         resolve()
