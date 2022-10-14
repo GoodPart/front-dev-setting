@@ -16,6 +16,24 @@ function sum(a, b) {
   return console.log(a + b);
 }
 
+/***/ }),
+
+/***/ "./src/assets/script/TS/sayTs.ts":
+/*!***************************************!*\
+  !*** ./src/assets/script/TS/sayTs.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sayTs": function() { return /* binding */ sayTs; }
+/* harmony export */ });
+function sayTs(word) {
+    return console.log(word, "sayTs!!");
+}
+;
+
+
 /***/ })
 
 /******/ 	});
@@ -78,23 +96,16 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /*!************************************!*\
-  !*** ./src/assets/script/index.js ***!
+  !*** ./src/assets/script/index.ts ***!
   \************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/assets/script/util.js");
+/* harmony import */ var _TS_sayTs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/sayTs */ "./src/assets/script/TS/sayTs.ts");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./src/assets/script/util.js");
 
 
-var sayHello = function sayHello(word) {
-  return console.log('hello', word);
-};
+(0,_util__WEBPACK_IMPORTED_MODULE_1__.sum)(1, 2);
+(0,_TS_sayTs__WEBPACK_IMPORTED_MODULE_0__.sayTs)("say!!!!!!!!!!!");
 
-var value = 12;
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.sum)(5, 4);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  sum: _util__WEBPACK_IMPORTED_MODULE_0__.sum,
-  sayHello: sayHello,
-  value: value
-});
 }();
 /******/ })()
 ;

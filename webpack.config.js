@@ -3,11 +3,15 @@ const path = require("path");
 module.exports = {
     mode : "development",
     entry : {
-        index : path.join(__dirname, 'src', 'assets/script/index.js')
+        index : path.join(__dirname, 'src', 'assets/script/index.ts')
     },
     output : {
         filename : "[name].js",
-        path : path.resolve(__dirname, "dev")
+        path : path.resolve("dev")
+    },
+    resolve: {
+        modules : [path.join(__dirname, "src"), "node_modules"],
+        extensions : [".ts", ".js"]
     },
     module : {
         rules : [
@@ -26,8 +30,14 @@ module.exports = {
                         ]
                     }
                 }
+            },
+            {
+                test : /\.ts$/,
+                exclude : /node_modules/,
+                use : ['ts-loader']
             }
         ]
     },
+    
     devtool : 'source-map',
 }
