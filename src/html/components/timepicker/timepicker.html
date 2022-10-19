@@ -32,9 +32,9 @@
         <!-- id 제거 -->
         <input type="text" id="testpicker2" class="timepicker2 add_class_name">
     </div>
-    <div style="position: absolute; top: 400px; right:100px;">
+    <div style="position: absolute; top: 400px; right:130px;">
         <!-- id 제거 -->
-        <input type="text" id="testpicker3" class="timepicker2 add_class_name">
+        <input type="text" id="testpicker3" class="timepicker3 add_class_name">
     </div>
 
     
@@ -59,12 +59,16 @@
         var test2 = new YogoUI("#testpicker2", {
             type : "timepicker", // 사용할 타입 선언
             timeSet : "00:00", // 00:00:00 , 00:00
+            // tObPosition : 'top'
+            
         })
         test2.init();
 
         var test3 = new YogoUI("#testpicker3", {
             type : "timepicker", // 사용할 타입 선언
             timeSet : "00:00:00", // 00:00:00 , 00:00
+            tObPosition : 'top',// 드롭 다운 매뉴의 상하단 노출 위치 변경 default : bottom
+
         })
         test3.init();
 
