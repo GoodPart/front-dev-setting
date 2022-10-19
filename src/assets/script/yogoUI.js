@@ -1183,7 +1183,7 @@ class YogoUI {
 
             // 드롭 다운 메뉴가 브라우저 우측으로 넘어갈시 좌우 보정
             if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
-                // console.log("넘어감", )
+                // console.log("넘어감", ) 
                 if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
                     // tObPosition 옵션
                     console.log("없어")
