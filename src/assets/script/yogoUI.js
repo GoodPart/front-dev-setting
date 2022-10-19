@@ -6,7 +6,6 @@ class Timepicker {
         const minValue = 60;
         const secValue = 60;
         const globHouse = document.querySelector(".yogo_global_house");
-        console.log(props)
 
 
         const timeSetValue = [hourValue, minValue, secValue]
@@ -1100,7 +1099,6 @@ class YogoUI {
         const crtGolbalArea = document.createElement("div");
         crtGolbalArea.className = 'yogo_global_house';
 
-        // 글로벌 하우스 존재 유무 체크
         function crtGlobCheck(){
             const body = document.querySelector("body");
             const globArea = document.querySelector(".yogo_global_house")
@@ -1139,7 +1137,6 @@ class YogoUI {
                 crtPicker.init({
                     name : this.trigger,
                     dataset : this.options.timeSet,
-                    // tObPosition : this.options.tObPosition
                 })
             }
 
@@ -1159,6 +1156,8 @@ class YogoUI {
                 pageX : Picker.getBoundingClientRect().left,
                 pageY : Picker.getBoundingClientRect().top + Picker.offsetHeight + 8, //8 = 사이 넓이 값
             }
+
+            // console.log(pickerValue.pageX + globHouse.offsetWidth + 20 , window.innerWidth)
 
 
             if(initOption) {
@@ -1183,47 +1182,52 @@ class YogoUI {
 
             // 드롭 다운 메뉴가 브라우저 우측으로 넘어갈시 좌우 보정
             if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
-                // console.log("넘어감", ) 
-                if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
-                    // tObPosition 옵션
-                    console.log("없어")
-                    globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
-                }else {
-                    globHouse.classList.add("active");
-                    const globHouseHeight = globHouse.offsetHeight;
-                    globHouse.classList.remove("active");
-
-                    if(this.options.tObPosition === 'top') {
-                        globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
-                    }else if( this.options.tObPosition == 'bottom') {
-                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                    }
-                    
-                }
+                // console.log("넘어감", )
+                globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
             }else {
                 // console.log("통과")
-                if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
-                    // tObPosition 옵션
-                    console.log("없어")
-                    globHouse.style.transform = `translateX(${ pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                }else {
-                    globHouse.classList.add("active");
-                    const globHouseHeight = globHouse.offsetHeight;
-                    globHouse.classList.remove("active");
-
-                    if(this.options.tObPosition === 'top') {
-                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
-                    }else if( this.options.tObPosition == 'bottom') {
-                        globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                    }
-                }
+                globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
             }
 
-            setTimeout(()=> {
-                // 드롭다운 transition 추가
-                globHouse.classList.add("smooth")
-            })
+            // 드롭다운 매뉴 위아래 수정 관련 스크립트 (수정중)
+            // if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
+                // console.log("넘어감", ) 
+                // if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
+                //     // tObPosition 옵션
+                //     console.log("없어")
+                //     globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
+                // }else {
+                //     globHouse.classList.add("active");
+                //     const globHouseHeight = globHouse.offsetHeight;
+                //     globHouse.classList.remove("active");
             
+                //     if(this.options.tObPosition === 'top') {
+                //         globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
+                //     }else if( this.options.tObPosition == 'bottom') {
+                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+                //     }
+                    
+                // }
+            // }else {
+                // console.log("통과")
+                // if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
+                //     // tObPosition 옵션
+                //     console.log("없어")
+                //     globHouse.style.transform = `translateX(${ pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+                // }else {
+                //     globHouse.classList.add("active");
+                //     const globHouseHeight = globHouse.offsetHeight;
+                //     globHouse.classList.remove("active");
+            
+                //     if(this.options.tObPosition === 'top') {
+                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
+                //     }else if( this.options.tObPosition == 'bottom') {
+                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+                //     }
+                // }
+            // }
+
+            globHouse.classList.add("smooth")
 
 
             Object.values(globLi).map((ele, index)=> {
