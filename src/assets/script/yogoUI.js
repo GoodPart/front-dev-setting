@@ -1191,41 +1191,54 @@ class YogoUI {
 
             // 드롭다운 매뉴 위아래 수정 관련 스크립트 (수정중)
             // if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
-                // console.log("넘어감", ) 
-                // if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
-                //     // tObPosition 옵션
-                //     console.log("없어")
-                //     globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
-                // }else {
-                //     globHouse.classList.add("active");
-                //     const globHouseHeight = globHouse.offsetHeight;
-                //     globHouse.classList.remove("active");
+            //     console.log("넘어감", ) 
+            //     if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
+            //         // tObPosition 옵션
+            //         console.log("없어")
+            //         globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
+            //     }else {
+            //         globHouse.classList.add("active");
+            //         const globHouseHeight = globHouse.offsetHeight;
+            //         globHouse.classList.remove("active");
             
-                //     if(this.options.tObPosition === 'top') {
-                //         globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
-                //     }else if( this.options.tObPosition == 'bottom') {
-                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                //     }
+            //         if(this.options.tObPosition === 'top') {
+            //             globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
+            //         }else if( this.options.tObPosition == 'bottom') {
+            //             globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+            //         }
                     
-                // }
+            //     }
             // }else {
-                // console.log("통과")
-                // if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
-                //     // tObPosition 옵션
-                //     console.log("없어")
-                //     globHouse.style.transform = `translateX(${ pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                // }else {
-                //     globHouse.classList.add("active");
-                //     const globHouseHeight = globHouse.offsetHeight;
-                //     globHouse.classList.remove("active");
+            //     console.log("통과")
+            //     if(this.options.tObPosition == undefined || this.options.tObPosition == null) {
+            //         // tObPosition 옵션
+            //         console.log("없어")
+            //         globHouse.style.transform = `translateX(${ pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+            //     }else {
+            //         globHouse.classList.add("active");
+            //         const globHouseHeight = globHouse.offsetHeight;
+            //         globHouse.classList.remove("active");
             
-                //     if(this.options.tObPosition === 'top') {
-                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
-                //     }else if( this.options.tObPosition == 'bottom') {
-                //         globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-                //     }
-                // }
+            //         if(this.options.tObPosition === 'top') {
+            //             globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${Picker.getBoundingClientRect().top - globHouseHeight - 8 }px)`
+            //         }else if( this.options.tObPosition == 'bottom') {
+            //             globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+            //         }
+            //     }
             // }
+
+            function updatePosition(action, options) {
+                const ACTION = action;
+                const OPTIONS = options;
+
+                if(ACTION === 'scroll') {
+                    console.log(ACTION, OPTIONS)
+                }else if(ACTION === 'focus') {
+                    console.log(ACTION, OPTIONS)
+                }else {
+                    return  false
+                }
+            }
 
             globHouse.classList.add("smooth")
 
@@ -1427,6 +1440,8 @@ class YogoUI {
 
        
             PickerInput.addEventListener("focus",(e)=> {
+                // globHouse 위치 좌표값 지정.
+                updatePosition("focus", e)
                 globHouse.classList.add("active");
             })
             PickerInput.addEventListener("blur",(e)=> {
