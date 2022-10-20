@@ -1099,6 +1099,7 @@ class YogoUI {
         const crtGolbalArea = document.createElement("div");
         crtGolbalArea.className = 'yogo_global_house';
 
+        const initAfterOptions = initOption;
         function crtGlobCheck(){
             const body = document.querySelector("body");
             const globArea = document.querySelector(".yogo_global_house")
@@ -1230,17 +1231,91 @@ class YogoUI {
             function updatePosition(action, options) {
                 const ACTION = action;
                 const OPTIONS = options;
+                const throttle = {
+                    x : 20,
+                    y : 8
+                };
+
+                const tObOption = initOption.tObPosition;
+                // console.log(initAfterOptions)
+
+                // globDiv의 x위치값 계산
+                function calcX(picker, globHDiv) {
+                    // picker
+                    let pvx = picker.x;
+                    let pvw = picker.width;
+                    
+                    
+                    //globDiv
+                    let ghdw = globHDiv.offsetWidth;
+                    
+                    // 기준
+                    const standardX =  pvx + ghdw + throttle.x;
+                    const resultX = pvx - ((pvx + ghdw) - (pvx + pvw));
+
+                    // 화면 기준, globHouseDiv가 화면을 넘어감 or 좁다면
+                    if(standardX > window.innerWidth) {
+                        return resultX
+                    }else {
+                        return pvx
+                    }
+                };
+                
+                // globDiv의 y위치값 계산
+                function calcY(picker, globDiv, tObOption) {
+                    // picker
+                    let pvt = picker.top;
+                    let pvh = picker.height;
+
+                    //globDiv
+                    globDiv.classList.add("active");
+                    let ghdh = globDiv.offsetHeight;
+                    globDiv.classList.remove("active");
+                    
+                    const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
+                    const resultYN = pvt + window.scrollY + pvh + throttle.y;
+
+                    if(tObOption == undefined || tObOption == null) {
+                        // console.log(tObOption)
+                        return resultYN
+                    }else {
+                        if(tObOption === 'top') {
+                        // console.log(tObOption)
+                            return resultY
+                        }else {
+                            return resultYN
+                        }
+                    }
+                };
+
+                function moreCalcY(yvalue, iao) {
+                    console.log(yvalue, iao.hasScrollBar.useScrollType)
+                }
+
 
                 if(ACTION === 'scroll') {
-                    console.log(ACTION, OPTIONS)
+                    // console.log(ACTION, OPTIONS)
                 }else if(ACTION === 'focus') {
-                    console.log(ACTION, OPTIONS)
+                    const updateValue = {
+                        id : OPTIONS.path[3].id,
+                        inputObjectValue : OPTIONS.target.getBoundingClientRect(),
+                    };
+                    const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
+
+                    // globHouse 위치 값 설정.
+                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, tObOption)}px)`;
+
+                    moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
+
+
+
                 }else {
                     return  false
                 }
+            // globHouse.classList.add("smooth")
+
             }
 
-            globHouse.classList.add("smooth")
 
 
             Object.values(globLi).map((ele, index)=> {
@@ -1441,7 +1516,7 @@ class YogoUI {
        
             PickerInput.addEventListener("focus",(e)=> {
                 // globHouse 위치 좌표값 지정.
-                updatePosition("focus", e)
+                updatePosition("focus", e, this.options, initAfterOptions);
                 globHouse.classList.add("active");
             })
             PickerInput.addEventListener("blur",(e)=> {
