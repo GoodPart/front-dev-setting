@@ -1182,13 +1182,13 @@ class YogoUI {
 
 
             // 드롭 다운 메뉴가 브라우저 우측으로 넘어갈시 좌우 보정
-            if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
-                // console.log("넘어감", )
-                globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
-            }else {
-                // console.log("통과")
-                globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
-            }
+            // if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
+            //     // console.log("넘어감", )
+            //     globHouse.style.transform = `translateX(${ pickerValue.pageX - ((pickerValue.pageX + globHouse.offsetWidth) - (pickerValue.pageX + PickerInput.offsetWidth))  }px) translateY(${pickerValue.pageY}px)`
+            // }else {
+            //     // console.log("통과")
+            //     globHouse.style.transform = `translateX(${pickerValue.pageX}px) translateY(${pickerValue.pageY}px)`
+            // }
 
             // 드롭다운 매뉴 위아래 수정 관련 스크립트 (수정중)
             // if(pickerValue.pageX + globHouse.offsetWidth + 20 > window.innerWidth) {
@@ -1236,7 +1236,7 @@ class YogoUI {
                     y : 8
                 };
 
-                const tObOption = initOption.tObPosition;
+                // const tObOption = initOption.tObPosition;
                 // console.log(initAfterOptions)
 
                 // globDiv의 x위치값 계산
@@ -1303,9 +1303,9 @@ class YogoUI {
                     const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
 
                     // globHouse 위치 값 설정.
-                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, tObOption)}px)`;
+                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv)}px)`;
 
-                    moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
+                    // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
 
 
 
