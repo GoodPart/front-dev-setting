@@ -1276,7 +1276,7 @@ class YogoUI {
                     const resultYN = pvt + window.scrollY + pvh + throttle.y;
 
                     if(bTo == undefined || bTo == null) {
-                        console.log(bTo)
+                        // console.log(bTo)
                         return resultYN
                     }else {
                         if(bTo === 'top') {
@@ -1289,7 +1289,7 @@ class YogoUI {
                 };
 
                 function moreCalcY(yvalue, iao) {
-                    console.log(yvalue)
+                    // console.log(yvalue)
                 }
 
 

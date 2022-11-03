@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timepicker</title> -->
+
+    @@include('../../header/head.html', {
+        "title" : "rolling-value"
+    })
+    
+    
+    <body>
+        <ul class="list-rotation">
+            <li class="list-item">
+                <dl>
+                    <dt>VALUE01</dt>
+                    <dd class="cdd-change_value">21</dd>
+                    <dd class="cdd-change_count"><div class="value_arrow increase"></div><div class="cv">1</div></dd>
+                </dl>
+            </li>
+            <li class="list-item">
+                <dl>
+                    <dt>VALUE02</dt>
+                    <dd class="cdd-change_value">221</dd>
+                    <dd class="cdd-change_count"><div class="value_arrow decrease"></div><div class="cv">1</div></dd>
+                </dl>
+            </li>
+            <li class="list-item">
+                <dl>
+                    <dt>VALUE03</dt>
+                    <dd class="cdd-change_value">2</dd>
+                    <dd class="cdd-change_count"><div class="value_arrow keep"></div></dd>
+                </dl>
+            </li>
+            <li class="list-item">
+                <dl>
+                    <dt>VALUE04</dt>
+                    <dd class="cdd-change_value">2441</dd>
+                    <dd class="cdd-change_count"><div class="value_arrow decrease"></div><div class="cv">1</div></dd>
+                </dl>
+            </li>
+            <li class="list-item">
+                <dl>
+                    <dt>VALUE05</dt>
+                    <dd class="cdd-change_value">21</dd>
+                    <dd class="cdd-change_count"><div class="value_arrow increase"></div><div class="cv">1</div></dd>
+                </dl>
+            </li>
+        </ul>
+
+        @@include('../../footer/scriptArea.html', {
+
+        })
+
+        <script>
+
+class Pacinco {
+            constructor(name, options) {
+                this.name = name;
+                this.options = options;
+                this.storage = [];
+            };
+
+            getNumberLength(ele) {
+                let getObj = [];
+                Object.values(ele).map((target, index)=> {
+                    const tTxt = target.innerText;
+                    const tLength = tTxt.length;
+
+                    getObj = [
+                        ...getObj,
+                        {
+                            txt : tTxt,
+                            length : tLength
+                        }
+                    ]
+
+                })
+
+
+                return getObj
+            };
+
+            getNumb(num) {
+                let data = String(num);
+
+                return [...data]
+            }
+
+            crtHTML(name, number) {
+                const targets = document.querySelectorAll(name);
+                const getNL = this.getNumberLength(targets);
+
+                // ul 만들기
+                getNL.map((NL, index) => {
+                    targets[index].id = `pRoot-${index}`
+                    const crtUl = document.createElement("ul")
+
+                    // 초기 li 삽입
+                    for(let a = 0; a<NL.length; a++) {
+                        const crtLi = document.createElement("li");
+                        const liTemp = `
+                            <span>0</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                            <span>7</span>
+                            <span>8</span>
+                            <span>9</span>
+                        `;
+                        crtLi.innerHTML = liTemp;
+                        crtLi.className=`pacinco-item pacinco-item-${a}`;
+                        crtLi.dataset.number = '0';
+                        if(a <= NL.length) {
+                            crtUl.appendChild(crtLi)
+                        }
+                    };
+
+                    //기존 값 초기화
+                    targets[index].innerText = '';
+                    //ul에 index에 맞는 클래스 생성
+                    crtUl.className=`pacinco-list pacinco-list-${index}`;
+                    // ul html 작성
+                    targets[index].appendChild(crtUl)
+
+                });
+            };
+
+            addOrRemove(name, value) {
+                const getLength = name.querySelectorAll("li")
+                const inboundNumber = value;
+
+                let valueStorage = [];
+                if(this.getNumb(inboundNumber).length > getLength.length) {
+                    // console.log("들어온 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length, '---->',inboundNumber)
+                    // addRail
+                    this.addRail(name, inboundNumber, this.getNumb(inboundNumber).length - getLength.length)
+                }else {
+                    if(this.getNumb(inboundNumber).length < getLength.length) {
+                        // console.log("기존 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length)
+                        // removeRail
+                        this.removeRail(name, inboundNumber, this.getNumb(inboundNumber).length - getLength.length)
+                    }else {
+                        // console.log("같다", this.getNumb(inboundNumber).length, getLength.length)
+                        // rolling
+                    }
+                }
+                // const test = name.querySelectorAll("li")
+
+                // for(let i = 0; i<getLength.length; i++) {
+                //     console.log(getLength[i].dataset.number)
+                // }
+                // if()
+                
+
+                if(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length * 2 > this.storage.length) {
+                    this.storage = [
+                        ...this.storage,
+                        inboundNumber
+                    ]
+                }else {
+                    this.storage.splice(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1, name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1)
+                }
+                console.log(this.storage)
+
+
+                // console.log(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length)
+
+                // console.log(this.getNumb(inboundNumber))
+                
+
+
+            }
+
+            addRail(name) {
+                const selectUl = name.querySelector("ul")
+                const crtLi = document.createElement("li");
+                const test = `
+                        <span>0</span>
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                        <span>6</span>
+                        <span>7</span>
+                        <span>8</span>
+                        <span>9</span>
+                    `;
+
+                crtLi.innerHTML = test;
+                crtLi.className=`pacinco-item pacinco-item-${selectUl.childElementCount}`
+                selectUl.appendChild(crtLi)
+            };
+            removeRail(name) {
+                const selectUl = name.querySelector("ul")
+
+                selectUl.querySelector("li:last-child").remove();
+            }
+
+            rolling(name, value) {
+                const _id = document.querySelector(name);
+                const _li = _id.querySelectorAll("li");
+
+                for(let liC = 0; liC<_li.length; liC++) {
+                    setTimeout(()=> {
+                        _li[liC].style.transform = `translateY(-${this.getNumb(value)[liC]}0%)`;
+                        _li[liC].dataset.number = this.getNumb(value)[liC];
+                    }, 250 * liC)
+                }
+
+            }
+
+        
+
+
+            destroy(name, option) {
+                if(option !== 'update') {
+                    const target = document.querySelectorAll(this.name);
+                    Object.values(target).map((ele)=> {
+                    })
+                }else {
+                    const target = document.querySelector(name);
+                    target.innerText = ''
+                    console.log("여기")
+                }
+
+            };
+
+            update(id, number) {
+
+                const target = document.querySelector(id);
+                
+                // console.log(number);
+                this.addOrRemove(target,number);
+                this.rolling(id, number)
+            }
+
+            getBeforeValue(id) {
+                const target = document.querySelector(id);
+                const _li = target.querySelectorAll("li");
+                const _liLength = _li.length;
+
+            }
+            getAfterValue(id) {
+                const target = document.querySelector(id);
+                const _li = target.querySelectorAll("li");
+                const _liLength = _li.length;
+
+            }
+            // insertValue(name, number) {
+            //     this.getBeforeValue();
+            //     this.getAfterValue();
+            // }
+
+            init() {
+                this.crtHTML(this.name);
+                // test.update("#pRoot-0", 236)
+            }
+
+        }
+
+        const test = new Pacinco(".cdd-change_value", {
+            direction : 'left', //default 'left'
+        })
+        test.init();
+
+        window.addEventListener("dblclick", ()=> {
+            const randNumber = Math.floor(Math.random()*1000)
+            const randNumber2 = Math.floor(Math.random()*100)
+            const randNumber3 = Math.floor(Math.random()*10)
+            const randNumber4 = Math.floor(Math.random()*10000)
+            const randNumber5 = Math.floor(Math.random()*100)
+            test.getBeforeValue("#pRoot-0")
+            // test.insertValue("#pRoot-0")
+            test.update("#pRoot-0", randNumber)
+            test.getAfterValue("#pRoot-0")
+
+            test.update("#pRoot-1", randNumber2)
+            test.update("#pRoot-2", randNumber3)
+            test.update("#pRoot-3", randNumber4)
+            test.update("#pRoot-4", randNumber5)
+        })
+
+        </script>
+    </body>
+</head>
