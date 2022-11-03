@@ -1228,7 +1228,7 @@ class YogoUI {
             //     }
             // }
 
-            function updatePosition(action, options) {
+            function updatePosition(action, options, beforeOptions, afterOptions) {
                 const ACTION = action;
                 const OPTIONS = options;
                 const throttle = {
@@ -1237,7 +1237,7 @@ class YogoUI {
                 };
 
                 // const tObOption = initOption.tObPosition;
-                // console.log(initAfterOptions)
+                // console.log(beforeOptions)
 
                 // globDiv의 x위치값 계산
                 function calcX(picker, globHDiv) {
@@ -1262,7 +1262,7 @@ class YogoUI {
                 };
                 
                 // globDiv의 y위치값 계산
-                function calcY(picker, globDiv, tObOption) {
+                function calcY(picker, globDiv, bTo) {
                     // picker
                     let pvt = picker.top;
                     let pvh = picker.height;
@@ -1275,12 +1275,12 @@ class YogoUI {
                     const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
                     const resultYN = pvt + window.scrollY + pvh + throttle.y;
 
-                    if(tObOption == undefined || tObOption == null) {
-                        // console.log(tObOption)
+                    if(bTo == undefined || bTo == null) {
+                        console.log(bTo)
                         return resultYN
                     }else {
-                        if(tObOption === 'top') {
-                        // console.log(tObOption)
+                        if(bTo === 'top') {
+                        console.log(bTo)
                             return resultY
                         }else {
                             return resultYN
@@ -1289,7 +1289,7 @@ class YogoUI {
                 };
 
                 function moreCalcY(yvalue, iao) {
-                    console.log(yvalue, iao.hasScrollBar.useScrollType)
+                    console.log(yvalue)
                 }
 
 
@@ -1303,12 +1303,9 @@ class YogoUI {
                     const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
 
                     // globHouse 위치 값 설정.
-                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv)}px)`;
+                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, beforeOptions.tObPosition)}px)`;
 
                     // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
-
-
-
                 }else {
                     return  false
                 }
