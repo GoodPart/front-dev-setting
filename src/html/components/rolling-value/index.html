@@ -17,7 +17,7 @@
                 <dl>
                     <dt>VALUE01</dt>
                     <dd class="cdd-change_value">21</dd>
-                    <dd class="cdd-change_count"><div class="value_arrow increase"></div><div class="cv">1</div></dd>
+                    <dd class="cdd-change_count"><div class="value_arrow increase"></div><div class="cv">0</div></dd>
                 </dl>
             </li>
             <li class="list-item">
@@ -31,7 +31,7 @@
                 <dl>
                     <dt>VALUE03</dt>
                     <dd class="cdd-change_value">2</dd>
-                    <dd class="cdd-change_count"><div class="value_arrow keep"></div></dd>
+                    <dd class="cdd-change_count"><div class="value_arrow keep"></div><div class="cv">0</div></dd>
                 </dl>
             </li>
             <li class="list-item">
@@ -61,6 +61,11 @@ class Pacinco {
                 this.name = name;
                 this.options = options;
                 this.storage = [];
+                this.baStorage = {
+                    id : '',
+                    before : 0,
+                    after : 0
+                }
             };
 
             getNumberLength(ele) {
@@ -126,7 +131,11 @@ class Pacinco {
                     //ul에 index에 맞는 클래스 생성
                     crtUl.className=`pacinco-list pacinco-list-${index}`;
                     // ul html 작성
-                    targets[index].appendChild(crtUl)
+                    targets[index].appendChild(crtUl);
+
+                    const crtV = document.createElement("div");
+                    crtV.className = 'v sr-only'
+                    targets[index].prepend(crtV)
 
                 });
             };
@@ -158,15 +167,19 @@ class Pacinco {
                 // if()
                 
 
-                if(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length * 2 > this.storage.length) {
-                    this.storage = [
-                        ...this.storage,
-                        inboundNumber
-                    ]
-                }else {
-                    this.storage.splice(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1, name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1)
-                }
-                console.log(this.storage)
+                // if(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length * 2 > this.storage.length) {
+                //     this.storage = [
+                //         ...this.storage,
+                //         inboundNumber
+                //     ]
+                // }else {
+                //     this.storage.splice(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1, name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1)
+                //     this.storage = [
+                //         ...this.storage,
+                //         inboundNumber
+                //     ]
+                // }
+                // console.log(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length, this.storage.length, this.storage)
 
 
                 // console.log(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length)
@@ -206,13 +219,43 @@ class Pacinco {
             rolling(name, value) {
                 const _id = document.querySelector(name);
                 const _li = _id.querySelectorAll("li");
-
+                
+                _id.querySelector(".v").innerHTML = value;
+                
                 for(let liC = 0; liC<_li.length; liC++) {
                     setTimeout(()=> {
                         _li[liC].style.transform = `translateY(-${this.getNumb(value)[liC]}0%)`;
                         _li[liC].dataset.number = this.getNumb(value)[liC];
                     }, 250 * liC)
                 }
+            }
+
+            calcCount(name, aV) {
+                const _id = document.querySelector(name);
+                const _count = document.querySelector(`${name} + .cdd-change_count`);
+                
+                const beforeCv = Number(_id.querySelector(".v").innerText);
+
+                if(beforeCv === aV) {
+                    // 값이 같다면
+                    console.log(beforeCv, aV, beforeCv == aV)
+                    _count.querySelector(".cv").innerText =  0
+                    _count.querySelector(".value_arrow").className = "value_arrow keep"
+                }else {
+                    if(beforeCv < aV) {
+                        // 새로운 값이 더 크다면
+                    _count.querySelector(".cv").innerText =  Math.abs(beforeCv - aV)
+                    _count.querySelector(".value_arrow").className = "value_arrow increase"
+
+                    }else {
+                        // 기존 값이 더 크다면
+                        _count.querySelector(".cv").innerText =  Math.abs(beforeCv - aV);
+                        _count.querySelector(".value_arrow").className = "value_arrow decrease"
+
+
+                    }
+                }
+                console.log('before',beforeCv,'after', aV,'=', Math.abs(beforeCv - aV))
 
             }
 
@@ -238,19 +281,28 @@ class Pacinco {
                 
                 // console.log(number);
                 this.addOrRemove(target,number);
+                this.getAfterValue(id, number)
+                this.calcCount(id, number);
+
                 this.rolling(id, number)
+
+                // console.log(this.baStorage)
             }
 
-            getBeforeValue(id) {
+            getBeforeValue(id, number) {
                 const target = document.querySelector(id);
-                const _li = target.querySelectorAll("li");
-                const _liLength = _li.length;
-
+                // const _li = target.querySelectorAll("li");
+                // const _liLength = _li.length;
+                this.baStorage.id = id;
+                this.baStorage.before = number;
             }
-            getAfterValue(id) {
-                const target = document.querySelector(id);
-                const _li = target.querySelectorAll("li");
-                const _liLength = _li.length;
+            getAfterValue(id, number) {
+                // const target = document.querySelector(id);
+                // const _li = target.querySelectorAll("li");
+                // const _liLength = _li.length;
+                this.baStorage.id = id;
+                this.baStorage.after = number;
+
 
             }
             // insertValue(name, number) {
@@ -276,10 +328,8 @@ class Pacinco {
             const randNumber3 = Math.floor(Math.random()*10)
             const randNumber4 = Math.floor(Math.random()*10000)
             const randNumber5 = Math.floor(Math.random()*100)
-            test.getBeforeValue("#pRoot-0")
             // test.insertValue("#pRoot-0")
             test.update("#pRoot-0", randNumber)
-            test.getAfterValue("#pRoot-0")
 
             test.update("#pRoot-1", randNumber2)
             test.update("#pRoot-2", randNumber3)

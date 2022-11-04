@@ -47,12 +47,12 @@
 
 
     &.increase {
-      border-bottom: 8px solid #fff;/* 화살표 */
+      border-bottom: 8px solid tomato;/* 화살표 */
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
     }
     &.decrease {
-      border-top: 8px solid #fff;/* 화살표 */
+      border-top: 8px solid royalblue;/* 화살표 */
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
     }
@@ -80,4 +80,10 @@
   }
   .pacinco-item span {
     // @include font($family : ko, $size : 48px, $weight : 200, $spacing : -0.05em, $color : '#ffffff');
+  }
+
+
+  .v {
+    position: absolute;
+    bottom: 0;
   }
