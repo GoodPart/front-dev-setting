@@ -46,8 +46,20 @@ var RollingValue = /** @class */ (function () {
     ;
     RollingValue.prototype.getNumberLength = function (ele) {
         var getObj = [];
-        Object.values(ele).map(function (target, index) {
-            var tTxt = target.innerText;
+        // ie 11 이하에선 values를 지원하지 않음.
+        // Object.values(ele).map((target:any, index:number)=> {
+        //     const tTxt = target.innerText;
+        //     const tLength = tTxt.length;
+        //     getObj = [
+        //         ...getObj,
+        //         {
+        //             txt : tTxt,
+        //             length : tLength
+        //         }
+        //     ]
+        // })
+        Object.keys(ele).map(function (target, index) {
+            var tTxt = ele[target].innerText;
             var tLength = tTxt.length;
             getObj = __spreadArray(__spreadArray([], __read(getObj), false), [
                 {
@@ -91,7 +103,7 @@ var RollingValue = /** @class */ (function () {
             targets[index].appendChild(crtUl);
             var crtV = document.createElement("div");
             crtV.className = 'v sr-only';
-            targets[index].prepend(crtV);
+            targets[index].appendChild(crtV);
         });
     };
     ;
@@ -128,7 +140,11 @@ var RollingValue = /** @class */ (function () {
     ;
     RollingValue.prototype.removeRail = function (name) {
         var selectUl = name.querySelector("ul");
-        selectUl.querySelector("li:last-child").remove();
+        var liLength = selectUl.childElementCount;
+        // console.log('여기',selectUl.querySelectorAll("li")[liLength-1])
+        // ie에서 remove()를 사용할 수 없음(jquery)
+        // selectUl.querySelector("li:last-child").remove();
+        selectUl.removeChild(selectUl.querySelectorAll("li")[liLength - 1]);
     };
     ;
     RollingValue.prototype.rolling = function (name, value) {
@@ -153,7 +169,7 @@ var RollingValue = /** @class */ (function () {
         var beforeCv = Number(_id.querySelector(".v").innerText);
         if (beforeCv === aV) {
             // 값이 같다면
-            console.log(beforeCv, aV, beforeCv == aV);
+            // console.log(beforeCv, aV, beforeCv == aV)
             _count.querySelector(".cv").innerText = 0;
             _count.querySelector(".value_arrow").className = "value_arrow keep";
         }
@@ -169,7 +185,7 @@ var RollingValue = /** @class */ (function () {
                 _count.querySelector(".value_arrow").className = "value_arrow decrease";
             }
         }
-        console.log('before', beforeCv, 'after', aV, '=', Math.abs(beforeCv - aV));
+        // console.log('before',beforeCv,'after', aV,'=', Math.abs(beforeCv - aV))
     };
     ;
     RollingValue.prototype.update = function (id, number) {
@@ -295,6 +311,18 @@ window.addEventListener("dblclick", function () {
     test.update("#pRoot-3", randNumber4);
     test.update("#pRoot-4", randNumber5);
 });
+setInterval(function (_interval) {
+    var randNumber = Math.floor(Math.random() * 1000);
+    var randNumber2 = Math.floor(Math.random() * 100);
+    var randNumber3 = Math.floor(Math.random() * 10);
+    var randNumber4 = Math.floor(Math.random() * 10000);
+    var randNumber5 = Math.floor(Math.random() * 100);
+    test.update("#pRoot-0", randNumber);
+    test.update("#pRoot-1", randNumber2);
+    test.update("#pRoot-2", randNumber3);
+    test.update("#pRoot-3", randNumber4);
+    test.update("#pRoot-4", randNumber5);
+}, 1500);
 
 }();
 /******/ })()

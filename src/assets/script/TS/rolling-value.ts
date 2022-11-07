@@ -26,8 +26,8 @@ export class RollingValue {
 
         // })
 
-        Object.values(ele).map((target:any, index:number)=> {
-            const tTxt = target.innerText;
+        Object.keys(ele).map((target:any, index:number)=> {
+            const tTxt = ele[target].innerText;
             const tLength = tTxt.length;
 
             getObj = [
@@ -93,7 +93,7 @@ export class RollingValue {
 
             const crtV = document.createElement("div");
             crtV.className = 'v sr-only'
-            targets[index].prepend(crtV)
+            targets[index].appendChild(crtV)
 
         });
     };
@@ -142,8 +142,12 @@ export class RollingValue {
     };
     removeRail(name:any) {
         const selectUl = name.querySelector("ul")
+        const liLength = selectUl.childElementCount;
+        // console.log('여기',selectUl.querySelectorAll("li")[liLength-1])
 
-        selectUl.querySelector("li:last-child").remove();
+        // ie에서 remove()를 사용할 수 없음(jquery)
+        // selectUl.querySelector("li:last-child").remove();
+        selectUl.removeChild(selectUl.querySelectorAll("li")[liLength-1])
     };
 
     rolling(name:any, value:number) {
@@ -168,7 +172,7 @@ export class RollingValue {
 
         if(beforeCv === aV) {
             // 값이 같다면
-            console.log(beforeCv, aV, beforeCv == aV)
+            // console.log(beforeCv, aV, beforeCv == aV)
             _count.querySelector(".cv").innerText =  0
             _count.querySelector(".value_arrow").className = "value_arrow keep"
         }else {
@@ -185,7 +189,7 @@ export class RollingValue {
 
             }
         }
-        console.log('before',beforeCv,'after', aV,'=', Math.abs(beforeCv - aV))
+        // console.log('before',beforeCv,'after', aV,'=', Math.abs(beforeCv - aV))
 
     };
 
