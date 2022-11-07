@@ -5,5 +5,6 @@
       "esModuleInterop": true, // commonJS 모듈을 ES6로 import
       "sourceMap": true, // 디버깅 맵
       "downlevelIteration": true,   /* 타겟이 'ES5', 'ES3'일 때에도 'for-of', spread 그리고 destructuring 문법 모두 지원 */
+       "removeComments": true,   /* 주석 제거 */
     }
   }
