@@ -44,6 +44,7 @@
   .list-rotation dl dd.cdd-change_count .value_arrow{
     width: 0;
     height: 0;
+    transition: border .2s cubic-bezier(0.4, 0.96, 1, 1) 0.1s;
 
 
     &.increase {

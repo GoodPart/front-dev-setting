@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>timepicker</title> -->
 
     @@include('../../header/head.html', {
         "title" : "rolling-value"
@@ -159,34 +155,6 @@ class Pacinco {
                         // rolling
                     }
                 }
-                // const test = name.querySelectorAll("li")
-
-                // for(let i = 0; i<getLength.length; i++) {
-                //     console.log(getLength[i].dataset.number)
-                // }
-                // if()
-                
-
-                // if(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length * 2 > this.storage.length) {
-                //     this.storage = [
-                //         ...this.storage,
-                //         inboundNumber
-                //     ]
-                // }else {
-                //     this.storage.splice(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1, name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length-1)
-                //     this.storage = [
-                //         ...this.storage,
-                //         inboundNumber
-                //     ]
-                // }
-                // console.log(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length, this.storage.length, this.storage)
-
-
-                // console.log(name.parentNode.parentNode.parentNode.querySelectorAll("li.list-item").length)
-
-                // console.log(this.getNumb(inboundNumber))
-                
-
 
             }
 
@@ -279,40 +247,16 @@ class Pacinco {
 
                 const target = document.querySelector(id);
                 
-                // console.log(number);
                 this.addOrRemove(target,number);
-                this.getAfterValue(id, number)
                 this.calcCount(id, number);
-
                 this.rolling(id, number)
 
-                // console.log(this.baStorage)
             }
 
-            getBeforeValue(id, number) {
-                const target = document.querySelector(id);
-                // const _li = target.querySelectorAll("li");
-                // const _liLength = _li.length;
-                this.baStorage.id = id;
-                this.baStorage.before = number;
-            }
-            getAfterValue(id, number) {
-                // const target = document.querySelector(id);
-                // const _li = target.querySelectorAll("li");
-                // const _liLength = _li.length;
-                this.baStorage.id = id;
-                this.baStorage.after = number;
-
-
-            }
-            // insertValue(name, number) {
-            //     this.getBeforeValue();
-            //     this.getAfterValue();
-            // }
+          
 
             init() {
                 this.crtHTML(this.name);
-                // test.update("#pRoot-0", 236)
             }
 
         }
@@ -328,7 +272,6 @@ class Pacinco {
             const randNumber3 = Math.floor(Math.random()*10)
             const randNumber4 = Math.floor(Math.random()*10000)
             const randNumber5 = Math.floor(Math.random()*100)
-            // test.insertValue("#pRoot-0")
             test.update("#pRoot-0", randNumber)
 
             test.update("#pRoot-1", randNumber2)
@@ -336,6 +279,7 @@ class Pacinco {
             test.update("#pRoot-3", randNumber4)
             test.update("#pRoot-4", randNumber5)
         })
+
 
         </script>
     </body>
