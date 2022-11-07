@@ -1,9 +1,7 @@
 import { sayTs } from "./TS/sayTs";
-// import { sum } from "./util";
 import  {RollingValue} from "./TS/rolling-value";
 
 console.log("init index.ts");
-// sum(1,2);
 sayTs("say!!!!!!!!!!!");
 
 

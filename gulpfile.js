@@ -143,6 +143,7 @@ gulp.task("watch", ()=> {
         gulp.watch("src/html/**/*", gulp.series(['file-include']))
         gulp.watch("src/assets/style/**/*", gulp.series(['sass']))
         gulp.watch("src/assets/script/**/*.js", gulp.series(['script']))
+        gulp.watch("src/assets/script/*.ts", gulp.series(['script']))
         gulp.watch("src/assets/script/**/*.ts", gulp.series(['script']))
         
         resolve()
