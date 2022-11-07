@@ -7,7 +7,7 @@ const sayHello = (word) => {
 
 const value = 12;
 
-sum(5,4)
+sum(5,10)
 
 
 export default {

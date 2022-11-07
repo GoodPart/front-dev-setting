@@ -1,12 +1,25 @@
 const path = require("path");
+const glob = require("glob");
 
 module.exports = {
     mode : "development",
-    entry : {
-        index : path.join(__dirname, 'src', 'assets/script/index.ts')
-    },
+    // entry : {
+    //     index : path.join(__dirname, 'src', 'assets/script/index.ts'),
+    //     test : path.join(__dirname, 'src', 'assets/script/test.ts')
+    // },
+    entry : glob.sync("./src/assets/script/*.ts").reduce((acc, path) => {
+        // console.log(acc, path)
+        let entry = path.replace('.ts', '')
+        let entry2 = entry.replace('./src/assets/script/', '');
+        acc[entry2] = path
+        
+        // console.log('after',acc[entry2])
+
+        return acc
+    }, {}),
     output : {
         filename : "[name].js",
+        // filename : glob.sync("./src/assets/script/*.js"),
         path : path.resolve("dev")
     },
     resolve: {
