@@ -2,19 +2,191 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/assets/script/util.js":
-/*!***********************************!*\
-  !*** ./src/assets/script/util.js ***!
-  \***********************************/
+/***/ "./src/assets/script/TS/rolling-value.ts":
+/*!***********************************************!*\
+  !*** ./src/assets/script/TS/rolling-value.ts ***!
+  \***********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sum": function() { return /* binding */ sum; }
+/* harmony export */   "RollingValue": function() { return /* binding */ RollingValue; }
 /* harmony export */ });
-function sum(a, b) {
-  return console.log(a + b);
-}
+var __read = (undefined && undefined.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+var RollingValue = /** @class */ (function () {
+    function RollingValue(name, options) {
+        this.name = name;
+        this.options = options;
+        this.storage = [];
+    }
+    ;
+    RollingValue.prototype.getNumberLength = function (ele) {
+        var getObj = [];
+        Object.values(ele).map(function (target, index) {
+            var tTxt = target.innerText;
+            var tLength = tTxt.length;
+            getObj = __spreadArray(__spreadArray([], __read(getObj), false), [
+                {
+                    txt: tTxt,
+                    length: tLength
+                }
+            ], false);
+        });
+        return getObj;
+    };
+    ;
+    RollingValue.prototype.getNumb = function (num) {
+        var data = String(num);
+        return __spreadArray([], __read(data), false);
+    };
+    ;
+    RollingValue.prototype.crtHTML = function (name) {
+        var targets = document.querySelectorAll(name);
+        var getNL = this.getNumberLength(targets);
+        // ul 만들기
+        getNL.map(function (NL, index) {
+            targets[index].id = "pRoot-".concat(index);
+            var crtUl = document.createElement("ul");
+            // 초기 li 삽입
+            for (var a = 0; a < NL.length; a++) {
+                var crtLi = document.createElement("li");
+                var liTemp = "\n                    <span>0</span>\n                    <span>1</span>\n                    <span>2</span>\n                    <span>3</span>\n                    <span>4</span>\n                    <span>5</span>\n                    <span>6</span>\n                    <span>7</span>\n                    <span>8</span>\n                    <span>9</span>\n                ";
+                crtLi.innerHTML = liTemp;
+                crtLi.className = "pacinco-item pacinco-item-".concat(a);
+                crtLi.dataset.number = '0';
+                if (a <= NL.length) {
+                    crtUl.appendChild(crtLi);
+                }
+            }
+            ;
+            //기존 값 초기화
+            targets[index].innerText = '';
+            //ul에 index에 맞는 클래스 생성
+            crtUl.className = "pacinco-list pacinco-list-".concat(index);
+            // ul html 작성
+            targets[index].appendChild(crtUl);
+            var crtV = document.createElement("div");
+            crtV.className = 'v sr-only';
+            targets[index].prepend(crtV);
+        });
+    };
+    ;
+    RollingValue.prototype.addOrRemove = function (name, value) {
+        var getLength = name.querySelectorAll("li");
+        var inboundNumber = value;
+        var valueStorage = [];
+        if (this.getNumb(inboundNumber).length > getLength.length) {
+            // console.log("들어온 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length, '---->',inboundNumber)
+            // addRail
+            this.addRail(name);
+        }
+        else {
+            if (this.getNumb(inboundNumber).length < getLength.length) {
+                // console.log("기존 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length)
+                // removeRail
+                this.removeRail(name);
+            }
+            else {
+                // console.log("같다", this.getNumb(inboundNumber).length, getLength.length)
+                // rolling
+            }
+        }
+    };
+    ;
+    RollingValue.prototype.addRail = function (name) {
+        var selectUl = name.querySelector("ul");
+        var crtLi = document.createElement("li");
+        var test = "\n                <span>0</span>\n                <span>1</span>\n                <span>2</span>\n                <span>3</span>\n                <span>4</span>\n                <span>5</span>\n                <span>6</span>\n                <span>7</span>\n                <span>8</span>\n                <span>9</span>\n            ";
+        crtLi.innerHTML = test;
+        crtLi.className = "pacinco-item pacinco-item-".concat(selectUl.childElementCount);
+        selectUl.appendChild(crtLi);
+    };
+    ;
+    RollingValue.prototype.removeRail = function (name) {
+        var selectUl = name.querySelector("ul");
+        selectUl.querySelector("li:last-child").remove();
+    };
+    ;
+    RollingValue.prototype.rolling = function (name, value) {
+        var _this = this;
+        var _id = document.querySelector(name);
+        var _li = _id.querySelectorAll("li");
+        _id.querySelector(".v").innerHTML = value;
+        var _loop_1 = function (liC) {
+            setTimeout(function () {
+                _li[liC].style.transform = "translateY(-".concat(_this.getNumb(value)[liC], "0%)");
+                _li[liC].dataset.number = _this.getNumb(value)[liC];
+            }, 250 * liC);
+        };
+        for (var liC = 0; liC < _li.length; liC++) {
+            _loop_1(liC);
+        }
+    };
+    ;
+    RollingValue.prototype.calcCount = function (name, aV) {
+        var _id = document.querySelector(name);
+        var _count = document.querySelector("".concat(name, " + .cdd-change_count"));
+        var beforeCv = Number(_id.querySelector(".v").innerText);
+        if (beforeCv === aV) {
+            // 값이 같다면
+            console.log(beforeCv, aV, beforeCv == aV);
+            _count.querySelector(".cv").innerText = 0;
+            _count.querySelector(".value_arrow").className = "value_arrow keep";
+        }
+        else {
+            if (beforeCv < aV) {
+                // 새로운 값이 더 크다면
+                _count.querySelector(".cv").innerText = Math.abs(beforeCv - aV);
+                _count.querySelector(".value_arrow").className = "value_arrow increase";
+            }
+            else {
+                // 기존 값이 더 크다면
+                _count.querySelector(".cv").innerText = Math.abs(beforeCv - aV);
+                _count.querySelector(".value_arrow").className = "value_arrow decrease";
+            }
+        }
+        console.log('before', beforeCv, 'after', aV, '=', Math.abs(beforeCv - aV));
+    };
+    ;
+    RollingValue.prototype.update = function (id, number) {
+        var target = document.querySelector(id);
+        this.addOrRemove(target, number);
+        this.calcCount(id, number);
+        this.rolling(id, number);
+    };
+    ;
+    RollingValue.prototype.init = function () {
+        this.crtHTML(this.name);
+        console.log("init!!");
+    };
+    return RollingValue;
+}());
+
+
 
 /***/ }),
 
@@ -100,11 +272,29 @@ var __webpack_exports__ = {};
   \************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TS_sayTs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/sayTs */ "./src/assets/script/TS/sayTs.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./src/assets/script/util.js");
+/* harmony import */ var _TS_rolling_value__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TS/rolling-value */ "./src/assets/script/TS/rolling-value.ts");
 
+// import { sum } from "./util";
 
-(0,_util__WEBPACK_IMPORTED_MODULE_1__.sum)(1, 2);
+console.log("init index.ts");
+// sum(1,2);
 (0,_TS_sayTs__WEBPACK_IMPORTED_MODULE_0__.sayTs)("say!!!!!!!!!!!");
+var test = new _TS_rolling_value__WEBPACK_IMPORTED_MODULE_1__.RollingValue(".cdd-change_value", {
+    options: "test"
+});
+test.init();
+window.addEventListener("dblclick", function () {
+    var randNumber = Math.floor(Math.random() * 1000);
+    var randNumber2 = Math.floor(Math.random() * 100);
+    var randNumber3 = Math.floor(Math.random() * 10);
+    var randNumber4 = Math.floor(Math.random() * 10000);
+    var randNumber5 = Math.floor(Math.random() * 100);
+    test.update("#pRoot-0", randNumber);
+    test.update("#pRoot-1", randNumber2);
+    test.update("#pRoot-2", randNumber3);
+    test.update("#pRoot-3", randNumber4);
+    test.update("#pRoot-4", randNumber5);
+});
 
 }();
 /******/ })()

@@ -1,16 +1,31 @@
-class RollingValue {
+export class RollingValue {
     name : string;
     options : any;
     storage : any;
 
     constructor( name : string, options : any ) {
         this.name = name;
-                this.options = options;
-                this.storage = [];
+        this.options = options;
+        this.storage = [];
     };
 
     getNumberLength(ele:any) {
         let getObj = [];
+        // ie 11 이하에선 values를 지원하지 않음.
+        // Object.values(ele).map((target:any, index:number)=> {
+        //     const tTxt = target.innerText;
+        //     const tLength = tTxt.length;
+
+        //     getObj = [
+        //         ...getObj,
+        //         {
+        //             txt : tTxt,
+        //             length : tLength
+        //         }
+        //     ]
+
+        // })
+
         Object.values(ele).map((target:any, index:number)=> {
             const tTxt = target.innerText;
             const tLength = tTxt.length;
@@ -26,6 +41,7 @@ class RollingValue {
         })
 
 
+
         return getObj
     };
 
@@ -36,7 +52,7 @@ class RollingValue {
         return [...data]
     };
 
-    crtHTML(name:string, number:number) {
+    crtHTML(name:string) {
         const targets:any = document.querySelectorAll(name);
         const getNL = this.getNumberLength(targets);
 
@@ -81,4 +97,110 @@ class RollingValue {
 
         });
     };
+
+    addOrRemove(name:any, value:number) {
+        const getLength = name.querySelectorAll("li")
+        const inboundNumber = value;
+
+        let valueStorage = [];
+        if(this.getNumb(inboundNumber).length > getLength.length) {
+            // console.log("들어온 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length, '---->',inboundNumber)
+            // addRail
+            this.addRail(name)
+        }else {
+            if(this.getNumb(inboundNumber).length < getLength.length) {
+                // console.log("기존 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length)
+                // removeRail
+                this.removeRail(name)
+            }else {
+                // console.log("같다", this.getNumb(inboundNumber).length, getLength.length)
+                // rolling
+            }
+        }
+
+    };
+
+    addRail(name:any) {
+        const selectUl = name.querySelector("ul")
+        const crtLi = document.createElement("li");
+        const test = `
+                <span>0</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span>8</span>
+                <span>9</span>
+            `;
+
+        crtLi.innerHTML = test;
+        crtLi.className=`pacinco-item pacinco-item-${selectUl.childElementCount}`
+        selectUl.appendChild(crtLi)
+    };
+    removeRail(name:any) {
+        const selectUl = name.querySelector("ul")
+
+        selectUl.querySelector("li:last-child").remove();
+    };
+
+    rolling(name:any, value:number) {
+        const _id = document.querySelector(name);
+        const _li = _id.querySelectorAll("li");
+        
+        _id.querySelector(".v").innerHTML = value;
+        
+        for(let liC = 0; liC<_li.length; liC++) {
+            setTimeout(()=> {
+                _li[liC].style.transform = `translateY(-${this.getNumb(value)[liC]}0%)`;
+                _li[liC].dataset.number = this.getNumb(value)[liC];
+            }, 250 * liC)
+        }
+    };
+
+    calcCount(name:any, aV:number) {
+        const _id = document.querySelector(name);
+        const _count:any = document.querySelector(`${name} + .cdd-change_count`);
+        
+        const beforeCv = Number(_id.querySelector(".v").innerText);
+
+        if(beforeCv === aV) {
+            // 값이 같다면
+            console.log(beforeCv, aV, beforeCv == aV)
+            _count.querySelector(".cv").innerText =  0
+            _count.querySelector(".value_arrow").className = "value_arrow keep"
+        }else {
+            if(beforeCv < aV) {
+                // 새로운 값이 더 크다면
+            _count.querySelector(".cv").innerText =  Math.abs(beforeCv - aV)
+            _count.querySelector(".value_arrow").className = "value_arrow increase"
+
+            }else {
+                // 기존 값이 더 크다면
+                _count.querySelector(".cv").innerText =  Math.abs(beforeCv - aV);
+                _count.querySelector(".value_arrow").className = "value_arrow decrease"
+
+
+            }
+        }
+        console.log('before',beforeCv,'after', aV,'=', Math.abs(beforeCv - aV))
+
+    };
+
+    update(id:string, number:number) {
+
+        const target = document.querySelector(id);
+        
+        this.addOrRemove(target, number);
+        this.calcCount(id, number);
+        this.rolling(id, number)
+
+    };
+
+    init() {
+        this.crtHTML(this.name);
+        console.log("init!!")
+    }
 }
