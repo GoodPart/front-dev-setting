@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-@@include('../include/head.html', {
+<!-- @@include('../include/head.html', {
     title : 'page2 타이틀입니다.',
     style : '/assets/style/css/test.css'
-})
+}) -->
 <body>
     
+    <h1>test</h1>
+    <hr>
+    <div id="root">
+        
+    </div>
 
-    @@include('../include/footer.html')
+    <!-- @@include('../include/footer.html') -->
 
     <!-- <script src="../../assets/script/index.js"></script> -->
     @@include('../include/script.html', {
         mode : "development",
-        url : '/assets/script/index.js'
+        url : '/assets/script/page2.js'
     })
 </body>
 </html>
