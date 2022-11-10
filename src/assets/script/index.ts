@@ -1,6 +1,6 @@
 import { sayTs } from "./TS/sayTs";
 import  {RollingValue} from "./TS/rolling-value";
-import {CreateElement} from "./TS/createElement";
+// import {CreateElement} from "./TS/createElement";
 
 sayTs("say!!!!!!!!!!!");
 
@@ -40,9 +40,3 @@ setInterval((_interval)=>{
     test.update("#pRoot-4", randNumber5)
 }, 1500)
 
-
-const test2 = new CreateElement("div", {
-    className : "test-class",
-})
-
-test2.init()

@@ -2,56 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/assets/script/TS/createElement.ts":
-/*!***********************************************!*\
-  !*** ./src/assets/script/TS/createElement.ts ***!
-  \***********************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CreateElement": function() { return /* binding */ CreateElement; }
-/* harmony export */ });
-var CreateElement = (function () {
-    function CreateElement(ele, options) {
-        this.ele = ele;
-        this.options = options;
-    }
-    CreateElement.prototype.crtHTML = function () {
-        var _this = this;
-        var getEle = this.ele;
-        var createEle = document.createElement("".concat(getEle));
-        if (this.options) {
-            Object.keys(this.options).map(function (op, index) {
-                console.log(op);
-                if (op == 'className') {
-                    createEle.className = _this.options[op];
-                }
-                if (op == 'id') {
-                    createEle.id = _this.options[op];
-                }
-                if (op == 'name') {
-                    createEle.setAttribute("name", _this.options[op]);
-                }
-            });
-        }
-        else {
-        }
-        console.log(createEle);
-        return createEle;
-    };
-    CreateElement.prototype.insertOptions = function (crtedEle, options) {
-    };
-    CreateElement.prototype.init = function () {
-        this.crtHTML();
-    };
-    return CreateElement;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/assets/script/TS/rolling-value.ts":
 /*!***********************************************!*\
   !*** ./src/assets/script/TS/rolling-value.ts ***!
@@ -308,8 +258,6 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TS_sayTs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/sayTs */ "./src/assets/script/TS/sayTs.ts");
 /* harmony import */ var _TS_rolling_value__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TS/rolling-value */ "./src/assets/script/TS/rolling-value.ts");
-/* harmony import */ var _TS_createElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TS/createElement */ "./src/assets/script/TS/createElement.ts");
-
 
 
 (0,_TS_sayTs__WEBPACK_IMPORTED_MODULE_0__.sayTs)("say!!!!!!!!!!!");
@@ -341,10 +289,6 @@ setInterval(function (_interval) {
     test.update("#pRoot-3", randNumber4);
     test.update("#pRoot-4", randNumber5);
 }, 1500);
-var test2 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_2__.CreateElement("div", {
-    className: "test-class"
-});
-test2.init();
 
 }();
 /******/ })()

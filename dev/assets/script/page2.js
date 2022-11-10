@@ -10,42 +10,84 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CreateElement": function() { return /* binding */ CreateElement; }
+/* harmony export */   "CreateEleMentForm": function() { return /* binding */ CreateEleMentForm; },
+/* harmony export */   "CreateElementDiv": function() { return /* binding */ CreateElementDiv; }
 /* harmony export */ });
-var CreateElement = (function () {
-    function CreateElement(ele, options) {
+var CreateEleMentForm = (function () {
+    function CreateEleMentForm(ele, options) {
         this.ele = ele;
         this.options = options;
     }
-    CreateElement.prototype.crtHTML = function () {
+    CreateEleMentForm.prototype.create = function () {
         var _this = this;
         var getEle = this.ele;
         var createEle = document.createElement("".concat(getEle));
-        if (this.options) {
-            Object.keys(this.options).map(function (op, index) {
-                console.log(op);
-                if (op == 'className') {
-                    createEle.className = _this.options[op];
+        Object.keys(this.options).map(function (op, index) {
+            if (op == 'id') {
+                createEle.id = _this.options[op];
+            }
+            if (op == 'className') {
+                createEle.className = _this.options[op];
+            }
+            if (op == 'type') {
+                createEle.setAttribute("type", _this.options[op]);
+                if (_this.options[op] == 'radio') {
                 }
-                if (op == 'id') {
-                    createEle.id = _this.options[op];
+                else if (_this.options[op] == 'checkbox') {
                 }
-                if (op == 'name') {
-                    createEle.setAttribute("name", _this.options[op]);
+                else if (_this.options[op] == 'button') {
                 }
-            });
+            }
+            if (op == 'name') {
+                createEle.setAttribute("name", _this.options[op]);
+            }
+            if (op == 'datasets') {
+                var datasetsLength = _this.options[op].length;
+                for (var d = 0; d < datasetsLength; d++) {
+                    createEle.setAttribute("data-".concat(_this.options[op][d].name), _this.options[op][d].value);
+                }
+            }
+            if (op == 'placeholder') {
+                createEle.setAttribute("placeholder", _this.options[op]);
+            }
+        });
+        return createEle;
+        console.log(createEle);
+    };
+    ;
+    CreateEleMentForm.prototype.insertDOM = function (action, location) {
+        var getEle = this.create();
+        var _action = action;
+        var _location = document.querySelector(location);
+        if (_action == 'append') {
+            _location.appendChild(getEle);
         }
         else {
+            _location.prepend(getEle);
         }
-        console.log(createEle);
+    };
+    return CreateEleMentForm;
+}());
+var CreateElementDiv = (function () {
+    function CreateElementDiv(ele, options) {
+        this.ele = ele;
+        this.options = options;
+    }
+    ;
+    CreateElementDiv.prototype.crtHTML = function () {
+        var getEle = this.ele;
+        var createEle = document.createElement("".concat(getEle));
+        if (getEle == "div") {
+            console.log(getEle);
+        }
+        else {
+            console.log(getEle);
+        }
         return createEle;
     };
-    CreateElement.prototype.insertOptions = function (crtedEle, options) {
+    CreateElementDiv.prototype.insertOptions = function (crtedEle, options) {
     };
-    CreateElement.prototype.init = function () {
-        this.crtHTML();
-    };
-    return CreateElement;
+    return CreateElementDiv;
 }());
 
 
@@ -117,11 +159,27 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TS_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/createElement */ "./src/assets/script/TS/createElement.ts");
 
-var test2 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_0__.CreateElement("div", {
+var test2 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_0__.CreateElementDiv("div", {
     className: "test-class",
     id: "test-id"
 });
-test2.init();
+var test1 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_0__.CreateEleMentForm("input", {
+    className: "test-class2",
+    type: "radio",
+    name: "radio-input",
+    checked: false,
+    datasets: [
+        {
+            name: 'test',
+            value: 123
+        },
+        {
+            name: 'test2',
+            value: 'asd'
+        },
+    ]
+});
+test1.insertDOM("append", "#root");
 
 }();
 /******/ })()
