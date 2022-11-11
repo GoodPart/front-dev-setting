@@ -52,7 +52,6 @@ var CreateEleMentForm = (function () {
             }
         });
         return createEle;
-        console.log(createEle);
     };
     ;
     CreateEleMentForm.prototype.insertDOM = function (action, location) {
@@ -75,19 +74,95 @@ var CreateElementDiv = (function () {
     }
     ;
     CreateElementDiv.prototype.crtHTML = function () {
+        var _this = this;
         var getEle = this.ele;
         var createEle = document.createElement("".concat(getEle));
-        if (getEle == "div") {
-            console.log(getEle);
-        }
-        else {
-            console.log(getEle);
+        if (this.options) {
+            Object.keys(this.options).map(function (op, index) {
+                if (op == 'className') {
+                    createEle.className = _this.options[op];
+                }
+                if (op == 'id') {
+                    createEle.id = _this.options[op];
+                }
+                if (op == 'htmlTemplate') {
+                }
+            });
         }
         return createEle;
     };
-    CreateElementDiv.prototype.insertOptions = function (crtedEle, options) {
+    CreateElementDiv.prototype.doListing = function (parent, count, childNode, options) {
+        var _this = this;
+        var id = options.id, className = options.className, dataset = options.dataset;
+        var _loop_1 = function (i) {
+            var crtChildNode = document.createElement(childNode);
+            if (options !== '' || options !== undefined || options !== null) {
+                Object.keys(options).map(function (op, index) {
+                    if (op == 'className') {
+                        crtChildNode.className = _this.options[op];
+                    }
+                    if (op == 'id') {
+                        crtChildNode.id = _this.options[op];
+                    }
+                });
+            }
+            if (i <= count) {
+                parent.appendChild(childNode);
+            }
+        };
+        for (var i = 0; i < count; i++) {
+            _loop_1(i);
+        }
+        ;
     };
     return CreateElementDiv;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/assets/script/TS/doFunction.ts":
+/*!********************************************!*\
+  !*** ./src/assets/script/TS/doFunction.ts ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DoListing": function() { return /* binding */ DoListing; },
+/* harmony export */   "doListing": function() { return /* binding */ doListing; }
+/* harmony export */ });
+var doListing = function (parent, count, childNode, options) {
+    var id = options.id, className = options.className, dataset = options.dataset;
+    var _loop_1 = function (i) {
+        var crtChildNode = document.createElement(childNode);
+        if (options !== '' || options !== undefined || options !== null) {
+            Object.keys(options).map(function (op, index) {
+                if (op == 'className') {
+                    crtChildNode.className = options[op];
+                }
+                if (op == 'id') {
+                    crtChildNode.id = options[op];
+                }
+            });
+        }
+        if (i <= count) {
+            parent.appendChild(crtChildNode);
+        }
+    };
+    for (var i = 0; i < count; i++) {
+        _loop_1(i);
+    }
+    ;
+};
+var DoListing = (function () {
+    function DoListing() {
+    }
+    DoListing.prototype.test = function () {
+        console.log('test');
+    };
+    return DoListing;
 }());
 
 
@@ -158,6 +233,8 @@ var __webpack_exports__ = {};
   \************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TS_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/createElement */ "./src/assets/script/TS/createElement.ts");
+/* harmony import */ var _TS_doFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TS/doFunction */ "./src/assets/script/TS/doFunction.ts");
+
 
 var test2 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_0__.CreateElementDiv("div", {
     className: "test-class",
@@ -179,7 +256,12 @@ var test1 = new _TS_createElement__WEBPACK_IMPORTED_MODULE_0__.CreateEleMentForm
         },
     ]
 });
-test1.insertDOM("append", "#root");
+var testTemp = "\n    <div class='test'>test HTML template<div>\n";
+console.log(test2);
+var crtedUl = document.createElement("ul");
+(0,_TS_doFunction__WEBPACK_IMPORTED_MODULE_1__.doListing)(crtedUl, 3, "li", {
+    className: "testClass"
+});
 
 }();
 /******/ })()

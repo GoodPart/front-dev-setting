@@ -1,7 +1,7 @@
 interface optionsConfig {
     id ? :string;
-    name ? : string;
     className ? : string;
+    htmlTemplate ? : any;
 }
 interface optionsFormConfig {
     id ? :string;
@@ -52,7 +52,7 @@ class CreateEleMentForm implements createElementFormConfig{
                 createEle.setAttribute("type", this.options[op])
 
                 if(this.options[op] == 'radio') {
-                    
+
                 }else if(this.options[op] == 'checkbox') {
 
                 }else if(this.options[op] == 'button') {
@@ -76,7 +76,6 @@ class CreateEleMentForm implements createElementFormConfig{
         })
 
         return createEle
-        console.log(createEle)
     };
 
     insertDOM(action:string, location:any){
@@ -97,49 +96,75 @@ class CreateEleMentForm implements createElementFormConfig{
 class CreateElementDiv implements createElementConfig {
     ele : string;
     options : optionsConfig;
+    stayEle : any;
     
     constructor(ele:string, options : object) {
         this.ele = ele;
-        this.options = options
+        this.options = options;
+
+        // this.stayEle = this.crtHTML();
     };
 
     crtHTML() {
         const getEle = this.ele;
-
-
-
         const createEle = document.createElement(`${getEle}`);
         
-        if(getEle == "div" ) {
-            console.log(getEle)
+        if(this.options) {
 
-        }else {
-            console.log(getEle)
-        }
-        // if(this.options) {
+            Object.keys(this.options).map((op, index)=> {
 
-        //     Object.keys(this.options).map((op, index)=> {
-
-        //         if(op == 'className') {
-        //             createEle.className =  this.options[op];
-        //         }
-        //         if(op == 'id') {
-        //             createEle.id =  this.options[op];
-        //         }
-        //         if(op == 'name') {
-        //             createEle.setAttribute("name", this.options[op])
-        //         }
-
-        //     })
+                if(op == 'className') {
+                    createEle.className =  this.options[op];
+                }
+                if(op == 'id') {
+                    createEle.id =  this.options[op];
+                }
+                if(op == 'htmlTemplate') {
+                    
+                }
+               
+            })
             
-        // }
-        
+        }
         return createEle
     }
 
-    insertOptions(crtedEle, options) {
+    doListing(parent, count, childNode, options ) {
+        
+        const {id, className, dataset} = options;
+
+        for(let i = 0; i<count; i++) {
+            const crtChildNode = document.createElement(childNode);
+
+            if(options !== '' || options !== undefined || options !== null) {
+                Object.keys(options).map((op, index)=> {
+    
+                    if(op == 'className') {
+                        crtChildNode.className =  this.options[op];
+                    }
+                    if(op == 'id') {
+                        crtChildNode.id =  this.options[op];
+                    }
+                })
+            }
+
+
+            if(i<= count) {
+                parent.appendChild(childNode)
+            }
+ 
+        };
+        
+        
+
+        
+
+
 
     }
+
+
+
 
     // init()  {
     //     // console.log(this.ele, this.options)
