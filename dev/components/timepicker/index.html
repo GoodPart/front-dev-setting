@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timepicker</title> -->
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timepicker component</title>
+
+    <link rel="stylesheet" href="../../assets/style/css/test.css">
+</head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/theme.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"> -->
+    
+    <style>
+        /* dialog test style */
+        .ui-dialog-content {
+            /* overflow-y: auto;
+            height: 30px !important */
+        }
+        /* .timepicker3  {
+            height: 1000px;
+        } */
+    </style>
+</head>
+
+<body style="height: 2000px">
+    
+    
+    <!-- <div class="scrolled" style="overflow-y: scroll; height : 100px">
+
+        <div style="height: 500px;">
+            <div>
+                <input type="text" id="testpicker" class="timepicker1 add_class_name">
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div style="position: absolute; top: 400px; right:30px; ">
+        <input type="text" id="testpicker2" class="timepicker2 add_class_name">
+    </div> -->
+    <div style="position: absolute; top: 400px; right:30px; ">
+        <!-- id 제거 -->
+        <input type="text" id="testpicker3" class="timepicker3 add_class_name">
+    </div>
+<!-- 
+    <div id="dialog-message" title="Download complete">
+        <div class="mcus">
+            <input type="text" id="testpicker3" class="timepicker3 add_class_name">
+        </div>
+    </div> -->
+
+    <!-- <button type="button" onclick="openDlg()">open</button> -->
+
+    
+    <!-- gpPicker.js 용 -->
+
+    
+
+    <script src="../../assets/script/index2.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script> -->
+    <script>
+        // $( function() {
+        //     $( "#dialog-message" ).dialog({
+        //         autoOpen : false,
+        //         modal: false,
+        //         height : 200,
+        //         // draggable: false,
+              
+        //         open : () => {
+        //             console.log("open")
+        //             var test3 = new YogoUI("#testpicker3", {
+        //                 type : "timepicker", // 사용할 타입 선언
+        //                 timeSet : "00:00:00", // 00:00:00 , 00:00
+        //                 // tObPosition : 'top',// 드롭 다운 매뉴의 상하단 노출 위치 변경 default : bottom
+
+        //             })
+        //             test3.init();
+        //         }
+        //     });
+        // } );
+
+        // $(function() {
+        //     $(".ui-dialog-content").mCustomScrollbar({
+        //         autoHideScrollbar: true,
+        //         scrollInertia: 0,
+        //         callbacks : {
+        //             onInit : function() {
+        //                 var otherValue = 16;
+        //                 var st = $(this)[0].mcs.top - otherValue;
+        //                 var lt = $(this)[0].mcs.left;
+
+        //                 document.querySelector(".yogo_global_house div[data-id='testpicker3']").style.top = `${st - 320}px`;
+        //                 document.querySelector(".yogo_global_house div[data-id='testpicker3']").style.left = `${lt - otherValue}px`;
+
+        //             },
+        //             whileScrolling: function(){
+        //                 var otherValue = 16;
+        //                 var st = $(this)[0].mcs.top - otherValue;
+        //                 var lt = $(this)[0].mcs.left;
+
+        //                 document.querySelector(".yogo_global_house div[data-id='testpicker3']").style.top = `${st - 320}px`;
+        //                 document.querySelector(".yogo_global_house div[data-id='testpicker3']").style.left = `${lt - otherValue}px`;
+
+        //             }
+        //         }
+        //     });
+        // })
+
+        // function openDlg() {
+        //     $( "#dialog-message" ).dialog("open")
+        // }
+        
+        // var test1 = new YogoUI("#testpicker", {
+        //     type : "timepicker", // 사용할 타입 선언
+        //     timeSet : "00:00:00", // 00:00:00 , 00:00
+        // })
+        // test1.init({
+        //     hasScrollBar : {
+        //         ele : ".scrolled",
+        //         useScrollType : "window", // window, position( use top position of value  ) 
+        //     },
+
+        // });
+
+        // var test2 = new YogoUI("#testpicker2", {
+        //     type : "timepicker", // 사용할 타입 선언
+        //     timeSet : "00:00", // 00:00:00 , 00:00
+        //     tObPosition : 'top'
+            
+        // })
+        // test2.init();
+
+        // var test3 = new YogoUI("#testpicker3", {
+        //     type : "timepicker", // 사용할 타입 선언
+        //     timeSet : "00:00:00", // 00:00:00 , 00:00
+        //     // tObPosition : 'top',// 드롭 다운 매뉴의 상하단 노출 위치 변경 default : bottom
+
+        // })
+        // test3.init();
+
+    </script>
+</body>
+</html>

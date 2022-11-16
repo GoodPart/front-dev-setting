@@ -2,8 +2,6 @@ import { sayTs } from "./TS/sayTs";
 import  {RollingValue} from "./TS/rolling-value";
 // import {CreateElement} from "./TS/createElement";
 
-sayTs("say!!!!!!!!!!!");
-
  const test = new RollingValue(".cdd-change_value", {
     options : "test"
  })

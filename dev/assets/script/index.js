@@ -173,24 +173,6 @@ var RollingValue = (function () {
 
 
 
-/***/ }),
-
-/***/ "./src/assets/script/TS/sayTs.ts":
-/*!***************************************!*\
-  !*** ./src/assets/script/TS/sayTs.ts ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sayTs": function() { return /* binding */ sayTs; }
-/* harmony export */ });
-function sayTs(word) {
-    return console.log(word, "sayTs!!");
-}
-;
-
-
 /***/ })
 
 /******/ 	});
@@ -256,12 +238,9 @@ var __webpack_exports__ = {};
   !*** ./src/assets/script/index.ts ***!
   \************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _TS_sayTs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/sayTs */ "./src/assets/script/TS/sayTs.ts");
-/* harmony import */ var _TS_rolling_value__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TS/rolling-value */ "./src/assets/script/TS/rolling-value.ts");
+/* harmony import */ var _TS_rolling_value__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/rolling-value */ "./src/assets/script/TS/rolling-value.ts");
 
-
-(0,_TS_sayTs__WEBPACK_IMPORTED_MODULE_0__.sayTs)("say!!!!!!!!!!!");
-var test = new _TS_rolling_value__WEBPACK_IMPORTED_MODULE_1__.RollingValue(".cdd-change_value", {
+var test = new _TS_rolling_value__WEBPACK_IMPORTED_MODULE_0__.RollingValue(".cdd-change_value", {
     options: "test"
 });
 test.init();
