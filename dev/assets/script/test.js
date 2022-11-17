@@ -17,12 +17,17 @@ var MethodsForm = (function () {
     }
     MethodsForm.prototype.radio = function (inputName, triggerNumber, changeId) {
         var groupName = document.querySelectorAll("input[name=\"".concat(inputName, "\"]"));
-        var trigger = groupName[triggerNumber - 1];
-        console.log(groupName);
+        var trigger = groupName[triggerNumber];
+        var target = document.querySelector("*[name=\"".concat(changeId, "\"]"));
         Object.keys(groupName).map(function (item, index) {
             var ele = groupName[item];
             ele.addEventListener("change", function () {
-                console.log("change", trigger);
+                if (ele.id === trigger.id) {
+                    console.log("check", target);
+                }
+                else {
+                    console.log("none", ele.id, trigger.id);
+                }
             });
         });
     };
@@ -99,7 +104,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/methods/methods_form */ "./src/assets/script/TS/methods/methods_form.ts");
 
-var radioSet = new _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__.MethodsForm().radio("radio-01", 2, "trigger");
+var radioSet = new _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__.MethodsForm().radio("radio-01", 1, "target");
 console.log("test");
 
 }();
