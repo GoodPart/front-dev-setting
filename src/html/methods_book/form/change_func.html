@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+@@include('../../include/head.html', {
+    title : 'rolling-value component',
+    style : '/assets/style/css/test.css'
+})
+<body>
+
+    <div>
+        <input type="radio" name="radio-01" id="radio-01" checked><label for="radio-01">라벨</label>
+        <input type="radio" name="radio-01" id="radio-02"><label for="radio-02">라벨2</label>
+    </div>
+
+    <div>
+        <input type="text" name="trigger">
+    </div>
+
+    
+    @@include('../../include/script.html', {
+        mode : "development",
+        url : '/assets/script/test.js'
+    })
+</body>
+</html>

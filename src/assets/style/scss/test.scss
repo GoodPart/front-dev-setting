@@ -8,14 +8,6 @@
 body {
     display: flex;
     background-color: seagreen;
-
-    &:after {
-        content: 'dasdasd';
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 30;
-    }
 }
 
 
@@ -34,8 +26,6 @@ body {
     position: absolute !important;
     width: 1px !important;
     white-space: nowrap !important;
-
-    
 };
 
 
