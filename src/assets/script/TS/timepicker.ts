@@ -119,9 +119,6 @@ export class Timepicker implements objectConfig {
             y : 8
         };
 
-        // const tObOption = initOption.tObPosition;
-        // console.log(beforeOptions)
-
         // globDiv의 x위치값 계산
         function calcX(picker, globHDiv) {
             // picker
@@ -172,7 +169,7 @@ export class Timepicker implements objectConfig {
         };
 
         if(ACTION === 'scroll') {
-
+            
         }else if(ACTION === 'focus') {
             const updateValue = {
                 id : OPTIONS.path[3].id,
@@ -184,33 +181,12 @@ export class Timepicker implements objectConfig {
             const valueX = calcX(updateValue.inputObjectValue, globHouseDiv);
             const valueY = calcY(updateValue.inputObjectValue, globHouseDiv, tOb)
 
-            
-            // console.log(valueX, valueY)
             return {
                 _x : valueX,
                 _y : valueY
             } 
 
         }
-
-        // if(ACTION === 'scroll') {
-        //     // console.log(ACTION, OPTIONS)
-        // }else if(ACTION === 'focus') {
-        //     const updateValue = {
-        //         id : OPTIONS.path[3].id,
-        //         inputObjectValue : OPTIONS.target.getBoundingClientRect(),
-        //     };
-        //     const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
-
-        //     // globHouse 위치 값 설정.
-        //     globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, beforeOptions.tObPosition)}px)`;
-
-        //     // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
-        // }else {
-        //     return  false
-        // }
-    // globHouse.classList.add("smooth")
-
     };
 
     
@@ -218,7 +194,7 @@ export class Timepicker implements objectConfig {
     eventMethods(props) {
         const trigger = props.name;
         const picker = document.querySelector(`${trigger}`);
-        const pickerInput = picker.querySelector("input[type='text']");
+        const pickerInput = picker.querySelector("input[type='text']") as HTMLElement;
         const numberItem = picker.querySelectorAll(".section ul li")
 
         const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${picker.id}"]`);
@@ -341,7 +317,7 @@ export class Timepicker implements objectConfig {
         pickerInput.addEventListener("focus",(e)=> {
             // globHouse 위치 좌표값 지정.
             const getUpdateValues = this.updatePosition("focus", e, props.tObPosition);
-            
+
             globHouse.setAttribute("style", `transform : translateX(${getUpdateValues._x}px) translateY(${getUpdateValues._y}px)`)
             globHouse.classList.add("active");
         })
@@ -349,6 +325,18 @@ export class Timepicker implements objectConfig {
         pickerInput.addEventListener("blur",(e)=> {
             globHouse.classList.remove("active");
         })
+
+
+        if(props.autoBlur == undefined || props.autoBlur == null || props.autoBlur == false ) {
+            return false;
+        }else {
+            window.addEventListener("scroll", (e)=> {
+                globHouse.classList.remove("active");
+                pickerInput.blur();
+                console.log("scroll")
+            })
+        }
+        
 
         //mouse down
          globHouse.addEventListener("mousedown",(e)=> {
@@ -371,7 +359,7 @@ export class Timepicker implements objectConfig {
     }
 
     init(props:object) {
-        console.log(props)
+        // console.log(props)
         this.crtEle(props);
         this.selecting(props);
 

@@ -2,49 +2,42 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/assets/script/TS/methods/methods_form.ts":
-/*!******************************************************!*\
-  !*** ./src/assets/script/TS/methods/methods_form.ts ***!
-  \******************************************************/
+/***/ "./src/assets/script/TS/tooltip.ts":
+/*!*****************************************!*\
+  !*** ./src/assets/script/TS/tooltip.ts ***!
+  \*****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MethodsForm": function() { return /* binding */ MethodsForm; }
+/* harmony export */   "_newClass": function() { return /* binding */ _newClass; }
 /* harmony export */ });
-var MethodsForm = (function () {
-    function MethodsForm() {
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var _newClass = (function (_super) {
+    __extends(_newClass, _super);
+    function _newClass() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    MethodsForm.prototype.initState = function (_trigger, _target) {
-        if (_trigger.checked) {
-            _target.setAttribute("disabled", "true");
-        }
-        else {
-            _target.removeAttribute("disabled");
-        }
+    _newClass.prototype.connectedCallback = function () {
+        var name = this.getAttribute('name');
+        this.innerHTML = "<label>".concat(name, "\uC548\uB1E8\uC624\uC639</label><input>");
     };
-    ;
-    MethodsForm.prototype.radio = function (inputName, triggerNumber, options) {
-        var _this = this;
-        var groupName = document.querySelectorAll("input[name=\"".concat(inputName, "\"]"));
-        var trigger = groupName[triggerNumber];
-        var target = document.querySelector("*[".concat(options.type, "=\"").concat(options.value, "\"]"));
-        Object.keys(groupName).map(function (item, index) {
-            var ele = groupName[item];
-            _this.initState(trigger, target);
-            ele.addEventListener("change", function () {
-                if (ele.id === trigger.id) {
-                    target.setAttribute("disabled", "true");
-                }
-                else {
-                    target.removeAttribute("disabled");
-                }
-            });
-        });
-    };
-    ;
-    return MethodsForm;
-}());
+    return _newClass;
+}(HTMLElement));
 
 
 
@@ -109,16 +102,15 @@ var MethodsForm = (function () {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!***********************************!*\
-  !*** ./src/assets/script/test.ts ***!
-  \***********************************/
+/*!**************************************!*\
+  !*** ./src/assets/script/tooltip.ts ***!
+  \**************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/methods/methods_form */ "./src/assets/script/TS/methods/methods_form.ts");
+/* harmony import */ var _TS_tooltip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TS/tooltip */ "./src/assets/script/TS/tooltip.ts");
 
-var radioSet = new _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__.MethodsForm().radio("radio-01", 1, { type: "name", value: "target" });
-var radioSet1 = new _TS_methods_methods_form__WEBPACK_IMPORTED_MODULE_0__.MethodsForm().radio("radio-10", 0, { type: "name", value: "target2" });
+customElements.define('custom-input', _TS_tooltip__WEBPACK_IMPORTED_MODULE_0__._newClass);
 
 }();
 /******/ })()
 ;
-//# sourceMappingURL=test.js.map
+//# sourceMappingURL=tooltip.js.map

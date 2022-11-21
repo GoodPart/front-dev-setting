@@ -232,12 +232,21 @@ var Timepicker = (function () {
         pickerInput.addEventListener("blur", function (e) {
             globHouse.classList.remove("active");
         });
+        if (props.autoBlur == undefined || props.autoBlur == null || props.autoBlur == false) {
+            return false;
+        }
+        else {
+            window.addEventListener("scroll", function (e) {
+                globHouse.classList.remove("active");
+                pickerInput.blur();
+                console.log("scroll");
+            });
+        }
         globHouse.addEventListener("mousedown", function (e) {
             e.preventDefault();
         });
     };
     Timepicker.prototype.init = function (props) {
-        console.log(props);
         this.crtEle(props);
         this.selecting(props);
         this.eventMethods(props);
@@ -303,7 +312,8 @@ var YogoUI = (function () {
                 crtPicker.init({
                     name: this.trigger,
                     dataset: this.options.timeSet,
-                    tObPosition: this.options.tObPosition
+                    tObPosition: this.options.tObPosition,
+                    autoBlur: this.options.autoBlur
                 });
             }
         }
