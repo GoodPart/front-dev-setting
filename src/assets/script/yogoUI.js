@@ -1592,6 +1592,111 @@ class YogoUI {
         const rippleInit = new ClickRipple();
         rippleInit.init(this.trigger);
     }
+
+    updateTP(id, timeset) {
+        // console.log(id, timeset)
+
+        const Picker = document.querySelector(`${this.trigger}`);
+        const PickerInput = Picker.querySelector("input[type='text']");
+        const numberItem = Picker.querySelectorAll(".section ul li")
+
+        const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${Picker.id}"]`);
+        const globLi = globHouse.querySelectorAll(".section ul li");
+
+
+        function menuCheck( timeset) {
+            const aliveValueHor = PickerInput.value.substr(0,2);
+            const aliveValueMin = PickerInput.value.substr(3,2);
+            const aliveValueSec = PickerInput.value.substr(6,2);
+            const _sections = Picker.querySelectorAll(".section")
+
+            const globHouse = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${Picker.id}"]`);
+            const _newSections = globHouse.querySelectorAll(".section")
+
+            const aliveValueArea = [aliveValueHor, aliveValueMin, aliveValueSec]
+        
+
+            Object.values(_newSections).map((ul, index)=> {
+                
+                Object.values(_newSections[index].children[0].children).map((li, index2)=> {
+                    const checkValue = String(aliveValueArea[index]) === String(li.innerText) ? index2 : null;
+
+                    if(checkValue == null) {
+                        li.classList.remove("active");
+                    }else {
+                        const liLocationValue = li.offsetTop;
+
+                        _newSections[index].scroll({
+                            top : liLocationValue-100, 
+                            behavior : "smooth"
+                        });
+
+                        li.classList.add("active")
+                    }
+
+
+                })
+
+            })
+        };
+
+
+
+        // -----------
+
+        // PickerInput.addEventListener("keyup", (e)=> {
+            function parseTimeSet(value, mode) {
+                const valueLength = value.length;
+                const _value = value
+                const _NumberValue = Number(value.substr(0, 2));
+                const _NumberValueMin = Number(value.substr(-2, 4));
+                const _Array = [];
+            
+                const checkFormat = () =>{
+                    let check = true;
+
+                    if(_NumberValue >= 0 && _NumberValue >23) {
+                        check = false;
+                        return false
+                    }
+                    if(_NumberValueMin >= 0 && _NumberValueMin >= 60) {
+                        check = false
+                        return false
+                    }
+
+                    return check
+                }
+
+                    
+                if((valueLength > 3 && valueLength <= 5) || (valueLength > 6 && valueLength <= 8)) {
+                    // 시간 범위 0 ~ 23
+                    if(checkFormat()) {
+                        // console.log("요기")
+                        const parseTimeSet = value.replace(/(\d)(?=(?:\d{2})+(?!\d))/g, '$1:')
+                        // menuCheck(e, parseTimeSet)
+                        
+                        return parseTimeSet;
+                    }else {
+                        return null
+                    }
+                }
+                return value
+            };
+
+            const data =  parseTimeSet(timeset)
+            PickerInput.value = data;
+            menuCheck(data)
+
+            
+
+        // });
+
+
+    
+        
+    }
+
+
     
 
 
