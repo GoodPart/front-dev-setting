@@ -1533,6 +1533,15 @@ class YogoUI {
             });
 
             
+            if(this.options.autoBlur == undefined || this.options.autoBlur == null || this.options.autoBlur == false ) {
+                return false;
+            }else {
+                window.addEventListener("scroll", (e)=> {
+                    globHouse.classList.remove("active");
+                    PickerInput.blur();
+                    console.log("scroll")
+                })
+            }
 
             
             
