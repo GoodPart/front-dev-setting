@@ -93,13 +93,18 @@ var RollingValue = (function () {
     RollingValue.prototype.addOrRemove = function (name, value) {
         var getLength = name.querySelectorAll("li");
         var inboundNumber = value;
+        var loopCount = Math.abs(this.getNumb(inboundNumber).length - getLength.length);
         var valueStorage = [];
         if (this.getNumb(inboundNumber).length > getLength.length) {
-            this.addRail(name);
+            for (var i = 0; i < loopCount; i++) {
+                this.addRail(name);
+            }
         }
         else {
             if (this.getNumb(inboundNumber).length < getLength.length) {
-                this.removeRail(name);
+                for (var i = 0; i < loopCount; i++) {
+                    this.removeRail(name);
+                }
             }
             else {
             }

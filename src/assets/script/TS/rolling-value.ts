@@ -102,16 +102,24 @@ export class RollingValue {
         const getLength = name.querySelectorAll("li")
         const inboundNumber = value;
 
+        const loopCount = Math.abs(this.getNumb(inboundNumber).length - getLength.length);
+        // console.log(loopCount)
+
         let valueStorage = [];
         if(this.getNumb(inboundNumber).length > getLength.length) {
             // console.log("들어온 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length, '---->',inboundNumber)
             // addRail
-            this.addRail(name)
+            
+            for(let i = 0; i<loopCount; i++) {
+                this.addRail(name)
+            }
         }else {
             if(this.getNumb(inboundNumber).length < getLength.length) {
                 // console.log("기존 자리수가 많다", this.getNumb(inboundNumber).length, getLength.length)
+                for(let i = 0; i<loopCount; i++) {
+                    this.removeRail(name)
+                }
                 // removeRail
-                this.removeRail(name)
             }else {
                 // console.log("같다", this.getNumb(inboundNumber).length, getLength.length)
                 // rolling
