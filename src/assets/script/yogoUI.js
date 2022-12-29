@@ -88,14 +88,15 @@ class Selector {
             const searchModule = name.querySelector(".yogo_search input");
        
             searchModule.addEventListener("keyup", (e)=> {
+                // 카테고리가 있는지 없는지 if
                 if(depthLength > 1) {
                     const optionsItem = name.querySelectorAll(".yogo_option ul li");
-                    const optionItemValue = name.querySelectorAll(".yogo_option ul li div input + label span");
+                    const optionItemValue = name.querySelectorAll(".yogo_option ul li div input + label span:not(.yogoClickRipple-root)");
                     filterList(e.target.value, optionItemValue, optionsItem)
 
                 }else {
                     const optionsItem = name.querySelectorAll(".yogo_option");
-                    const optionItemValue = name.querySelectorAll(".yogo_option div input + label span");  
+                    const optionItemValue = name.querySelectorAll(".yogo_option div input + label span:not(.yogoClickRipple-root)");  
                     filterList(e.target.value, optionItemValue, optionsItem)
 
                 }
@@ -107,12 +108,12 @@ class Selector {
                 const _optionItem = optionsItem
 
                 for(let i = 0; i<_optionList.length; i++) {
+                    // console.log( _optionList[i].innerHTML,'==', keyvalue, '///', _optionList[i].innerHTML.indexOf(keyvalue) )
+
                     if(_optionList[i].innerHTML.indexOf(keyvalue)>-1) {
-                        // console.log("있음")
                         _optionItem[i].style.height = `${liHeight}px`;
                         
                     }else {
-                        // console.log("없음")
                         _optionItem[i].style.height = "0";
                     }
                 }
