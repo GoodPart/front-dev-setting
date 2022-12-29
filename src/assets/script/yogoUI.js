@@ -81,7 +81,6 @@ class Timepicker {
 
 class Selector {
     //   cunstructor
-
         
         // 검색
         createSearchControl(name, depthLength, liHeight) {
@@ -1039,7 +1038,7 @@ class ClickRipple {
                         valueX : e.offsetX,
                         valueY : e.offsetY
                     }
-                    console.log(getXY)
+                    // console.log(getXY)
                     const fillSpan = document.createElement("span");
                     fillSpan.className = 'fill';
                     fillSpan.style.top = `${getXY.valueY}px`;
@@ -1603,6 +1602,7 @@ class YogoUI {
         rippleInit.init(this.trigger);
     }
 
+    // timepicker 위치 조정 업데이트 메소드
     updateTP(id, timeset) {
         // console.log(id, timeset)
 
