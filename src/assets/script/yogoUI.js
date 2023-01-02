@@ -207,7 +207,7 @@ class Selector {
                     
                     const checkedItem = globHouse.querySelector(`.yogo_option .${dataId}`) || globHouse.querySelector(`.yogo_show-item-value .${dataId}`);
 
-                    checkedItem.click()
+                    checkedItem.click();
                 })
 
             })
@@ -987,6 +987,7 @@ class Selector {
                         this.checkAllByCenterControl(this.name, this.depthLength);
                     }
                     
+                    // if(this.search) {...}
                     if(this.search) {
                         // const _target = document.querySelector(name);
                         // const _name = name.substr(1);
@@ -996,16 +997,18 @@ class Selector {
                             const liHeight = globHouse.querySelector(".yogo_options .yogo_option ul li").offsetHeight;
 
                             this.createSearchControl(globHouse,this.depthLength, liHeight)
-                            this.deleteItem(this.name, globHouse)
+                            // this.deleteItem(this.name, globHouse)
                         }else {
                             const liHeight = globHouse.querySelector(".yogo_options .yogo_option div").offsetHeight;
 
                             this.createSearchControl(globHouse,this.depthLength, liHeight)
-                            this.deleteItem(this.name, globHouse)
+                            // this.deleteItem(this.name, globHouse)
                             
                         }
                         
                     }
+                    this.deleteItem(this.name, globHouse)
+
 
                     // this.scanCheckAction(this.name)
 
@@ -1280,7 +1283,7 @@ class YogoUI {
                         return resultYN
                     }else {
                         if(bTo === 'top') {
-                        console.log(bTo)
+                        // console.log(bTo)
                             return resultY
                         }else {
                             return resultYN
@@ -1539,7 +1542,7 @@ class YogoUI {
                 window.addEventListener("scroll", (e)=> {
                     globHouse.classList.remove("active");
                     PickerInput.blur();
-                    console.log("scroll")
+                    // console.log("scroll")
                 })
             }
 
