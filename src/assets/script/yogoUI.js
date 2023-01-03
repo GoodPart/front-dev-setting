@@ -215,7 +215,7 @@ class Selector {
 
 
         // 카테고리별 모두 체크 기능
-        checkAllByCategory(name, depthLength, data, optionEllipsis) {
+        checkAllByCategory(name, depthLength, data, optionEllipsis, allCheckSign) {
             const _showlist = []
 
 
@@ -555,6 +555,7 @@ class Selector {
                     checkBoxListItem.addEventListener("change", (e)=> {
                         const showListChange = target.querySelector(`.yogo_show-item-value.${ele.querySelector("input").id}`);
 
+                        // console.log("change", ele.querySelector("input"))
                         if(ele.querySelector("input").checked) {
                             showListChange.classList.add("active")
 
@@ -595,10 +596,31 @@ class Selector {
 
                                     textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                 }
+                            }else {
+                                const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
+                                const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
+
+                                // console.log(allCheckSign) 
+
+                                if(placeholderCheck) {
+                                    const allcheckSign = target.querySelector(".allcheck-sign");
+
+                                    // console.log(allCheckSign)
+                                    allcheckSign.innerText = allCheckSign;
+                                    
+                                    allcheckSign.classList.add("active")
+                                }else {
+                                    const allcheckSign = target.querySelector(".allcheck-sign");
+
+                                    allcheckSign.classList.remove("active")
+
+                                }
+
                             }
                             
 
                         }else {
+                            console.log("unchecked")
                             showListChange.classList.remove("active")
 
                             if(this.textEllipsis) {
@@ -634,12 +656,38 @@ class Selector {
                                     textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                 }
                                 
+                            }else {
+                                const allcheckSign = target.querySelector(".allcheck-sign");
+
+                                allcheckSign.classList.remove("active")
+
                             }
 
                         }
 
                         this.togglePlaceholder(this.name, listarea)
 
+                        // console.log("change", newGetOptionsItem.length, listarea.querySelectorAll("span.yogo_show-item-value").length)
+
+                                    // let count = 0;
+                                    // const getLength = newGetOptionsItem.length;
+                                    
+                                    // Object.values(newGetOptionsItem).map((ele, index)=> {
+                                    //     const checkBoxListItem = ele.querySelector("div input").checked ? count++ : count;
+
+                                    //     if(getLength === count) {
+                                    //         console.log("모두체크")
+                                    //     }else {
+                                    //         console.log("아직", checkBoxListItem.length)
+                                    //     }
+                                    // })
+
+                        // console.log(getLength, count)
+
+                        // console.log(newGetOptionsItem)
+                        // if()
+
+                        // if(newGetOptionsItem.length === )
                     })
                   
                 }
@@ -769,7 +817,7 @@ class Selector {
         }
 
         // html 생성
-        createUseEle(name, depthLength, data, allCheckControler, search, mode, sortColor, checkbox) {
+        createUseEle(name, depthLength, data, allCheckControler, search, mode, sortColor, checkbox, allCheckSign) {
             const target = document.querySelector(name);
 
             const _name = name.split('#')[1];
@@ -782,6 +830,11 @@ class Selector {
 
             const crtDiv = document.createElement("div");
             crtDiv.className = 'yogo_value_wrap'
+
+            const crtAllCheckSign = document.createElement("div");
+            crtAllCheckSign.classList.add("allcheck-sign");
+            crtDiv.append(crtAllCheckSign);
+
 
             const crtAddCount = document.createElement("strong");
             crtAddCount.classList.add("ellipsis-count")
@@ -944,7 +997,7 @@ class Selector {
         };
 
         // 진입
-        init({name ,search, depthLength, textEllipsis, sortColor, allCheckControler, data, mode, checkbox}) {
+        init({name ,search, depthLength, textEllipsis, sortColor, allCheckControler, data, mode, checkbox, allCheckSign}) {
 
                 if(name === undefined || name === '') {
                     throw new SyntaxError("name is not defind")
@@ -992,6 +1045,12 @@ class Selector {
                     this.mode = mode;
                 }
 
+                if(allCheckSign == undefined || allCheckSign === '') {
+                    this.allCheckSign = false
+                }else {
+                    this.allCheckSign = allCheckSign;
+                }
+
                 // console.log('this --->',this.name,this.search,this.depthLength,this.allCheckControler, this.data)   
 
                 // console.log('text Ellipsis',this.textEllipsis)
@@ -1005,7 +1064,7 @@ class Selector {
                 if(true) {
                     
                     // element 생성
-                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.sortColorPicker, this.checkbox);
+                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.sortColorPicker, this.checkbox, this.allCheckSign);
 
 
                     const _name = name.substr(1);
@@ -1013,7 +1072,7 @@ class Selector {
                     this.toggleChange(this.name, globHouse)
 
                     // 각 카테고리 별 모든 체크 
-                    this.checkAllByCategory(this.name, this.depthLength, this.data, this.textEllipsis);
+                    this.checkAllByCategory(this.name, this.depthLength, this.data, this.textEllipsis, this.allCheckSign);
 
                     if(this.allCheckControler) {
                         this.checkAllByCenterControl(this.name, this.depthLength);
@@ -1595,7 +1654,8 @@ class YogoUI {
                 allCheckControler : this.options.allCheckControler,
                 data : this.options.data,
                 mode : this.options.mode,
-                checkbox : this.options.checkbox
+                checkbox : this.options.checkbox,
+                allCheckSign : this.options.allCheckSign
 
             });
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
