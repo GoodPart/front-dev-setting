@@ -726,11 +726,28 @@ class Selector {
         createOptionArea(insertArea, options) {
             const area = insertArea;
             const yogo_addon = document.createElement("div");
-            yogo_addon.className = 'yogo_addon'
+            yogo_addon.className = 'yogo_addon';
+            let _allCheckControler;
 
-                 const _allCheckControler = `
+            if(!options.allCheckControler) {
+                // console.log('false - ',options.allCheckControler)
+                 _allCheckControler = `
                     <button type='button' name='yogo_allCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Select All <span class='yogoClickRipple-root'></span></button> <button type='button' name='yogo_clearCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Deselect All <span class='yogoClickRipple-root'></span></button>
                 `
+            }else {
+                if(options.allCheckControler.text){
+                    _allCheckControler = `
+                        <button type='button' name='yogo_allCheck' class='yogoUiButton-root yogoUiButton-root--dark'>${options.allCheckControler.text[0]}<span class='yogoClickRipple-root'></span></button> <button type='button' name='yogo_clearCheck' class='yogoUiButton-root yogoUiButton-root--dark'>${options.allCheckControler.text[1]}<span class='yogoClickRipple-root'></span></button>
+                    `
+                }else {
+                    _allCheckControler = `
+                    <button type='button' name='yogo_allCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Select All <span class='yogoClickRipple-root'></span></button> <button type='button' name='yogo_clearCheck' class='yogoUiButton-root yogoUiButton-root--dark'>Deselect All <span class='yogoClickRipple-root'></span></button>
+                `
+                }
+                
+            }
+
+                
                 const _searchControler = `
                         <i class="ico ico-ico_search"></i>
                         <input type="text" placeholder="Search">
@@ -752,7 +769,7 @@ class Selector {
         }
 
         // html 생성
-        createUseEle(name, depthLength, data, allCheckControler, search, mode) {
+        createUseEle(name, depthLength, data, allCheckControler, search, mode, sortColor, checkbox) {
             const target = document.querySelector(name);
 
             const _name = name.split('#')[1];
@@ -879,15 +896,25 @@ class Selector {
 
 
             if(depthLength <=1) {
+                console.log('createHTML function ->',checkbox)
                 for(let i = 0; i<data.length; i++) {
                     const crtOptionItem = document.createElement("div");
                     crtOptionItem.className = `yogo_option yogo_option--${i}`;
 
                     const crtDepth_1_Title = document.createElement("div");
 
-                    const crtInputLabel_depth_1 = `
+                    let crtInputLabel_depth_1;
+                    if(!checkbox) {
+                        crtInputLabel_depth_1 = `
                         <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><span>${data[i]}</span><span class="yogoClickRipple-root"></span></label>
+                        `
+                    }else {
+                        crtInputLabel_depth_1 = `
+                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><i class="ico ico-checkbox_false"></i><span>${data[i]}</span><span class="yogoClickRipple-root"></span></label>
                     `
+                    }
+
+                    
 
                     // yogo_title 추가
                     crtDepth_1_Title.innerHTML=crtInputLabel_depth_1;
@@ -917,7 +944,7 @@ class Selector {
         };
 
         // 진입
-        init({name ,search, depthLength, textEllipsis, sortColor, allCheckControler, data, mode}) {
+        init({name ,search, depthLength, textEllipsis, sortColor, allCheckControler, data, mode, checkbox}) {
 
                 if(name === undefined || name === '') {
                     throw new SyntaxError("name is not defind")
@@ -949,6 +976,11 @@ class Selector {
                 }else {
                     this.allCheckControler = allCheckControler;
                 }
+                if(checkbox === undefined || checkbox === '') {
+                    this.checkbox = false
+                }else {
+                    this.checkbox = checkbox;
+                }
                 if(data === undefined || data === '') {
                     throw new SyntaxError("data is not defind")
                 }else {
@@ -973,7 +1005,7 @@ class Selector {
                 if(true) {
                     
                     // element 생성
-                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.sortColorPicker);
+                    this.createUseEle(this.name, this.depthLength, this.data, this.allCheckControler, this.search, this.mode, this.sortColorPicker, this.checkbox);
 
 
                     const _name = name.substr(1);
@@ -1562,7 +1594,8 @@ class YogoUI {
                 sortColor : this.options.sortColor,
                 allCheckControler : this.options.allCheckControler,
                 data : this.options.data,
-                mode : this.options.mode
+                mode : this.options.mode,
+                checkbox : this.options.checkbox
 
             });
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);

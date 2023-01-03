@@ -14,6 +14,8 @@
 
     <div style="margin-top: 100px;" id="yogo_selector_02" class="yogo_selector yogo_selector_01"></div>
 
+    <div style="margin-top: 100px;" id="yogo_selector_03" class="yogo_selector yogo_selector_02"></div>
+
     @@include('../../footer/scriptArea.html', {
 
     })
@@ -170,6 +172,127 @@
             "333"
         ]
 
+        const dummyData_3_depth = [
+            {
+                depth_0 : [
+                    {
+                        value : "카테고리0"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리0-1",
+                        // addHtml : "<ico></ico>"
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-5",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-6",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-7",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리0-8",
+                    },
+                    
+                ],
+            },
+            {
+                depth_0 : [
+                    {
+                        checked : false,
+                        value : "카테고리1"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리1-1",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-5",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-6",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-7",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리1-8",
+                    },
+                    
+                ],
+            },
+            {
+                depth_0 : [
+                    {
+                        checked : false,
+                        value : "카테고리3"
+                    }
+                ],
+                depth_1 : [
+                    {
+                        checked : false,
+                        value : "카테고리3-1",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-2",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-3",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-4",
+                    },
+                    {
+                        checked : false,
+                        value : "카테고리3-5",
+                    },
+                    
+                ],
+            },
+           
+        ];
+
         var test3 = new YogoUI("#yogo_selector_01", {
             type : "multiselector",
             search : true,
@@ -196,19 +319,26 @@
 
         var test4 = new YogoUI("#yogo_selector_02", {
             type : "multiselector",
-            search : false,
+            search : true,
             depthLength : 1,
             textEllipsis : {
                 length : 5,
                 subTextTemplate : '외 @@개 있습니다.' // @@에 숫자가 들어감.
             },
-            allCheckControler : true,
+            allCheckControler : {
+                text : [
+                    "전체",
+                    "전체 해제"
+                ]
+            },
+            checkbox : true,
             data : dummyData_1_depth,
             mode : [
                 "category_smooth",
             ]
         });
         test4.init()
+
     </script>
 </body>
 </html>
