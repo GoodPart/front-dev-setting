@@ -600,7 +600,7 @@ class Selector {
                                 const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
                                 const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
 
-                                // console.log(allCheckSign) 
+                                // console.log(placeholderCheck) 
 
                                 if(placeholderCheck) {
                                     const allcheckSign = target.querySelector(".allcheck-sign");
@@ -620,7 +620,6 @@ class Selector {
                             
 
                         }else {
-                            console.log("unchecked")
                             showListChange.classList.remove("active")
 
                             if(this.textEllipsis) {
@@ -949,7 +948,7 @@ class Selector {
 
 
             if(depthLength <=1) {
-                console.log('createHTML function ->',checkbox)
+                // console.log('createHTML function ->',checkbox)
                 for(let i = 0; i<data.length; i++) {
                     const crtOptionItem = document.createElement("div");
                     crtOptionItem.className = `yogo_option yogo_option--${i}`;
@@ -985,14 +984,22 @@ class Selector {
             }
             
             
-            crtSelectorWrap.prepend(crtSelectorValue)
-
-            // console.log(target)
-            const result = target.appendChild(crtSelectorWrap);
-
             
-            return result
 
+            // console.log('target',target)
+            let checkDuplication = target.querySelector(".yogo_selector_wrap");
+            // console.log('test',test)
+
+            if(checkDuplication) {
+
+            }else {
+                crtSelectorWrap.prepend(crtSelectorValue)
+                const result = target.appendChild(crtSelectorWrap);
+
+                return result
+            }
+            
+            
 
         };
 
