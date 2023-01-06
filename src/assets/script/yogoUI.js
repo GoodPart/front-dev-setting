@@ -326,6 +326,7 @@ class Selector {
                                     getCategoryCount.querySelector(".checked-item").classList.remove("bounce")
 
                                 }, 200)
+
                                 
 
                                 if(this.textEllipsis) {
@@ -358,6 +359,26 @@ class Selector {
                                         
                                         textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
                                     }
+                                }else {
+                                    const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length >= allItemLength ? true : false;
+    
+                                    console.log(ele,listarea.querySelectorAll(".active").length , allItemLength, 'placecheck->', placeholderCheck) 
+    
+                                    if(placeholderCheck) {
+                                        const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                        // console.log(allCheckSign)
+                                        allcheckSign.innerText = allCheckSign;
+                                        
+                                        allcheckSign.classList.add("active")
+                                    }else {
+                                        const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                        allcheckSign.classList.remove("active")
+    
+                                    }
+    
                                 }
 
                             }else {
@@ -403,6 +424,11 @@ class Selector {
 
                                         textEllipsisFunc(ellipsisCount, 'inline-block', optionEllipsis, listarea)
                                     }
+                                }else {
+                                    const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                    allcheckSign.classList.remove("active")
+    
                                 }
 
                             }
@@ -473,6 +499,26 @@ class Selector {
 
                                         textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                     }
+                                }else {
+                                    const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
+                                    const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
+    
+                                    // console.log(placeholderCheck) 
+    
+                                    if(placeholderCheck) {
+                                        const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                        // console.log(allCheckSign)
+                                        allcheckSign.innerText = allCheckSign;
+                                        
+                                        allcheckSign.classList.add("active")
+                                    }else {
+                                        const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                        allcheckSign.classList.remove("active")
+    
+                                    }
+    
                                 }
                                 
                             }else {
@@ -520,6 +566,11 @@ class Selector {
                                         textEllipsisFunc(ellipsisCount, 'none', optionEllipsis, listarea)
                                     }
                                     
+                                }else {
+                                    const allcheckSign = target.querySelector(".allcheck-sign");
+    
+                                    allcheckSign.classList.remove("active")
+    
                                 }
 
                             }
@@ -921,11 +972,20 @@ class Selector {
                         const crtDepth_2_item = document.createElement("li");
                         const crtDepth_2_div = document.createElement("div");
 
-                        const crtInputLabel_depth_2 = `
-                        <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
-                        
+                        let crtInputLabel_depth_2;
 
-                        `
+                        if(!checkbox) {
+                             crtInputLabel_depth_2 = `
+                            <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+    
+                            `
+                        }else {
+                            crtInputLabel_depth_2 = `
+                            <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><i class="ico ico-checkbox_false"></i><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                            
+                            `
+                        }
+                       
 
                         crtDepth_2_div.innerHTML = crtInputLabel_depth_2
                         crtDepth_2_item.appendChild(crtDepth_2_div)

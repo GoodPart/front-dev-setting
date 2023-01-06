@@ -308,6 +308,15 @@ body {
         .yogo_checkbox_list li input + label {
             cursor: pointer;
             transition: background-color .2s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+        }
+        .yogo_checkbox_list li input + label i {
+            margin-right: 4px;
+        }
+        .yogo_checkbox_list li input:checked + label .ico-checkbox_false {
+            background-position: 0px -20px;
+
         }
         .yogo_checkbox_list li input +label:hover {
             background: rgba(000,000,000,0.05);
@@ -330,6 +339,8 @@ body {
             line-height: 32px;
         
         }
+
+        
         
         .yogo_title  {
         }
