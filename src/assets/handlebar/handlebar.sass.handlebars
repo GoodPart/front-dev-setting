@@ -27,15 +27,15 @@
                 flex-shrink: 0;
                 background-image: url('../sprite_images/{{image}}');
                 background-repeat: no-repeat;
-                background-size: {{px.width}} {{px.height}};
+                background-size: calc({{px.width}} / 2) calc({{px.height}} / 2)  ;
             }
         {{/retina_spritesheet}}
 
         {{#sprites}}
             .ico-{{name}}  {
-                width: calc({{px.width}} * 2);
-                height: calc({{px.height}} * 2) ;
-                background-position: calc({{px.offset_x}} * 2) calc({{px.offset_y}} * 2);
+                {{!-- width: calc({{px.width}} * 2);
+                height: calc({{px.height}} * 2) ; --}}
+                background-position: calc({{px.offset_x}}) calc({{px.offset_y}});
             }
         {{/sprites}}
 }

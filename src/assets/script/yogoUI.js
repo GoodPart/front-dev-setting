@@ -141,14 +141,10 @@ class Selector {
             const listArea = globHouse;
 
             const ACTIVE = "active";
-            function handleClick() {
-                anchor.classList.toggle(ACTIVE);
-                listArea.classList.toggle(ACTIVE)
-            }
-
+      
             window.addEventListener("click", (e)=> {
                 if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-                    
+                    console.log("요기야?")
                     if(e.target.classList.contains("ico-btn_delete")) {
                         anchor.classList.remove(ACTIVE);
                         listArea.classList.remove(ACTIVE)
@@ -1727,12 +1723,109 @@ class YogoUI {
             });
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
 
+            function updatePosition(action, options, beforeOptions, afterOptions) {
+                const ACTION = action;
+                const OPTIONS = options;
+                const throttle = {
+                    x : 20,
+                    y : 8
+                };
 
-            const selectorValue = {
-                pageX : selector.getBoundingClientRect().left,
-                pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
-                width : selector.getBoundingClientRect().width,
-            }    
+                // const tObOption = initOption.tObPosition;
+                // console.log(beforeOptions)
+
+                // globDiv의 x위치값 계산
+                function calcX(picker, globHDiv) {
+                    // picker
+                    let pvx = picker.x;
+                    let pvw = picker.width;
+                    
+                    
+                    //globDiv
+                    let ghdw = globHDiv.offsetWidth;
+                    
+                    // 기준
+                    const standardX =  pvx + ghdw + throttle.x;
+                    const resultX = pvx - ((pvx + ghdw) - (pvx + pvw));
+
+                    // 화면 기준, globHouseDiv가 화면을 넘어감 or 좁다면
+                    if(standardX > window.innerWidth) {
+                        return resultX
+                    }else {
+                        return pvx
+                    }
+                };
+                
+                // globDiv의 y위치값 계산
+                function calcY(picker, globDiv, bTo) {
+                    // picker
+                    let pvt = picker.top;
+                    let pvh = picker.height;
+
+                    //globDiv
+                    let ghdh = globDiv.offsetHeight;
+                    console.log(pvt, pvh, ghdh)
+                    
+                    const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
+                    const resultYN = pvt + window.scrollY + pvh + throttle.y;
+
+                    return pvt
+                  
+                };
+
+
+                if(ACTION === 'scroll') {
+                    // console.log(ACTION, OPTIONS)
+                }else if(ACTION === 'focus') {
+                    const updateValue = {
+                        id : OPTIONS.path[2].id,
+                        inputObjectValue : OPTIONS.target.getBoundingClientRect(),
+                    };
+
+                    const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_options[data-id="${updateValue.id}"]`);
+                    console.log('option', document.querySelector(`.yogo_global_house .yogo_options[data-id="${updateValue.id}"]`))
+
+
+                    // globHouse 위치 값 설정.
+                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv)}px)`;
+
+                    // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
+                }else {
+                    return  false
+                }
+            // globHouse.classList.add("smooth")
+
+            }
+
+
+
+            /* ------------- */
+
+            const _target = document.querySelector(this.trigger);
+            // console.log(_target)
+
+            const anchor = _target.querySelector(".yogo_selector_anchor");
+
+      
+            window.addEventListener("click", (e)=> {
+                
+                if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+                    const selectorValue = {
+                        pageX : selector.getBoundingClientRect().left,
+                        pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
+                        width : selector.getBoundingClientRect().width,
+                    };
+                        // console.log("열렸어?", e.target.b, )
+                        globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
+                        globHouse.style.left = `${selectorValue.pageX}px`;
+                        globHouse.style.width = `${selectorValue.width}px`;
+                 
+
+                }
+            })
+            /* ----------- */
+
+              
 
             if(initOption) {
                 const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
@@ -1752,9 +1845,95 @@ class YogoUI {
                 }
             }
 
-            globHouse.style.top = `${selectorValue.pageY}px`;
-            globHouse.style.left = `${selectorValue.pageX}px`;
-            globHouse.style.width = `${selectorValue.width}px`;
+
+            // function updatePosition(action, options, beforeOptions) {
+            //     const ACTION = action;
+            //     const OPTIONS = options;
+            //     const throttle = {
+            //         x : 20,
+            //         y : 8
+            //     };
+
+            //     // const tObOption = initOption.tObPosition;
+            //     // console.log(beforeOptions)
+
+            //     // globDiv의 x위치값 계산
+            //     function calcX(picker, globHDiv) {
+            //         // picker
+            //         let pvx = picker.x;
+            //         let pvw = picker.width;
+                    
+                    
+            //         //globDiv
+            //         let ghdw = globHDiv.offsetWidth;
+                    
+            //         // 기준
+            //         const standardX =  pvx + ghdw + throttle.x;
+            //         const resultX = pvx - ((pvx + ghdw) - (pvx + pvw));
+
+            //         // 화면 기준, globHouseDiv가 화면을 넘어감 or 좁다면
+            //         if(standardX > window.innerWidth) {
+            //             return resultX
+            //         }else {
+            //             return pvx
+            //         }
+            //     };
+                
+            //     // globDiv의 y위치값 계산
+            //     function calcY(picker, globDiv, bTo) {
+            //         // picker
+            //         let pvt = picker.top;
+            //         let pvh = picker.height;
+
+            //         //globDiv
+            //         globDiv.classList.add("active");
+            //         let ghdh = globDiv.offsetHeight;
+            //         globDiv.classList.remove("active");
+                    
+            //         const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
+            //         const resultYN = pvt + window.scrollY + pvh + throttle.y;
+
+            //         if(bTo == undefined || bTo == null) {
+            //             // console.log(bTo)
+            //             return resultYN
+            //         }else {
+            //             if(bTo === 'top') {
+            //             // console.log(bTo)
+            //                 return resultY
+            //             }else {
+            //                 return resultYN
+            //             }
+            //         }
+            //     };
+
+
+            //     if(ACTION === 'scroll') {
+            //         // console.log(ACTION, OPTIONS)
+            //     }else if(ACTION === 'focus') {
+            //         const updateValue = {
+            //             id : OPTIONS.path[3].id,
+            //             inputObjectValue : OPTIONS.target.getBoundingClientRect(),
+            //         };
+            //         const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
+
+            //         // globHouse 위치 값 설정.
+            //         globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, beforeOptions.tObPosition)}px)`;
+
+            //         // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
+            //     }else {
+            //         return  false
+            //     }
+            // // globHouse.classList.add("smooth")
+
+            // }
+
+            // .yogo_selector_anchor
+
+            // const _anchor = selector.querySelector(".yogo_selector_anchor"); 
+
+            // globHouse.style.top = `${selectorValue.pageY}px`;
+            // globHouse.style.left = `${selectorValue.pageX}px`;
+            // globHouse.style.width = `${selectorValue.width}px`;
 
 
            

@@ -81,7 +81,7 @@ var DIST_PATH = {
                 gulp.src(PATH.ASSETS.STYLE + '/**/*.scss' ) 
                 .pipe( sourcemaps.init()) 
                 .pipe(sass(options)) 
-                .pipe(autoprefixer())
+                // .pipe(autoprefixer())
                 // .pipe(cssmin())
                 // .pipe( sourcemaps.write()) 
                 // .pipe(gulp.dest( PATH.ASSETS.STYLE+ '/css'))
@@ -134,7 +134,7 @@ var DIST_PATH = {
             .pipe(spritesmith({
                 retinaSrcFilter: PATH.ASSETS.SPRITE +'/*@2x.png',
                 imgName : 'sp_all.png',
-                padding : 4,
+                padding : 0,
                 retinaImgName : 'sp_all2x.png',
                 cssName : 'sp_all.css',
                 cssTemplate : PATH.ASSETS.HANDLEBAR
