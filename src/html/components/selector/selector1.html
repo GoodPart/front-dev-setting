@@ -31,7 +31,7 @@
                     {
                         checked : false,
                         value : "카테고리0-1",
-                        // addHtml : "<ico></ico>"
+                        disabled : true
                     },
                     {
                         checked : false,
@@ -148,6 +148,33 @@
             "a4",
             "aaaaa3",
           
+        ]
+        const dummyData_1_depth_v1 = [
+            {
+                value : "a1",
+                checked : false,
+                disabled : false,
+            },
+            {
+                value : "a2",
+                checked : false,
+                disabled : false,
+            },
+            {
+                value : "aaaaa3",
+                checked : false,
+                disabled : true,
+            },
+            {
+                value : "b3",
+                checked : true,
+                disabled : false,
+            },    
+            {
+                value : "bbbb333",
+                checked : false,
+                disabled : true,
+            },    
         ]
 
         const dummyData_3_depth = [
@@ -313,7 +340,7 @@
                 ]
             },
             checkbox : true,
-            data : dummyData_1_depth,
+            data : dummyData_1_depth_v1,
             mode : [
                 "category_smooth",
             ]

@@ -144,7 +144,6 @@ class Selector {
       
             window.addEventListener("click", (e)=> {
                 if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-                    console.log("요기야?")
                     if(e.target.classList.contains("ico-btn_delete")) {
                         anchor.classList.remove(ACTIVE);
                         listArea.classList.remove(ACTIVE)
@@ -287,6 +286,7 @@ class Selector {
                         const crtEleSpan = document.createElement("span");
                         crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}-${index2}`;
                         crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}-${index2}`);
+                        // console.log("2depth ->", ele)
                         ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
                         ele.checked ? getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length :getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length;
                        
@@ -304,17 +304,18 @@ class Selector {
 
                     // 카테고리 모두 체크하기 클릭시 하위 리스트 체크 기능.
                     getAllCheckTarget.addEventListener("change", (e)=> {
+                        const _ico = checkBoxList.querySelectorAll("li div input[type='checkbox'] + label .ico");
 
-                        
                         Object.values(checkBoxListItemInputs).map((ele, index)=> {
                             const checkBoxListItemInputs = checkBoxList.querySelectorAll("li div input[type='checkbox']");
-                            const checkBoxListItemInputsChecked = checkBoxList.querySelectorAll("li div input[type='checkbox']:checked");
-
-
                             const showListChange = target.querySelector(`.yogo_show-item-value.${ele.id}`);
 
                             if(e.target.checked) {
                                 showListChange.classList.add("active")
+                                _ico[index].classList.remove("ico-checkbox_false");
+                                _ico[index].classList.add("ico-checkbox_true");
+
+                                
                                 getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputs.length;
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
                                 
@@ -359,14 +360,12 @@ class Selector {
                                     const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
                                     const placeholderCheck = listarea.querySelectorAll(".active").length >= allItemLength ? true : false;
     
-                                    console.log(ele,listarea.querySelectorAll(".active").length , allItemLength, 'placecheck->', placeholderCheck) 
+                                    // console.log(ele,listarea.querySelectorAll(".active").length , allItemLength, 'placecheck->', placeholderCheck) 
     
                                     if(placeholderCheck) {
                                         const allcheckSign = target.querySelector(".allcheck-sign");
     
-                                        // console.log(allCheckSign)
                                         allcheckSign.innerText = allCheckSign;
-                                        
                                         allcheckSign.classList.add("active")
                                     }else {
                                         const allcheckSign = target.querySelector(".allcheck-sign");
@@ -380,6 +379,8 @@ class Selector {
                             }else {
                                 const showListChange = target.querySelector(`.yogo_show-item-value.${ele.id}`);
                                 showListChange.classList.remove("active")
+                                _ico[index].classList.add("ico-checkbox_false");
+                                _ico[index].classList.remove("ico-checkbox_true");
 
                                 getCategoryCount.querySelector(".checked-item").innerHTML = 0 
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
@@ -440,6 +441,7 @@ class Selector {
 
                     // 모든 checkbox 영역 변경시 체크하기.
                     Object.values(checkBoxListItemInputs).map((ele, index)=> {
+                        const _ico = checkBoxList.querySelectorAll("input + label .ico");
 
                         ele.addEventListener("change", (e)=> {
                             allCheck(getAllCheckTarget, checkBoxList);
@@ -450,9 +452,14 @@ class Selector {
 
 
 
+
                             if(ele.checked) {
 
+                            // console.log(_ico)
+
                                 showListChange.classList.add("active")
+                                _ico[index].classList.remove("ico-checkbox_false");
+                                _ico[index].classList.add("ico-checkbox_true");
                                 getCategoryCount.querySelector(".checked-item").innerHTML = checkBoxListItemInputsChecked.length 
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
                                 setTimeout(()=> {
@@ -520,7 +527,8 @@ class Selector {
                             }else {
                                 // showListChange.style.display = 'none';
                                 showListChange.classList.remove("active")
-
+                                _ico[index].classList.add("ico-checkbox_false");
+                                _ico[index].classList.remove("ico-checkbox_true");
                                 getCategoryCount.querySelector(".checked-item").innerHTML =  checkBoxListItemInputsChecked.length 
                                 getCategoryCount.querySelector(".checked-item").classList.add("bounce")
                                 setTimeout(()=> {
@@ -583,18 +591,29 @@ class Selector {
 
                 }
                 else {
+                    // depth 가 1개일 경우
                     const checkBoxListItem = ele.querySelector("div input")
                     const listarea = target.querySelector(".yogo_value_area .yogo_value_wrap");
 
-                  
                     const crtEleSpan = document.createElement("span");
                     crtEleSpan.className = `yogo_show-item-value yogo_depth-${_name}-${index}`;
                     crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}`);
-                    ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
-                       
+
+                    data[index].checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
+                    // console.log(crtEleSpan)
+
                     crtEleSpan.innerHTML = `
-                    <span class='yogo_item_value'>${data[index]} <i class="ico ico-btn_delete"></i></span> 
+                    <span class='yogo_item_value'>${data[index].value} <i class="ico ico-btn_delete"></i></span> 
                     `
+
+                    // console.log(ele)
+                    // ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
+                       
+                    // crtEleSpan.innerHTML = `
+                    // <span class='yogo_item_value'>${data[index]} <i class="ico ico-btn_delete"></i></span> 
+                    // `
+
+                  
                     listarea.append(crtEleSpan)
                     this.togglePlaceholder(this.name, listarea)
 
@@ -605,6 +624,10 @@ class Selector {
                         // console.log("change", ele.querySelector("input"))
                         if(ele.querySelector("input").checked) {
                             showListChange.classList.add("active")
+                            // console.log(ele.querySelector("input + label .ico"))
+                            ele.querySelector("input + label .ico ").classList.remove("ico-checkbox_false")
+                            ele.querySelector("input + label .ico ").classList.add("ico-checkbox_true")
+
 
                             if(this.textEllipsis) {
                                 const placeholderCheck = listarea.querySelectorAll(".active").length > this.textEllipsis.length ? true : false;
@@ -668,6 +691,8 @@ class Selector {
 
                         }else {
                             showListChange.classList.remove("active")
+                            ele.querySelector("input + label .ico ").classList.add("ico-checkbox_false")
+                            ele.querySelector("input + label .ico ").classList.remove("ico-checkbox_true")
 
                             if(this.textEllipsis) {
                                 showListChange.style.display = 'none'
@@ -910,6 +935,7 @@ class Selector {
             const crtOptionContent = document.createElement("div");
             crtOptionContent.className = "yogo_option_wrap"
 
+            //mode 관련 스크립트
             if(mode) {
                 mode.map((mode_ele, index)=> {
                   if(mode_ele === 'sticky') {
@@ -968,18 +994,32 @@ class Selector {
                         const crtDepth_2_item = document.createElement("li");
                         const crtDepth_2_div = document.createElement("div");
 
+                        const checkValue = data[i].depth_1[j].checked
+
                         let crtInputLabel_depth_2;
+
+                        // console.log(data[i].depth_1[j])
 
                         if(!checkbox) {
                              crtInputLabel_depth_2 = `
-                            <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                            <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${checkValue ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><span class='yogo_value'>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
     
                             `
                         }else {
-                            crtInputLabel_depth_2 = `
-                            <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].checked ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><i class="ico ico-checkbox_false"></i><span>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                            if(!data[i].depth_1[j].disabled) {
+                                crtInputLabel_depth_2 = `
+                                <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}' ${checkValue ? 'checked' : ''} class='yogo_depth-${_name}-${i}-${j}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><i class="ico ${checkValue ? 'ico-checkbox_true' : 'ico-checkbox_false'} "></i><span class='yogo_value'>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                                
+                                `
+                            }else {
+                                crtInputLabel_depth_2 = `
+                                <input type='checkbox' id='yogo_depth-${_name}-${i}-${j}'  class='yogo_depth-${_name}-${i}-${j}' ${data[i].depth_1[j].disabled ? 'disabled' : ''} ><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}-${j}'><i class="ico ${checkValue ? 'ico-checkbox_true' : 'ico-checkbox_disabled'} "></i><span class='yogo_value'>${data[i].depth_1[j].value}</span><span class="yogoClickRipple-root"></span></label>
+                                
+                                `
+                            }
                             
-                            `
+
+                         
                         }
                        
 
@@ -1004,23 +1044,36 @@ class Selector {
 
 
             if(depthLength <=1) {
-                // console.log('createHTML function ->',checkbox)
                 for(let i = 0; i<data.length; i++) {
                     const crtOptionItem = document.createElement("div");
                     crtOptionItem.className = `yogo_option yogo_option--${i}`;
 
                     const crtDepth_1_Title = document.createElement("div");
 
+                    const checkValue = data[i].checked
+                    // console.log(checkValue)
+
+                    // console.log('name ->',data[i].value,'checked ->', data[i].checked, 'disabled ->', data[i].disabled)
+
                     let crtInputLabel_depth_1;
                     if(!checkbox) {
                         crtInputLabel_depth_1 = `
-                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><span>${data[i]}</span><span class="yogoClickRipple-root"></span></label>
+                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}' ${checkValue ? 'checked' : ''} ${data[i].disabled ? 'disabled' : ''} ><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><span class="yogo_value">${data[i].value}</span><span class="yogoClickRipple-root"></span></label>
                         `
                     }else {
-                        crtInputLabel_depth_1 = `
-                        <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><i class="ico ico-checkbox_false"></i><span>${data[i]}</span><span class="yogoClickRipple-root"></span></label>
-                    `
+                        if(!data[i].disabled) {
+                            crtInputLabel_depth_1 = `
+                            <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}' ${checkValue ? 'checked' : ''} ${data[i].disabled ? 'disabled' : ''}><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><i class="ico ${checkValue ? 'ico-checkbox_true' : 'ico-checkbox_false'} "></i><span class="yogo_value">${data[i].value}</span><span class="yogoClickRipple-root"></span></label>
+                            `
+
+                        }else {
+                            crtInputLabel_depth_1 = `
+                            <input type='checkbox' id='yogo_depth-${_name}-${i}' class='yogo_depth-${_name}-${i}'  ${data[i].disabled ? 'disabled' : ''}><label class='yogoUiButton-root' for='yogo_depth-${_name}-${i}'><i class="ico ${checkValue ? 'ico-checkbox_true' : 'ico-checkbox_disabled'}"></i><span class="yogo_value">${data[i].value}</span><span class="yogoClickRipple-root"></span></label>
+                            `
+                        }
+
                     }
+                    
 
                     
 
