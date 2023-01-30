@@ -304,6 +304,7 @@ class Selector {
                     // 모두 체크 되었을때 전체 체크 placeholder
                     const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
                     const placeholderCheck = listarea.querySelectorAll(".active").length >= allItemLength ? true : false;
+                    
 
                     // console.log(ele,listarea.querySelectorAll(".active").length , allItemLength, 'placecheck->', placeholderCheck) 
 
@@ -619,16 +620,24 @@ class Selector {
                     crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}`);
 
                     data[index].checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
-                    console.log(crtEleSpan)
+                    // console.log(crtEleSpan)
 
                     crtEleSpan.innerHTML = `
                     <span class='yogo_item_value'>${data[index].value} <i class="ico ico-btn_delete"></i></span> 
                     `
 
 
+                    
+
+
+                  
+                    listarea.append(crtEleSpan)
+                    this.togglePlaceholder(this.name, listarea)
+
                     // 모두 체크 되었을때 전체 체크 placeholder
                     const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
-                    const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
+                    const placeholderCheck = listarea.querySelectorAll("span.yogo_show-item-value.active").length === allItemLength ? true : false;
+
 
                     if(placeholderCheck) {
                         const allcheckSign = target.querySelector(".allcheck-sign");
@@ -642,11 +651,6 @@ class Selector {
                         allcheckSign.classList.remove("active")
 
                     }
-
-
-                  
-                    listarea.append(crtEleSpan)
-                    this.togglePlaceholder(this.name, listarea)
 
 
                     checkBoxListItem.addEventListener("change", (e)=> {
