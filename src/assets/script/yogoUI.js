@@ -300,6 +300,25 @@ class Selector {
 
                     this.togglePlaceholder(this.name, listarea)
 
+
+                    // 모두 체크 되었을때 전체 체크 placeholder
+                    const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
+                    const placeholderCheck = listarea.querySelectorAll(".active").length >= allItemLength ? true : false;
+
+                    // console.log(ele,listarea.querySelectorAll(".active").length , allItemLength, 'placecheck->', placeholderCheck) 
+
+                    if(placeholderCheck) {
+                        const allcheckSign = target.querySelector(".allcheck-sign");
+
+                        allcheckSign.innerText = allCheckSign;
+                        allcheckSign.classList.add("active")
+                    }else {
+                        const allcheckSign = target.querySelector(".allcheck-sign");
+
+                        allcheckSign.classList.remove("active")
+
+                    }
+
                     
 
                     // 카테고리 모두 체크하기 클릭시 하위 리스트 체크 기능.
@@ -600,18 +619,30 @@ class Selector {
                     crtEleSpan.setAttribute("data-id", `yogo_depth-${_name}-${index}`);
 
                     data[index].checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
-                    // console.log(crtEleSpan)
+                    console.log(crtEleSpan)
 
                     crtEleSpan.innerHTML = `
                     <span class='yogo_item_value'>${data[index].value} <i class="ico ico-btn_delete"></i></span> 
                     `
 
-                    // console.log(ele)
-                    // ele.checked ? crtEleSpan.classList.add("active") : crtEleSpan.classList.remove("active")
-                       
-                    // crtEleSpan.innerHTML = `
-                    // <span class='yogo_item_value'>${data[index]} <i class="ico ico-btn_delete"></i></span> 
-                    // `
+
+                    // 모두 체크 되었을때 전체 체크 placeholder
+                    const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
+                    const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
+
+                    if(placeholderCheck) {
+                        const allcheckSign = target.querySelector(".allcheck-sign");
+
+                        allcheckSign.innerText = allCheckSign;
+                        
+                        allcheckSign.classList.add("active")
+                    }else {
+                        const allcheckSign = target.querySelector(".allcheck-sign");
+
+                        allcheckSign.classList.remove("active")
+
+                    }
+
 
                   
                     listarea.append(crtEleSpan)
@@ -670,12 +701,9 @@ class Selector {
                                 const allItemLength = listarea.querySelectorAll("span.yogo_show-item-value").length;
                                 const placeholderCheck = listarea.querySelectorAll(".active").length === allItemLength ? true : false;
 
-                                // console.log(placeholderCheck) 
-
                                 if(placeholderCheck) {
                                     const allcheckSign = target.querySelector(".allcheck-sign");
 
-                                    // console.log(allCheckSign)
                                     allcheckSign.innerText = allCheckSign;
                                     
                                     allcheckSign.classList.add("active")
@@ -738,27 +766,6 @@ class Selector {
 
                         this.togglePlaceholder(this.name, listarea)
 
-                        // console.log("change", newGetOptionsItem.length, listarea.querySelectorAll("span.yogo_show-item-value").length)
-
-                                    // let count = 0;
-                                    // const getLength = newGetOptionsItem.length;
-                                    
-                                    // Object.values(newGetOptionsItem).map((ele, index)=> {
-                                    //     const checkBoxListItem = ele.querySelector("div input").checked ? count++ : count;
-
-                                    //     if(getLength === count) {
-                                    //         console.log("모두체크")
-                                    //     }else {
-                                    //         console.log("아직", checkBoxListItem.length)
-                                    //     }
-                                    // })
-
-                        // console.log(getLength, count)
-
-                        // console.log(newGetOptionsItem)
-                        // if()
-
-                        // if(newGetOptionsItem.length === )
                     })
                   
                 }
