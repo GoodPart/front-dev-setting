@@ -1509,16 +1509,14 @@ class YogoUI {
                     }
                 };
 
-                function moreCalcY(yvalue, iao) {
-                    // console.log(yvalue)
-                }
-
 
                 if(ACTION === 'scroll') {
                     // console.log(ACTION, OPTIONS)
                 }else if(ACTION === 'focus') {
+                    //e.target.path 가 없어짐, 따라서 parentNode로 상위 id값을 확인함.
+                    // console.log(Picker)
                     const updateValue = {
-                        id : OPTIONS.path[3].id,
+                        id : Picker.id,
                         inputObjectValue : OPTIONS.target.getBoundingClientRect(),
                     };
                     const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
@@ -1526,7 +1524,6 @@ class YogoUI {
                     // globHouse 위치 값 설정.
                     globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, beforeOptions.tObPosition)}px)`;
 
-                    // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
                 }else {
                     return  false
                 }
@@ -1538,9 +1535,8 @@ class YogoUI {
 
             Object.values(globLi).map((ele, index)=> {
                 ele.addEventListener("click", (e)=> {
-                    // console.log(ele.parentNode,e.target)
                     const section = ele.parentNode.parentNode;
-                    const listItem = e.path[1];
+                    const listItem = e.target.parentNode;
                     // const dataSet = `00:00:00`
 
                     if(this.options.timeSet.length ==8) {
