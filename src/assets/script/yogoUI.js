@@ -142,33 +142,35 @@ class Selector {
 
             const ACTIVE = "active";
       
-            window.addEventListener("click", (e)=> {
-                if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-                    if(e.target.classList.contains("ico-btn_delete")) {
-                        anchor.classList.remove(ACTIVE);
-                        listArea.classList.remove(ACTIVE)
-                    }else {
+            // console.log(_target, globHouse)
+            window.addEventListener('click', (e)=> {
+                const inputArea = document.querySelector(`#${_target.id}`);
+                const trueArea = e.target.closest(`#${_target.id}`)
+
+                if(trueArea) {
+                    if(!inputArea.classList.contains("yogo_selector--show")) {
+                        inputArea.classList.add("yogo_selector--show")
                         anchor.classList.add(ACTIVE);
                         listArea.classList.add(ACTIVE)
-
+                    }else {
+                        inputArea.classList.remove("yogo_selector--show")
+                        anchor.classList.remove(ACTIVE);
+                        listArea.classList.remove(ACTIVE)
                     }
-
-                    // if(e.target.closest(".yogo_selector_anchor")) {
-                    //     if(e.target.classList.contains("active")) {
-                    //         console.log("클래스 포함")
-                    //         anchor.classList.remove(ACTIVE);
-                    //         listArea.classList.remove(ACTIVE)
-                    //     }else {
-                    //         console.log("클래스 미포함")
-
-                    //         anchor.classList.add(ACTIVE);
-                    //         listArea.classList.add(ACTIVE)
-                    //     }
-                        
-                    // }
+                    if(e.target.closest(".yogo_show-item-value")) {
+                        inputArea.classList.add("yogo_selector--show")
+                        anchor.classList.add(ACTIVE);
+                        listArea.classList.add(ACTIVE)
+                    }
                 }else {
-                    anchor.classList.remove(ACTIVE);
-                    listArea.classList.remove(ACTIVE)
+                    if(e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+                        return ;
+                    }else {
+                        inputArea.classList.remove("yogo_selector--show")
+                        anchor.classList.remove(ACTIVE);
+                        listArea.classList.remove(ACTIVE)
+                    }
+                    
                 }
             })
         }

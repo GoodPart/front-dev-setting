@@ -52,6 +52,13 @@ button, input {
     /* width: 300px; */
     // height: 500px;
     font-family: 'Roboto';
+
+    &--show ~.yogo_global_house .yogo_options.active {
+        height: inherit;
+        border: 1px solid #e5e6eb;
+    }
+        
+    
 }
 .yogo_selector .yogo_selector_wrap {
     height: 100%;
@@ -115,7 +122,6 @@ button, input {
     width: max-content;
 }
 .yogo_selector .yogo_value_area .yogo_selector_anchor.active {
-    // background: blue;
     i {
         transform: translateY(-50%) rotate(180deg);
     }
@@ -125,8 +131,6 @@ button, input {
     position: relative;
     z-index: 1;
     display: inline-block;
-    /* width: 0; */
-    /* opacity: 0; */
     font-size: 12px;
 }
 
@@ -217,15 +221,16 @@ body {
             transition: height .2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .yogo_options.active {
-            height: 460px;
-            border: 1px solid rgba(229, 230, 235, 1);
+            // height: inherit;
+            // border: 1px solid rgba(229, 230, 235, 1);
 
         }
         .yogo_options .yogo_option_wrap {
             position: relative;
             overflow-y: auto;
             width: 100%;
-            height: 400px;
+            height: inherit;
+            max-height: calc(10 * 33px);
         }
         .yogo_option_wrap::-webkit-scrollbar {
             width: 4px;
@@ -284,6 +289,9 @@ body {
             /* color: #fff; */
             font-weight: 700;
         } 
+        .yogo_checkbox_list {
+            z-index: 50;
+        }
         .yogo_checkbox_list input + label span {
             font-weight: normal;
             font-size: 12px;
