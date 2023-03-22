@@ -142,37 +142,56 @@ class Selector {
 
             const ACTIVE = "active";
       
-            // console.log(_target, globHouse)
-            window.addEventListener('click', (e)=> {
-                const inputArea = document.querySelector(`#${_target.id}`);
-                const trueArea = e.target.closest(`#${_target.id}`)
 
-                if(trueArea) {
-                    if(!inputArea.classList.contains("yogo_selector--show")) {
-                        inputArea.classList.add("yogo_selector--show")
-                        anchor.classList.add(ACTIVE);
-                        listArea.classList.add(ACTIVE)
-                    }else {
-                        inputArea.classList.remove("yogo_selector--show")
-                        anchor.classList.remove(ACTIVE);
-                        listArea.classList.remove(ACTIVE)
-                    }
-                    if(e.target.closest(".yogo_show-item-value")) {
-                        inputArea.classList.add("yogo_selector--show")
-                        anchor.classList.add(ACTIVE);
-                        listArea.classList.add(ACTIVE)
-                    }
+            // console.log(_target, globHouse)
+            _target.addEventListener("click", (e)=> {
+                e.preventDefault();
+
+                const trueArea_1 = e.target.closest(`#${_target.id}`);
+
+                if(!trueArea_1.classList.contains("yogo_selector--show")) {
+                    trueArea_1.classList.add("yogo_selector--show")
+                    anchor.classList.add(ACTIVE);
+                    listArea.classList.add(ACTIVE)
                 }else {
-                    if(e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+                    if(e.target.classList.contains("ico-btn_delete") || e.target.classList.contains("yogo_show-item-value") || e.target.classList.contains("yogo_item_value")) {
                         return ;
-                    }else {
-                        inputArea.classList.remove("yogo_selector--show")
-                        anchor.classList.remove(ACTIVE);
-                        listArea.classList.remove(ACTIVE)
                     }
-                    
+                    trueArea_1.classList.remove("yogo_selector--show")
+                    anchor.classList.remove(ACTIVE);
+                    listArea.classList.remove(ACTIVE)
                 }
             })
+            // window.addEventListener('click', (e)=> {
+            //     const inputArea = document.querySelector(`#${_target.id}`);
+            //     const trueArea = e.target.closest(`#${_target.id}`)
+
+            //     if(trueArea) {
+            //         if(!inputArea.classList.contains("yogo_selector--show")) {
+            //             inputArea.classList.add("yogo_selector--show")
+            //             anchor.classList.add(ACTIVE);
+            //             listArea.classList.add(ACTIVE)
+            //         }else {
+            //             inputArea.classList.remove("yogo_selector--show")
+            //             anchor.classList.remove(ACTIVE);
+            //             listArea.classList.remove(ACTIVE)
+            //         }
+            //         if(e.target.closest(".yogo_show-item-value")) {
+            //             inputArea.classList.add("yogo_selector--show")
+            //             anchor.classList.add(ACTIVE);
+            //             listArea.classList.add(ACTIVE)
+            //         }
+            //     }else {
+            //         if(e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+            //             return ;
+            //         }else {
+            //             inputArea.classList.remove("yogo_selector--show")
+            //             anchor.classList.remove(ACTIVE);
+            //             listArea.classList.remove(ACTIVE)
+            //         }
+                    
+            //     }
+            // })
         }
 
         togglePlaceholder(target, valueArea) {
@@ -1060,7 +1079,7 @@ class Selector {
                 for(let i = 0; i<data.length; i++) {
                     const crtOptionItem = document.createElement("div");
                     crtOptionItem.className = `yogo_option yogo_option--${i}`;
-
+                    crtOptionItem.setAttribute('data-id', data[i].value)
                     const crtDepth_1_Title = document.createElement("div");
 
                     const checkValue = data[i].checked

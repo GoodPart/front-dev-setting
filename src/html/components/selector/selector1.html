@@ -14,6 +14,7 @@
 
     <div style="margin-top: 100px;" id="yogo_selector_02" class="yogo_selector yogo_selector_01"></div>
 
+    <button onclick="test()">test</button>
     <!-- <div style="margin-top: 100px;" id="yogo_selector_03" class="yogo_selector yogo_selector_02"></div> -->
 
     @@include('../../footer/scriptArea.html', {
@@ -346,6 +347,11 @@
             ]
         });
         test4.init()
+
+
+        function test() {
+            test4.removeEvent(window, "click", test4.toggleChange)
+        }
 
     </script>
 </body>
