@@ -276,7 +276,7 @@ var buildSeries = gulp.series([
     'html', 
     'sassMin',
     'image',
-    'sprite',
+    'scriptMin',
     'scriptMin', 
     'library',
 ])

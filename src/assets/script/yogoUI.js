@@ -1265,22 +1265,17 @@ class ClickRipple {
         const _target = trigger.substr(1);
         const root = document.querySelectorAll('.yogoUiButton-root');
         const root2 = document.querySelectorAll(`.yogo_global_house div[data-id="${_target}"] .yogoUiButton-root`)
+
         Object.values(root).map((item, index)=> {
 
-            // if(item.type == 'checkbox') {
-                // console.log("checkbox")
-                
-            // }else if(item.type == 'button') {
-                // console.log("button")
                 const findRippleRoot = item.querySelector(".yogoClickRipple-root");
 
-                // if(item.type)
-                item.addEventListener("mousedown", (e)=> {
+                item.removeEventListener("mousedown", (e)=> {
+                    console.log(`remove`)
                     const getXY = {
                         valueX : e.offsetX,
                         valueY : e.offsetY
                     }
-                    // console.log(getXY)
                     const fillSpan = document.createElement("span");
                     fillSpan.className = 'fill';
                     fillSpan.style.top = `${getXY.valueY}px`;
@@ -1294,16 +1289,31 @@ class ClickRipple {
                         fillSpan.remove()
                     }, 800)
                 })
+                item.addEventListener("mousedown", (e)=> {
+                    console.log(`add`)
 
-                
+                    const getXY = {
+                        valueX : e.offsetX,
+                        valueY : e.offsetY
+                    }
+                    const fillSpan = document.createElement("span");
+                    fillSpan.className = 'fill';
+                    fillSpan.style.top = `${getXY.valueY}px`;
+                    fillSpan.style.left = `${getXY.valueX}px`;
+                    findRippleRoot.appendChild(fillSpan);
 
-            // }
+                    
+                    
+                    setTimeout(()=> {
+
+                        fillSpan.remove()
+                    }, 800)
+                })
         })
 
     }
 
     init(trigger) {
-        // console.log(trigger)
         this.getXY(trigger)
     }
 
@@ -2021,8 +2031,8 @@ class YogoUI {
 
         }
     
-        const rippleInit = new ClickRipple();
-        rippleInit.init(this.trigger);
+        // const rippleInit = new ClickRipple();
+        // rippleInit.init(this.trigger);
     }
 
     // timepicker 위치 조정 업데이트 메소드
