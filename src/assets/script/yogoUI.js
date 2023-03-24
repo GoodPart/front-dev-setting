@@ -99,7 +99,6 @@ class Selector {
                     filterList(e.target.value, optionItemValue, optionsItem)
 
                 }
-                
             })
 
             function filterList (keyvalue, optionValue,optionsItem) {
@@ -141,27 +140,85 @@ class Selector {
             const listArea = globHouse;
 
             const ACTIVE = "active";
-      
 
-            // console.log(_target, globHouse)
-            _target.addEventListener("click", (e)=> {
-                e.preventDefault();
+            console.log(_target)
 
+            _target.setAttribute("tabindex", '0')
+
+            _target.addEventListener("mousedown", (e)=> {
+                console.log("inside")
                 const trueArea_1 = e.target.closest(`#${_target.id}`);
-
                 if(!trueArea_1.classList.contains("yogo_selector--show")) {
                     trueArea_1.classList.add("yogo_selector--show")
                     anchor.classList.add(ACTIVE);
                     listArea.classList.add(ACTIVE)
                 }else {
-                    if(e.target.classList.contains("ico-btn_delete") || e.target.classList.contains("yogo_show-item-value") || e.target.classList.contains("yogo_item_value")) {
-                        return ;
-                    }
-                    trueArea_1.classList.remove("yogo_selector--show")
-                    anchor.classList.remove(ACTIVE);
-                    listArea.classList.remove(ACTIVE)
+                    console.log("prevent")
+                    e.preventDefault()
                 }
             })
+            _target.addEventListener("blur", (e)=> {
+                console.log("out")
+        
+            })
+      
+
+            // console.log(_target, globHouse)
+            // _target.addEventListener("click", (e)=> {
+            //     e.preventDefault();
+            //     const all = document.querySelectorAll(".yogo_selector");
+            //     const allGlobOption = document.querySelectorAll(".yogo_options")
+
+
+            //     Object.values(all).map((ele, index)=> {
+            //         console.log("fail", allGlobOption)
+            //         if(ele.classList.contains("yogo_selector--show")) {
+            //             ele.classList.remove("yogo_selector--show")
+            //             ele.querySelector(".yogo_selector_anchor").classList.remove(ACTIVE)
+            //         }
+            //     })
+            //     document.querySelector(`.yogo_options[data-id='${name.replace("#", '')}']`).classList.remove(ACTIVE)
+
+
+            //     const trueArea_1 = e.target.closest(`#${_target.id}`);
+                
+
+            //     if(!trueArea_1.classList.contains("yogo_selector--show")) {
+            //         trueArea_1.classList.add("yogo_selector--show")
+            //         anchor.classList.add(ACTIVE);
+            //         listArea.classList.add(ACTIVE)
+            //     }else {
+            //         if(e.target.classList.contains("ico-btn_delete") || e.target.classList.contains("yogo_show-item-value") || e.target.classList.contains("yogo_item_value")) {
+            //             return ;
+            //         }
+            //         trueArea_1.classList.remove("yogo_selector--show")
+            //         anchor.classList.remove(ACTIVE);
+            //         listArea.classList.remove(ACTIVE)
+            //     }
+            // })
+            
+            // document.addEventListener('click', (e)=> {
+            //     const all = document.querySelectorAll(".yogo_selector");
+
+            //     //연관된 녀석들
+
+            //     if(e.target.closest(".yogo_selector") !== null || e.target.closest(".yogo_options")) {
+            //         console.log("save")
+            //     }else {
+            //     const allGlobOption = document.querySelectorAll(".yogo_options")
+
+            //         Object.values(all).map((ele, index)=> {
+            //             if(ele.classList.contains("yogo_selector--show")) {
+            //                 ele.classList.remove("yogo_selector--show")
+            //                 ele.querySelector(".yogo_selector_anchor").classList.remove(ACTIVE)
+            //                 console.log("fail", document.querySelector(`.yogo_options[data-id='${name.replace("#", '')}']`),)
+
+            //             }
+            //         })
+            //         document.querySelector(`.yogo_options[data-id='${name.replace("#", '')}']`).classList.remove(ACTIVE)
+            //     }
+            // })
+          
             // window.addEventListener('click', (e)=> {
             //     const inputArea = document.querySelector(`#${_target.id}`);
             //     const trueArea = e.target.closest(`#${_target.id}`)
@@ -1217,7 +1274,7 @@ class Selector {
 
                     const _name = name.substr(1);
                     const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${_name}"]`);
-                    this.toggleChange(this.name, globHouse)
+                    // this.toggleChange(this.name, globHouse)
 
                     // 각 카테고리 별 모든 체크 
                     this.checkAllByCategory(this.name, this.depthLength, this.data, this.textEllipsis, this.allCheckSign);
@@ -1346,6 +1403,19 @@ class YogoUI {
     }
 
 
+    destroy(type, id) {
+        if(type === 'multiselector') {
+            document.querySelector(`.yogo_options[data-id='${id}'] [name='yogo_clearCheck']`).click();
+            document.querySelector(`.yogo_options[data-id='${id}'] [name='yogo_allCheck']`).click();
+            //selector 영역 제거
+            document.getElementById(`${id}`).children[0].remove();
+    
+            // globalhouse/options 제거
+            const target = document.querySelector(".yogo_global_house").querySelector(".yogo_options");
+            target.remove();
+        }
+        
+    }
 
     init(initOption) {
         const crtGolbalArea = document.createElement("div");
@@ -1898,24 +1968,69 @@ class YogoUI {
             const anchor = _target.querySelector(".yogo_selector_anchor");
 
       
-            window.addEventListener("click", (e)=> {
+            // window.addEventListener("click", (e)=> {
                 
-                if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-                    const selectorValue = {
-                        pageX : selector.getBoundingClientRect().left,
-                        pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
-                        width : selector.getBoundingClientRect().width,
-                    };
-                        // console.log("열렸어?", e.target.b, )
-                        globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
-                        globHouse.style.left = `${selectorValue.pageX}px`;
-                        globHouse.style.width = `${selectorValue.width}px`;
+            //     if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
+            //         const selectorValue = {
+            //             pageX : selector.getBoundingClientRect().left,
+            //             pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
+            //             width : selector.getBoundingClientRect().width,
+            //         };
+            //             console.log("열렸어?", e.target.b, )
+            //             globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
+            //             globHouse.style.left = `${selectorValue.pageX}px`;
+            //             globHouse.style.width = `${selectorValue.width}px`;
                  
+
+            //     }
+            // })
+            /* ----------- */
+            _target.setAttribute("tabindex", '0')
+
+            _target.addEventListener("focus", (e)=> {
+                const selectorValue = {
+                    pageX : selector.getBoundingClientRect().left,
+                    pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
+                    width : selector.getBoundingClientRect().width,
+                };
+                globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
+                globHouse.style.left = `${selectorValue.pageX}px`;
+                globHouse.style.width = `${selectorValue.width}px`;
+
+                _target.classList.add("yogo_selector--show")
+                globHouse.classList.add("active")
+                anchor.classList.add("active")
+            })
+
+            _target.addEventListener("blur", (e)=> {
+                _target.classList.remove("yogo_selector--show")
+                globHouse.classList.remove("active")
+                anchor.classList.remove("active")
+
+            })
+
+            globHouse.addEventListener("mousedown", (e)=> {
+                const checkPickerArea = e.target.closest(`.yogo_global_house`);
+                if(checkPickerArea) {
+                    e.preventDefault();
+                }else {
+                    // console.log(checkPickerArea)
 
                 }
             })
-            /* ----------- */
 
+
+            // _target.addEventListener("mousedown", (e)=> {
+            // //    _target.fo
+            // _target.blur()
+
+            // if(document.activeElement.classList.contains("yogo_selector")) {
+            //     console.log("focus")
+            // }else {
+            //     console.log("not focus")
+            // }
+            // })
+            
               
 
             if(initOption) {
