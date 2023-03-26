@@ -1988,6 +1988,7 @@ class YogoUI {
             _target.setAttribute("tabindex", '0')
 
             _target.addEventListener("focus", (e)=> {
+                console.log("focus")
                 const selectorValue = {
                     pageX : selector.getBoundingClientRect().left,
                     pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
@@ -2000,8 +2001,31 @@ class YogoUI {
                 _target.classList.add("yogo_selector--show")
                 globHouse.classList.add("active")
                 anchor.classList.add("active")
+            });
+
+            _target.addEventListener("mousedown",(e) => {
+
+                /* 마우스 다운때, 특정 영역을 먼저 체크하고 포함되어있다면 return; */
+                if(e.target.classList.contains("yogo_item_value") || e.target.classList.contains("ico-btn_delete")) {
+                    // console.log("save",e.target.classList.contains("yogo_item_value") || e.target.classList.contains("ico-btn_delete"))
+                    return ;
+                }
+                /* 마우스 다운때 드롭다운 메뉴가 열려있다면 닫고, 아니면 연다. */
+                if(e.target.closest(".yogo_selector--show")) {
+                    // console.log("show")
+                    _target.classList.remove("yogo_selector--show")
+                    globHouse.classList.remove("active")
+                    anchor.classList.remove("active")
+                }else {
+                    // console.log("hide")
+                    _target.classList.add("yogo_selector--show")
+                    globHouse.classList.add("active")
+                    anchor.classList.add("active")
+                }
+                
             })
 
+            /* 포커스 아웃 되었을때는 무조건 닫기 */
             _target.addEventListener("blur", (e)=> {
                 _target.classList.remove("yogo_selector--show")
                 globHouse.classList.remove("active")
@@ -2009,6 +2033,7 @@ class YogoUI {
 
             })
 
+            /* 드롭 다운 메뉴에 마우스 다운때, 그 영역이 특정 영역이라면 버블링 방지 */
             globHouse.addEventListener("mousedown", (e)=> {
                 const checkPickerArea = e.target.closest(`.yogo_global_house`);
                 if(checkPickerArea) {
@@ -2019,19 +2044,6 @@ class YogoUI {
                 }
             })
 
-
-            // _target.addEventListener("mousedown", (e)=> {
-            // //    _target.fo
-            // _target.blur()
-
-            // if(document.activeElement.classList.contains("yogo_selector")) {
-            //     console.log("focus")
-            // }else {
-            //     console.log("not focus")
-            // }
-            // })
-            
-              
 
             if(initOption) {
                 const _parent = document.querySelector(`${initOption.hasScrollBar.ele}`);
