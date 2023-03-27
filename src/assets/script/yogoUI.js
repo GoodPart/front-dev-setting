@@ -980,6 +980,14 @@ class Selector {
         createUseEle(name, depthLength, data, allCheckControler, search, mode, sortColor, checkbox, allCheckSign) {
             const target = document.querySelector(name);
 
+            /*
+                텍스트 포커스 및 하이라이트 방지용 어트리뷰트
+            */
+            target.setAttribute("oncontextmenu", "return false")
+            target.setAttribute("ondragstart", "return false")
+            target.setAttribute("onselectstart", "return false")
+
+
             const _name = name.split('#')[1];
 
             const crtSelectorWrap = document.createElement("div");
@@ -1884,164 +1892,87 @@ class YogoUI {
             });
             const globHouse = document.querySelector(`.yogo_global_house .yogo_options[data-id="${selector.id}"]`);
 
-            function updatePosition(action, options, beforeOptions, afterOptions) {
-                const ACTION = action;
-                const OPTIONS = options;
-                const throttle = {
-                    x : 20,
-                    y : 8
-                };
-
-                // const tObOption = initOption.tObPosition;
-                // console.log(beforeOptions)
-
-                // globDiv의 x위치값 계산
-                function calcX(picker, globHDiv) {
-                    // picker
-                    let pvx = picker.x;
-                    let pvw = picker.width;
-                    
-                    
-                    //globDiv
-                    let ghdw = globHDiv.offsetWidth;
-                    
-                    // 기준
-                    const standardX =  pvx + ghdw + throttle.x;
-                    const resultX = pvx - ((pvx + ghdw) - (pvx + pvw));
-
-                    // 화면 기준, globHouseDiv가 화면을 넘어감 or 좁다면
-                    if(standardX > window.innerWidth) {
-                        return resultX
-                    }else {
-                        return pvx
-                    }
-                };
-                
-                // globDiv의 y위치값 계산
-                function calcY(picker, globDiv, bTo) {
-                    // picker
-                    let pvt = picker.top;
-                    let pvh = picker.height;
-
-                    //globDiv
-                    let ghdh = globDiv.offsetHeight;
-                    console.log(pvt, pvh, ghdh)
-                    
-                    const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
-                    const resultYN = pvt + window.scrollY + pvh + throttle.y;
-
-                    return pvt
-                  
-                };
-
-
-                if(ACTION === 'scroll') {
-                    // console.log(ACTION, OPTIONS)
-                }else if(ACTION === 'focus') {
-                    const updateValue = {
-                        id : OPTIONS.path[2].id,
-                        inputObjectValue : OPTIONS.target.getBoundingClientRect(),
-                    };
-
-                    const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_options[data-id="${updateValue.id}"]`);
-                    console.log('option', document.querySelector(`.yogo_global_house .yogo_options[data-id="${updateValue.id}"]`))
-
-
-                    // globHouse 위치 값 설정.
-                    globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv)}px)`;
-
-                    // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
-                }else {
-                    return  false
-                }
-            // globHouse.classList.add("smooth")
-
-            }
-
-
-
-            /* ------------- */
-
             const _target = document.querySelector(this.trigger);
-            // console.log(_target)
-
             const anchor = _target.querySelector(".yogo_selector_anchor");
 
-      
-            // window.addEventListener("click", (e)=> {
-                
-            //     if(e.target.closest(`#${_target.id} .yogo_value_area`) || e.target.closest(`.yogo_global_house div[data-id="${_target.id}"]`)) {
-            //         const selectorValue = {
-            //             pageX : selector.getBoundingClientRect().left,
-            //             pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
-            //             width : selector.getBoundingClientRect().width,
-            //         };
-            //             console.log("열렸어?", e.target.b, )
-            //             globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
-            //             globHouse.style.left = `${selectorValue.pageX}px`;
-            //             globHouse.style.width = `${selectorValue.width}px`;
-                 
-
-            //     }
-            // })
             /* ----------- */
-            _target.setAttribute("tabindex", '0')
+            /*
+                javascript는 싱글 스레드 작업이기 때문에, setTimeout을 사용하여 순차적 진행을 진행했을경우
+                뜻하지 않은 이슈를 받음.
+                따라서, sleep()을 사용해 해당 시간 후 순차적 실행이 되도록 함.
+            */
+            function sleep(ms) {
+                const wakeUpTime = Date.now() + ms;
+                while (Date.now() < wakeUpTime) {}
+            }
 
-            _target.addEventListener("focus", (e)=> {
-                console.log("focus")
-                const selectorValue = {
-                    pageX : selector.getBoundingClientRect().left,
-                    pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
-                    width : selector.getBoundingClientRect().width,
-                };
-                globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
-                globHouse.style.left = `${selectorValue.pageX}px`;
-                globHouse.style.width = `${selectorValue.width}px`;
-
+            /* 활성화 함수 */
+            function focusFnc() {
                 _target.classList.add("yogo_selector--show")
-                globHouse.classList.add("active")
                 anchor.classList.add("active")
-            });
+                globHouse.classList.add("active")
+            }
+            /* 비 활성화 함수 */
+            function blurFnc() {
+                _target.classList.remove("yogo_selector--show")
+                anchor.classList.remove("active")
+                globHouse.classList.remove("active")
+            }
+
+            
+            /*
+             - tabindex = 0;
+                div, span 과 같은 요소도 focus받을 수 있도록 변경함.
+                focus 받는 순서는 마크업 순서를 따름.
+            */
+            _target.setAttribute("tabindex", `0`)
 
             _target.addEventListener("mousedown",(e) => {
-
                 /* 마우스 다운때, 특정 영역을 먼저 체크하고 포함되어있다면 return; */
                 if(e.target.classList.contains("yogo_item_value") || e.target.classList.contains("ico-btn_delete")) {
-                    // console.log("save",e.target.classList.contains("yogo_item_value") || e.target.classList.contains("ico-btn_delete"))
                     return ;
                 }
+
                 /* 마우스 다운때 드롭다운 메뉴가 열려있다면 닫고, 아니면 연다. */
-                if(e.target.closest(".yogo_selector--show")) {
-                    // console.log("show")
-                    _target.classList.remove("yogo_selector--show")
-                    globHouse.classList.remove("active")
-                    anchor.classList.remove("active")
+                /* 포커스 된 상태 */
+                if(e.target.closest(".yogo_selector--show") &&  _target ===  document.activeElement) {
+                    blurFnc()
                 }else {
-                    // console.log("hide")
-                    _target.classList.add("yogo_selector--show")
-                    globHouse.classList.add("active")
-                    anchor.classList.add("active")
+                    const selectorValue = {
+                        pageX : selector.getBoundingClientRect().left,
+                        pageY : selector.getBoundingClientRect().top + selector.offsetHeight, //8 = 사이 넓이 값
+                        width : selector.getBoundingClientRect().width,
+                    };
+                    globHouse.style.top = `${selectorValue.pageY + window.scrollY}px`;
+                    globHouse.style.left = `${selectorValue.pageX}px`;
+                    globHouse.style.width = `${selectorValue.width}px`;
+                    // console.log("위치 추가")
+                    sleep(50)
+                    // console.log("드롭 메뉴 추가")
+                    focusFnc()
                 }
                 
             })
 
-            /* 포커스 아웃 되었을때는 무조건 닫기 */
-            _target.addEventListener("blur", (e)=> {
-                _target.classList.remove("yogo_selector--show")
-                globHouse.classList.remove("active")
-                anchor.classList.remove("active")
+           
+            // selector 영역에 포커스시 드롭다운매뉴 활성화
+            _target.addEventListener("focus", (e)=> {
+                focusFnc()
+            });
 
-            })
-
+           
             /* 드롭 다운 메뉴에 마우스 다운때, 그 영역이 특정 영역이라면 버블링 방지 */
             globHouse.addEventListener("mousedown", (e)=> {
                 const checkPickerArea = e.target.closest(`.yogo_global_house`);
                 if(checkPickerArea) {
-                    e.preventDefault();
-                }else {
-                    // console.log(checkPickerArea)
-
+                    e.preventDefault()
+                    return ;
                 }
+            })
+
+            /* 포커스 아웃 되었을때는 무조건 닫기 */
+            _target.addEventListener("blur", (e)=> {
+                blurFnc()
             })
 
 
@@ -2062,99 +1993,6 @@ class YogoUI {
                     })
                 }
             }
-
-
-            // function updatePosition(action, options, beforeOptions) {
-            //     const ACTION = action;
-            //     const OPTIONS = options;
-            //     const throttle = {
-            //         x : 20,
-            //         y : 8
-            //     };
-
-            //     // const tObOption = initOption.tObPosition;
-            //     // console.log(beforeOptions)
-
-            //     // globDiv의 x위치값 계산
-            //     function calcX(picker, globHDiv) {
-            //         // picker
-            //         let pvx = picker.x;
-            //         let pvw = picker.width;
-                    
-                    
-            //         //globDiv
-            //         let ghdw = globHDiv.offsetWidth;
-                    
-            //         // 기준
-            //         const standardX =  pvx + ghdw + throttle.x;
-            //         const resultX = pvx - ((pvx + ghdw) - (pvx + pvw));
-
-            //         // 화면 기준, globHouseDiv가 화면을 넘어감 or 좁다면
-            //         if(standardX > window.innerWidth) {
-            //             return resultX
-            //         }else {
-            //             return pvx
-            //         }
-            //     };
-                
-            //     // globDiv의 y위치값 계산
-            //     function calcY(picker, globDiv, bTo) {
-            //         // picker
-            //         let pvt = picker.top;
-            //         let pvh = picker.height;
-
-            //         //globDiv
-            //         globDiv.classList.add("active");
-            //         let ghdh = globDiv.offsetHeight;
-            //         globDiv.classList.remove("active");
-                    
-            //         const resultY = pvt - ( ghdh + throttle.y - window.scrollY); 
-            //         const resultYN = pvt + window.scrollY + pvh + throttle.y;
-
-            //         if(bTo == undefined || bTo == null) {
-            //             // console.log(bTo)
-            //             return resultYN
-            //         }else {
-            //             if(bTo === 'top') {
-            //             // console.log(bTo)
-            //                 return resultY
-            //             }else {
-            //                 return resultYN
-            //             }
-            //         }
-            //     };
-
-
-            //     if(ACTION === 'scroll') {
-            //         // console.log(ACTION, OPTIONS)
-            //     }else if(ACTION === 'focus') {
-            //         const updateValue = {
-            //             id : OPTIONS.path[3].id,
-            //             inputObjectValue : OPTIONS.target.getBoundingClientRect(),
-            //         };
-            //         const globHouseDiv = document.querySelector(`.yogo_global_house .yogo_picker-dropdown[data-id="${updateValue.id}"]`);
-
-            //         // globHouse 위치 값 설정.
-            //         globHouse.style.transform = `translateX(${calcX(updateValue.inputObjectValue, globHouseDiv)}px) translateY(${calcY(updateValue.inputObjectValue, globHouseDiv, beforeOptions.tObPosition)}px)`;
-
-            //         // moreCalcY(calcY(updateValue.inputObjectValue, globHouseDiv, tObOption), initAfterOptions)
-            //     }else {
-            //         return  false
-            //     }
-            // // globHouse.classList.add("smooth")
-
-            // }
-
-            // .yogo_selector_anchor
-
-            // const _anchor = selector.querySelector(".yogo_selector_anchor"); 
-
-            // globHouse.style.top = `${selectorValue.pageY}px`;
-            // globHouse.style.left = `${selectorValue.pageX}px`;
-            // globHouse.style.width = `${selectorValue.width}px`;
-
-
-           
 
         }
     

@@ -9,10 +9,21 @@
         "title" : "timepicker"
     })
 </head>
-<body style="height: 2000px;" >
-    <div id="yogo_selector_01" class="yogo_selector yogo_selector_01"></div>
+<style>
+    #yogo_selector_02:focus {
+        border: 2px solid red;
+    }
+    #yogo_selector_02:focus-within {   
+        border: 2px solid blue;
+    }
+    #yogo_selector_02:focus-visible {   
+        border: 2px solid green;
+    }
+</style>
+<body style="height: 2000px;"   >
+    <div id="yogo_selector_01" class="yogo_selector yogo_selector_01" ></div>
 
-    <div style="margin-top: 400px;" id="yogo_selector_02" class="yogo_selector yogo_selector_01"></div>
+    <div style="margin-top: 400px;" id="yogo_selector_02" class="yogo_selector yogo_selector_01" ></div>
 
     <button onclick="test()">test</button>
     <!-- <div style="margin-top: 100px;" id="yogo_selector_03" class="yogo_selector yogo_selector_02"></div> -->
