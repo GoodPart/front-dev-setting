@@ -1419,7 +1419,7 @@ class YogoUI {
             document.getElementById(`${id}`).children[0].remove();
     
             // globalhouse/options 제거
-            const target = document.querySelector(".yogo_global_house").querySelector(".yogo_options");
+            const target = document.querySelector(".yogo_global_house").querySelector(`.yogo_options[data-id='${id}']`);
             target.remove();
         }
         
